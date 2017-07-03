@@ -149,10 +149,14 @@ function calculateWinner(squares) {
   return null;
 }
 
-function Slider(props) {
-  return (
-    <div>{props.name}</div>
-  );
+class Slider extends React.Component {
+  render() {
+    var stats = get_values();
+    
+    return (
+      <div>{this.props.name}</div>
+    );
+  }
 }
 
 class SliderGroup extends React.Component {
@@ -229,6 +233,7 @@ class Dashboard extends React.Component {
 // }
 
 // ========================================
+
 
 ReactDOM.render(
   // <Game />,
