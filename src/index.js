@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { ticker_setup } from '/ticker_setup.js';
+import { ticker_setup, get_values } from './dashboard_utils.js';
 
 function Square(props) {
   return (
@@ -149,7 +149,41 @@ function calculateWinner(squares) {
   return null;
 }
 
+function Slider(props) {
+  return (
+    <div>{props.name}</div>
+  );
+}
+
 class SliderGroup extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+    };
+  }
+  
+  renderSlider(n, t) {
+    return (
+      <Slider 
+        name={ n }
+        ticker={ t }
+      />
+    );
+  }
+  
+  render() {
+    var sliders = [];
+    for (var i in this.props.tick_obj) {
+      sliders.push(this.renderSlider(i, this.props.tick_obj[i]));
+    }
+    
+    return (
+      <div key={this.props.name} className='sliderGroup'>
+        { this.props.name }
+        { sliders }
+      </div>
+    );
+  }
   
 }
 
@@ -157,26 +191,33 @@ class Dashboard extends React.Component {
   constructor() {
     super();
     this.state = {
-      slider_groups : this.getSliders()
     };
   }
   
-  getSliders() {
-    var sg = [];
-    var ticks = ticker_setup();
-    for (var tg in ticks) {
-      sg.push(ticks[tg]);
-    }
-    return sg;
+  renderSlideGroup(n, t) {
+    return (
+      <SliderGroup
+          name={ n }
+          tick_obj={ t }
+        />
+    );
   }
     
     
   render () {
+    var slide_groups = [];
+    var ticks = ticker_setup();
+    console.log(ticks);
+    for (var ind in ticks) {
+      var tg = ticks[ind];
+      slide_groups.push(this.renderSlideGroup(tg.name, tg.tickers));
+    }
+    
     return (
       <div className='dashboard'>
         <h1>Market Dashboard</h1>
         <div>
-          { this.state.slider_groups }
+          { slide_groups }
         </div>
       </div>
     );
