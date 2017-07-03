@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
-// Current spot : taking turns
+import { ticker_setup } from '/ticker_setup.js';
 
 function Square(props) {
   return (
@@ -150,13 +149,34 @@ function calculateWinner(squares) {
   return null;
 }
 
+class SliderGroup extends React.Component {
+  
+}
+
 class Dashboard extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      slider_groups : this.getSliders()
+    };
+  }
+  
+  getSliders() {
+    var sg = [];
+    var ticks = ticker_setup();
+    for (var tg in ticks) {
+      sg.push(ticks[tg]);
+    }
+    return sg;
+  }
+    
+    
   render () {
     return (
       <div className='dashboard'>
         <h1>Market Dashboard</h1>
         <div>
-          do stuff
+          { this.state.slider_groups }
         </div>
       </div>
     );
