@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { ticker_setup, get_values } from './dashboard_utils.js';
 
+// url : http://market-dashboard-mccarvik.c9users.io:8080/
+
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>
@@ -151,7 +153,7 @@ function calculateWinner(squares) {
 
 class Slider extends React.Component {
   render() {
-    var stats = get_values();
+    var stats = get_values(this.props.ticker);
     
     return (
       <div>{this.props.name}</div>

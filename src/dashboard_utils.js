@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export function ticker_setup() {
     var ticker_groups = [];
     var TG = new TickerGroup('US Equities', ['S&P 500', 'DJIA'], ['SPY', 'DIA']);
@@ -26,18 +28,26 @@ export function get_values(tick) {
     return null;
 }
 
+var callback = function(_return /* The json returned for yahooapis */) {
+    var totalReturned = _return.query.count;
+    console.log(totalReturned);
+    //OR: var totalReturned = _return.query.results.quote.length;
+    // for (var i = 0; i < totalReturned; ++i) {
+    //     var stock = _return.query.results.quote[i];
+    //     var symbol = stock.symbol;
+    //     var percent_change = stock.Change_PercentChange;
+    //     var changeRealTime = stock.ChangeRealtime;
+    // }
+};
 
-function getData(tick) {
+function getData(symbol) {
+    symbol = 'MSFT';
+    console.log(symbol);
+    
     var url = 'http://query.yahooapis.com/v1/public/yql';
-    var symbol = tick
-    var data = encodeURIComponent("select * from yahoo.finance.quotes where symbol in ('" + symbol + "')");
-
-    // $.getJSON(url, 'q=' + data + "&format=json&diagnostics=true&env=http://datatables.org/alltables.env")
-    //     .done(function (data) {
-    //         $('#result').text("Price: " + data.query.results.quote.LastTradePriceOnly);
-    //     })
-    //     .fail(function (jqxhr, textStatus, error) {
-    //         var err = textStatus + ", " + error;
-    //         console.log('Request failed: ' + err);
-    //     });
+    var startDate = '2012-01-01';
+    var endDate = '2012-01-08';
+    var data = encodeURIComponent('select * from yahoo.finance.historicaldata where symbol in (' + symbol + ') and startDate = "' + startDate + '" and endDate = "' + endDate + '"');
+    $.getJSON(url, 'q=' + data + "&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json", callback);
 }
+
