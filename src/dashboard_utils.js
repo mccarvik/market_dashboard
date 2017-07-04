@@ -28,26 +28,52 @@ export function get_values(tick) {
     return null;
 }
 
-var callback = function(_return /* The json returned for yahooapis */) {
-    var totalReturned = _return.query.count;
-    console.log(totalReturned);
-    //OR: var totalReturned = _return.query.results.quote.length;
-    // for (var i = 0; i < totalReturned; ++i) {
-    //     var stock = _return.query.results.quote[i];
-    //     var symbol = stock.symbol;
-    //     var percent_change = stock.Change_PercentChange;
-    //     var changeRealTime = stock.ChangeRealtime;
-    // }
-};
-
 function getData(symbol) {
-    symbol = 'MSFT';
-    console.log(symbol);
+    var endDate = new Date()
+    var startDate = new Date();
+    startDate.setYear(endDate.getFullYear() - 1);
+    endDate = (endDate.getMonth() + 1) + '' + endDate.getDate() + '' + endDate.getFullYear();
+    startDate = (startDate.getMonth() + 1) + '' + startDate.getDate() + '' + startDate.getFullYear();
     
-    var url = 'http://query.yahooapis.com/v1/public/yql';
-    var startDate = '2012-01-01';
-    var endDate = '2012-01-08';
-    var data = encodeURIComponent('select * from yahoo.finance.historicaldata where symbol in (' + symbol + ') and startDate = "' + startDate + '" and endDate = "' + endDate + '"');
-    $.getJSON(url, 'q=' + data + "&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json", callback);
+    var url_live = 'http://finance.google.com/finance/info?client=ig&q=' + symbol;
+    var url_hist = 'http://www.google.com/finance/historical?q=' + symbol + '&startdate=' + startDate + '&enddate=' + endDate + '&output=csv';
+    var live;
+    var hist;
+    
+    $.ajax({
+        type: "GET",
+        url: url_hist,
+        dataType: "text",
+        success: function(data) {
+            hist = processData(data);
+        }
+    });
+    console.log(hist);
+    
+    $.getJSON(url_live, function(data) {
+        live = data;
+    });
+    console.log(live);
+    
+}
+
+
+function processData(allText) {
+    var allTextLines = allText.split(/\r\n|\n/);
+    var headers = allTextLines[0].split(',');
+    var lines = [];
+
+    for (var i=1; i<allTextLines.length; i++) {
+        var data = allTextLines[i].split(',');
+        if (data.length === headers.length) {
+
+            var tarr = [];
+            for (var j=0; j<headers.length; j++) {
+                tarr.push(headers[j]+":"+data[j]);
+            }
+            lines.push(tarr);
+        }
+    }
+    return lines;
 }
 
