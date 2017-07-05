@@ -42,6 +42,9 @@ function getData(symbol) {
     var live;
     var hist;
     
+    // Look into using quandl api
+    // https://www.quandl.com/tools/api
+    
     // JSONP used to work around Cross Origin Resource Sharing Problem
     console.log("bookend");
     $.ajax({
