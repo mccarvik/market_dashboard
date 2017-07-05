@@ -37,8 +37,13 @@ function getData(symbol) {
     
     var url_live = 'http://finance.google.com/finance/info?client=ig&q=' + symbol;
     var url_hist = 'http://www.google.com/finance/historical?q=' + symbol + '&startdate=' + startDate + '&enddate=' + endDate + '&output=csv';
+    console.log(url_hist);
+    console.log(url_live);
     var live;
     var hist;
+    
+    // LOOK UP CORS
+    
     
     $.ajax({
         type: "GET",
@@ -50,11 +55,10 @@ function getData(symbol) {
     });
     console.log(hist);
     
-    $.getJSON(url_live, function(data) {
+    $.getJSON(url_live).then((data) => {
         live = data;
     });
     console.log(live);
-    
 }
 
 
