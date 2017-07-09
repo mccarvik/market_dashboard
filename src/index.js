@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { ticker_setup, get_values } from './dashboard_utils.js';
+import { ticker_setup, getData, getLiveData } from './dashboard_utils.js';
 
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
 // quandl db searc : https://www.quandl.com/search
@@ -154,6 +154,23 @@ function calculateWinner(squares) {
 
 class Slider extends React.Component {
   // http://seiyria.com/bootstrap-slider/
+  constructor(props) {
+    console.log(props);
+    super();
+    // getData(props.ticker).then( function(result) {
+      console.log('here');
+      // console.log(result);
+      this.state = {
+        live : getLiveData(props.live_url),
+        last : 0,
+        max : 0,
+        min : 0
+      };
+    
+    console.log('here2');
+    console.log(this.state);
+    // });
+  }
   
   dailyChg(live, last) {
     return Math.round((live / last - 1) * 100) / 100;
@@ -162,13 +179,12 @@ class Slider extends React.Component {
   render() {
     // want to set up css to change to green or red depneding on the value
     // and then set up the html for the slider
-    var stats = get_values(this.props.ticker);
-    var chg = this.dailyChg(stats[0], stats[1]);
-    console.log(chg);
+    
+    // var chg = this.dailyChg(stats[0], stats[1]);
+    // console.log(chg);
     return (
       <div>
         <div>{ this.props.name }</div>
-        <div>{ stats[0] }</div>   
       </div>
     );
   }
@@ -218,6 +234,7 @@ class Dashboard extends React.Component {
       <SliderGroup
           name={ n }
           tick_obj={ t }
+          live_url={ 'http://finance.google.com/finance/info?client=ig&q=FB' }
         />
     );
   }
@@ -234,12 +251,13 @@ class Dashboard extends React.Component {
     }
     
     return (
-      <div className='dashboard'>
-        <h1>Market Dashboard</h1>
-        <div>
-          { slide_groups }
+        <div className='dashboard'>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
+          <h1>Market Dashboard</h1>
+          <div>
+            { slide_groups }
+          </div>
         </div>
-      </div>
     );
   }
 }

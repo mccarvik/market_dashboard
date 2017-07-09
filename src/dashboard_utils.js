@@ -18,18 +18,6 @@ function TickerGroup (name, labels, ticks) {
     }
 }
 
-export function get_values(tick) {
-    /*  This function takes a ticker and will retrieve different data from an api
-        that will be used to create a bloomberg style ticker to display in the dashboard
-        
-        @params tick (string) - the ticker to be used
-        
-        @return data (obj) - dictionary with 52 week hi, 52 week low, current px, and %change from yesterday)
-    */
-    var data = getData(tick);
-    return data;
-}
-
 function addZero(i) {
     if (parseInt(i, 10) < 10) {
         return "0" + i;
@@ -53,7 +41,16 @@ function getHistStats(data) {
     return [last, min, max];
 }
 
-function getData(symbol) {
+export function getData(symbol) {
+    /*  This function takes a ticker and will retrieve different data from an api
+        that will be used to create a bloomberg style ticker to display in the dashboard
+        
+        @params tick (string) - the ticker to be used
+        
+        @return data (obj) - dictionary with 52 week hi, 52 week low, current px, and %change from yesterday)
+    */
+    
+    // var symbol = stats.tick;
     symbol = 'FB';
     var endDate = new Date();
     var startDate = new Date();
@@ -65,31 +62,42 @@ function getData(symbol) {
     var url_hist = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '.json?column_index=4&start_date=' + startDate + '&end_date=' + endDate + '&api_key=' + API_KEY;
     // var url_hist = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '/data.json?api_key=' + API_KEY;
     // console.log(url_hist);
-    var live;
-    var hist;
     
     // Look into using quandl api --> https://www.quandl.com/tools/api
-    
     // JSONP used to work around Cross Origin Resource Sharing Problem
-    $.ajax({
-        url: url_live,
-        dataType: 'jsonp',
-        success: function(dataWeGotViaJsonp){
-            live = dataWeGotViaJsonp[0]['l'];
-            console.log('live: ' + live);
-        }
-    });
-    
-    $.ajax({
-        url: url_hist,
-        dataType: 'json',
-        success: function(dataWeGotViaJsonp){
-            console.log('here');
-            dataWeGotViaJsonp = dataWeGotViaJsonp['dataset']['data'];
-            hist = getHistStats(dataWeGotViaJsonp);
-            hist.unshift(parseFloat(live,10));
-            console.log(hist);
-        }
-    });
-    return hist;
+    // return getHistData(url_hist).then(function (hist_ret) {
+    //     return getHistStats(hist_ret['dataset']['data']);
+    // }).then(function (hist_stats) {
+    //     var temp = [parseFloat(getLiveData(url_live)[0]['l'],10)].append(hist_stats);
+    //     console.log('here');
+    //     console.log(temp);
+    //     return temp;
+    // }).then(function (live_ret) {
+    //     return [parseFloat(live_ret[0][0]['l'],10)].append(live_ret.slice(1))
+    // });
+    return '';
+}
+
+export function getLiveData(url) {
+    return $.ajax({
+                url: url,
+                dataType: 'jsonp',
+                // success: function(dataWeGotViaJsonp){
+                //     var live = parseFloat(dataWeGotViaJsonp[0]['l'],10); 
+                //     console.log('live: ' + live);
+                //     return live;
+                // }
+            });
+};
+
+function getHistData(url) {
+    return $.ajax({
+                url: url,
+                dataType: 'json',
+                success: function(dataWeGotViaJsonp){
+                    dataWeGotViaJsonp = dataWeGotViaJsonp['dataset']['data'];
+                    console.log(dataWeGotViaJsonp);
+                    return getHistStats(dataWeGotViaJsonp);
+                }
+            }) 
 }
