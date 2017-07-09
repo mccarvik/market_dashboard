@@ -4,6 +4,7 @@ import './index.css';
 import { ticker_setup, get_values } from './dashboard_utils.js';
 
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
+// quandl db searc : https://www.quandl.com/search
 
 function Square(props) {
   return (
@@ -152,11 +153,23 @@ function calculateWinner(squares) {
 }
 
 class Slider extends React.Component {
+  // http://seiyria.com/bootstrap-slider/
+  
+  dailyChg(live, last) {
+    return Math.round((live / last - 1) * 100) / 100;
+  }
+  
   render() {
+    // want to set up css to change to green or red depneding on the value
+    // and then set up the html for the slider
     var stats = get_values(this.props.ticker);
-    
+    var chg = this.dailyChg(stats[0], stats[1]);
+    console.log(chg);
     return (
-      <div>{this.props.name}</div>
+      <div>
+        <div>{ this.props.name }</div>
+        <div>{ stats[0] }</div>   
+      </div>
     );
   }
 }
@@ -213,6 +226,7 @@ class Dashboard extends React.Component {
   render () {
     var slide_groups = [];
     var ticks = ticker_setup();
+    
     console.log(ticks);
     for (var ind in ticks) {
       var tg = ticks[ind];

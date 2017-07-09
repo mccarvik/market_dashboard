@@ -1,9 +1,11 @@
 import $ from 'jquery';
-var googleFinance = require('google-finance');
+// var googleFinance = require('google-finance');
+
+var API_KEY = 'J4d6zKiPjebay-zW7T8X';
 
 export function ticker_setup() {
     var ticker_groups = [];
-    var TG = new TickerGroup('US Equities', ['S&P 500', 'DJIA'], ['SPY', 'DIA']);
+    var TG = new TickerGroup('US Equities', ['DJIA'], ['DIA']);
     ticker_groups.push(TG);
     return ticker_groups;
 }
@@ -28,76 +30,66 @@ export function get_values(tick) {
     return data;
 }
 
+function addZero(i) {
+    if (parseInt(i, 10) < 10) {
+        return "0" + i;
+    } else {
+        return i;
+    }
+}
+
+function getHistStats(data) {
+    var max; var min;
+    for (var i=0; i < data.length; i++) {
+        if (min === undefined || data[i][1] < min) {
+            min = data[i][1];
+        }
+        
+        if (max === undefined || data[i][1] > max) {
+            max = data[i][1];
+        }
+    }
+    var last = data[0][1];
+    return [last, min, max];
+}
+
 function getData(symbol) {
+    symbol = 'FB';
     var endDate = new Date();
     var startDate = new Date();
     startDate.setYear(endDate.getFullYear() - 1);
-    endDate = (endDate.getMonth() + 1) + '' + endDate.getDate() + '' + endDate.getFullYear();
-    startDate = (startDate.getMonth() + 1) + '' + startDate.getDate() + '' + startDate.getFullYear();
+    endDate = endDate.getFullYear() + '' + addZero(endDate.getMonth() + 1) + '' + addZero(endDate.getDate());
+    startDate = startDate.getFullYear() + '' + addZero(startDate.getMonth() + 1) + '' + addZero(startDate.getDate());
     
     var url_live = 'http://finance.google.com/finance/info?client=ig&q=' + symbol;
-    var url_hist = 'http://www.google.com/finance/historical?q=' + symbol + '&startdate=' + startDate + '&enddate=' + endDate + '&output=csv';
+    var url_hist = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '.json?column_index=4&start_date=' + startDate + '&end_date=' + endDate + '&api_key=' + API_KEY;
+    // var url_hist = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '/data.json?api_key=' + API_KEY;
     // console.log(url_hist);
-    // console.log(url_live);
     var live;
     var hist;
     
-    // Look into using quandl api
-    // https://www.quandl.com/tools/api
+    // Look into using quandl api --> https://www.quandl.com/tools/api
     
     // JSONP used to work around Cross Origin Resource Sharing Problem
-    console.log("bookend");
     $.ajax({
         url: url_live,
         dataType: 'jsonp',
         success: function(dataWeGotViaJsonp){
-            console.log(dataWeGotViaJsonp);
-            live = dataWeGotViaJsonp;
+            live = dataWeGotViaJsonp[0]['l'];
+            console.log('live: ' + live);
         }
     });
     
     $.ajax({
         url: url_hist,
-        dataType: 'jsonp',
+        dataType: 'json',
         success: function(dataWeGotViaJsonp){
             console.log('here');
-            console.log(dataWeGotViaJsonp);
-            hist = dataWeGotViaJsonp;
+            dataWeGotViaJsonp = dataWeGotViaJsonp['dataset']['data'];
+            hist = getHistStats(dataWeGotViaJsonp);
+            hist.unshift(parseFloat(live,10));
+            console.log(hist);
         }
     });
-    
-    console.log("bookend");
-    return;
-    
-    // LOOK UP CORS
-    
-    // fetch(url_live, { 
-    //   method: 'GET',
-    //   headers:{
-    //     'Access-Control-Allow-Origin': '*',
-    //     'Access-Control-Allow-Credentials':true,
-    //     'Access-Control-Allow-Methods':'POST, GET'
-    //   }
-    // })
-    // .then(function(response) {
-    //     live = response;
-    // }).then(console.log(live));
-    // console.log("bookend");
-    // return;
-    
-    
-    // $.ajax({
-    //     type: "GET",
-    //     url: url_hist,
-    //     dataType: "text",
-    //     success: function(data) {
-    //         hist = processData(data);
-    //     }
-    // });
-    // console.log(hist);
-    
-    // $.getJSON(url_live).then((data) => {
-    //     live = data;
-    // });
-    // console.log(live);
+    return hist;
 }
