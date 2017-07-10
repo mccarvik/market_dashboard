@@ -174,12 +174,7 @@ class Slider extends React.Component {
     });
   }
   
-  // Called after component created, need to run before
-  // componentDidMount() {
-  //   getData('dd', this);
-  // }
-  
-  componentWillMount() {
+  componentDidMount() {
     getData('dd', this);
   }
   
@@ -195,7 +190,7 @@ class Slider extends React.Component {
       <ReactBootstrapSlider
         value={this.state.live}
         max={ this.state.max }
-        min={ this.state.min }
+        min={ this.state.max }
         orientation="horizontal"
         disabled="disabled" />
     );

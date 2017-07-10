@@ -65,11 +65,13 @@ export function getData(symbol, object) {
     
     // Look into using quandl api --> https://www.quandl.com/tools/api
     // JSONP used to work around Cross Origin Resource Sharing Problem
-    getHistData(url_hist).then(function (hist_ret) {
+    return getHistData(url_hist).then(function (hist_ret) {
         return getHistStats(hist_ret['dataset']['data']);
     }).then(function (hist_stats) {
         // console.log(hist_stats);
         getLiveData(url_live, hist_stats, object)
+    }).then(function (){
+        return true;
     });
 }
 
