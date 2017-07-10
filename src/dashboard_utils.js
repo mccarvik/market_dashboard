@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import axios from 'axios';
 // var googleFinance = require('google-finance');
 
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
@@ -80,17 +81,25 @@ export function getData(symbol, stats) {
     });
 }
 
-function getLiveData(url) {
-    return Promise.resolve($.ajax({
-                url: url,
-                dataType: 'jsonp',
-                // success: function(dataWeGotViaJsonp){
-                //     var live = parseFloat(dataWeGotViaJsonp[0]['l'],10); 
-                //     console.log('live: ' + live);
-                //     return live;
-                // }
-            }));
+export function getLiveData(url) {
+    return axios.get(url)
+      .then(function (dataWeGotViaJson) {
+            var live = parseFloat(dataWeGotViaJson[0]['l'],10); 
+            console.log('live: ' + live);
+            return live;
+      });
 }
+    
+    // return $.ajax({
+    //             url: url,
+    //             dataType: 'jsonp',
+    //             success: function(dataWeGotViaJsonp){
+    //                 var live = parseFloat(dataWeGotViaJsonp[0]['l'],10); 
+    //                 console.log('live: ' + live);
+    //                 return live;
+    //             }
+    //         });
+// }
 
 function getHistData(url) {
     return $.ajax({

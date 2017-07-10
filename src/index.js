@@ -154,6 +154,18 @@ function calculateWinner(squares) {
 
 class Slider extends React.Component {
   // http://seiyria.com/bootstrap-slider/
+  constructor() {
+    super();
+    this.state = {
+    };
+  }
+  
+  componentDidMount() {
+    var live = getLiveData(this.props.live_url);
+    // this.setState(
+    //   live : live
+    // )
+  }
   
   dailyChg(live, last) {
     return Math.round((live / last - 1) * 100) / 100;
@@ -187,6 +199,7 @@ class SliderGroup extends React.Component {
       <Slider 
         name={ n }
         ticker={ t }
+        live_url={ url }
       />
     );
   }
