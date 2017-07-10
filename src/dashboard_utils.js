@@ -41,7 +41,7 @@ function getHistStats(data) {
     return [last, min, max];
 }
 
-export function getData(symbol) {
+export function getData(symbol, stats) {
     /*  This function takes a ticker and will retrieve different data from an api
         that will be used to create a bloomberg style ticker to display in the dashboard
         
@@ -65,21 +65,23 @@ export function getData(symbol) {
     
     // Look into using quandl api --> https://www.quandl.com/tools/api
     // JSONP used to work around Cross Origin Resource Sharing Problem
-    // return getHistData(url_hist).then(function (hist_ret) {
-    //     return getHistStats(hist_ret['dataset']['data']);
-    // }).then(function (hist_stats) {
-    //     var temp = [parseFloat(getLiveData(url_live)[0]['l'],10)].append(hist_stats);
-    //     console.log('here');
-    //     console.log(temp);
-    //     return temp;
-    // }).then(function (live_ret) {
-    //     return [parseFloat(live_ret[0][0]['l'],10)].append(live_ret.slice(1))
-    // });
-    return '';
+    stats.vals = getHistData(url_hist).then(function (hist_ret) {
+        console.log(hist_ret);
+        return getHistStats(hist_ret['dataset']['data']);
+    }).then(function (hist_stats) {
+        // console.log('here3: ' + hist_stats);
+        console.log(getLiveData(url_live));
+        // console.log(promise());
+        // (function (data) {
+        //     console.log('feerr');
+        //     console.log(data);
+        // });
+        // return [getLiveData(url_live)].push(hist_stats);
+    });
 }
 
-export function getLiveData(url) {
-    return $.ajax({
+function getLiveData(url) {
+    return Promise.resolve($.ajax({
                 url: url,
                 dataType: 'jsonp',
                 // success: function(dataWeGotViaJsonp){
@@ -87,8 +89,8 @@ export function getLiveData(url) {
                 //     console.log('live: ' + live);
                 //     return live;
                 // }
-            });
-};
+            }));
+}
 
 function getHistData(url) {
     return $.ajax({
@@ -96,7 +98,7 @@ function getHistData(url) {
                 dataType: 'json',
                 success: function(dataWeGotViaJsonp){
                     dataWeGotViaJsonp = dataWeGotViaJsonp['dataset']['data'];
-                    console.log(dataWeGotViaJsonp);
+                    // console.log('hist: ' + dataWeGotViaJsonp);
                     return getHistStats(dataWeGotViaJsonp);
                 }
             }) 

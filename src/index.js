@@ -154,23 +154,6 @@ function calculateWinner(squares) {
 
 class Slider extends React.Component {
   // http://seiyria.com/bootstrap-slider/
-  constructor(props) {
-    console.log(props);
-    super();
-    // getData(props.ticker).then( function(result) {
-      console.log('here');
-      // console.log(result);
-      this.state = {
-        live : getLiveData(props.live_url),
-        last : 0,
-        max : 0,
-        min : 0
-      };
-    
-    console.log('here2');
-    console.log(this.state);
-    // });
-  }
   
   dailyChg(live, last) {
     return Math.round((live / last - 1) * 100) / 100;
@@ -197,7 +180,9 @@ class SliderGroup extends React.Component {
     };
   }
   
-  renderSlider(n, t) {
+  renderSlider(n, t, url) {
+    var stats = getLiveData(url);
+    console.log(stats);
     return (
       <Slider 
         name={ n }
