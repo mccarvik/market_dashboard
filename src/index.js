@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactBootstrapSlider from 'react-bootstrap-slider';
+import BootstrapSlider from 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import './index.css';
-import { ticker_setup, getData, getLiveData } from './dashboard_utils.js';
+import { ticker_setup, getData } from './dashboard_utils.js';
 
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
 // quandl db searc : https://www.quandl.com/search
+// for slider // <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
 
 function Square(props) {
   return (
@@ -160,27 +163,41 @@ class Slider extends React.Component {
     };
   }
   
-  componentDidMount() {
-    var live = getLiveData(this.props.live_url);
-    // this.setState(
-    //   live : live
-    // )
+  handleLiveData(data_live, data_hist) {
+    console.log('handler');
+    this.setState({
+      live : data_live,
+      last : data_hist[0],
+      min : data_hist[1],
+      max : data_hist[2],
+      chg : this.dailyChg(data_live, data_hist[0])
+    });
+  }
+  
+  // Called after component created, need to run before
+  // componentDidMount() {
+  //   getData('dd', this);
+  // }
+  
+  componentWillMount() {
+    getData('dd', this);
   }
   
   dailyChg(live, last) {
-    return Math.round((live / last - 1) * 100) / 100;
+    return Math.round((live / last - 1) * 10000) / 100; // in percent terms
   }
   
   render() {
     // want to set up css to change to green or red depneding on the value
     // and then set up the html for the slider
-    
-    // var chg = this.dailyChg(stats[0], stats[1]);
-    // console.log(chg);
+    console.log(this.state.max);
     return (
-      <div>
-        <div>{ this.props.name }</div>
-      </div>
+      <ReactBootstrapSlider
+        value={this.state.live}
+        max={ this.state.max }
+        min={ this.state.min }
+        orientation="horizontal"
+        disabled="disabled" />
     );
   }
 }
@@ -192,14 +209,13 @@ class SliderGroup extends React.Component {
     };
   }
   
-  renderSlider(n, t, url) {
-    var stats = getLiveData(url);
-    console.log(stats);
+  renderSlider(n, t) {
     return (
       <Slider 
         name={ n }
         ticker={ t }
-        live_url={ url }
+        live_url={ 'http://finance.google.com/finance/info?client=ig&q=FB' }
+        hist_url={ 'https://www.quandl.com/api/v3/datasets/WIKI/FB.json?column_index=4&start_date=20160710&end_date=20170710&api_key=J4d6zKiPjebay-zW7T8X' }
       />
     );
   }
@@ -232,7 +248,6 @@ class Dashboard extends React.Component {
       <SliderGroup
           name={ n }
           tick_obj={ t }
-          live_url={ 'http://finance.google.com/finance/info?client=ig&q=FB' }
         />
     );
   }
@@ -250,7 +265,6 @@ class Dashboard extends React.Component {
     
     return (
         <div className='dashboard'>
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
           <h1>Market Dashboard</h1>
           <div>
             { slide_groups }
@@ -260,15 +274,10 @@ class Dashboard extends React.Component {
   }
 }
 
-// class Slider extends React.Component {
-  
-// }
-
-// ========================================
-
 
 ReactDOM.render(
   // <Game />,
   <Dashboard />,
   document.getElementById('root')
 );
+
