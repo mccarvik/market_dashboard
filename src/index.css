@@ -9,44 +9,33 @@ ol, ul {
   padding-left: 30px;
 }
 
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-}
-
-.status {
-  margin-bottom: 10px;
-}
-
-.square {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 34px;
-}
-
-.square:focus {
-  outline: none;
-}
-
 .kbd-navigation .square:focus {
   background: #ddd;
 }
 
-.game {
-  display: flex;
-  flex-direction: row;
+.slide-labels {
+  font-size : 11px;
 }
 
-.game-info {
-  margin-left: 20px;
+label.slide-labels {
+  display : inline-block;;
+}
+
+label.min {
+  text-align : left;
+  width : 50px;
+}
+
+label.mid {
+  text-align : center;
+  width : 110px;
+}
+
+label.max {
+  text-align: right;
+  width: 50px;
+}
+
+label.slide-labels-header {
+  font-size : 13px;
 }

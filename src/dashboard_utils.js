@@ -51,7 +51,7 @@ export function getData(symbol, object) {
     */
     
     // var symbol = stats.tick;
-    symbol = 'FB';
+    symbol = 'MCD';
     var endDate = new Date();
     var startDate = new Date();
     startDate.setYear(endDate.getFullYear() - 1);

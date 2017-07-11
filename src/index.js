@@ -174,7 +174,7 @@ class Slider extends React.Component {
     });
   }
   
-  componentDidMount() {
+  componentWillMount() {
     getData('dd', this);
   }
   
@@ -183,17 +183,45 @@ class Slider extends React.Component {
   }
   
   render() {
-    // want to set up css to change to green or red depneding on the value
-    // and then set up the html for the slider
-    console.log(this.state.max);
-    return (
-      <ReactBootstrapSlider
-        value={this.state.live}
-        max={ this.state.max }
-        min={ this.state.max }
-        orientation="horizontal"
-        disabled="disabled" />
-    );
+    if (this.state.max === undefined) {
+      return (
+        <div></div>
+        );
+    } else {
+      // want to set up css to change to green or red depneding on the value
+      // and then set up the html for the slider
+      console.log(this.state);
+      var color = 'black';
+      var plus = '';
+      if (this.state.chg < 0) {
+        color = 'red';
+      } else if (this.state.chg > 0) {
+        color = 'green';
+        plus = '+';
+      }
+      var mid_style = {
+        color : color
+      }
+      
+      console.log(plus, color);
+      
+      return (
+        <div>
+          <label className='slide-labels-header'>{ this.props.name }</label>
+          <div className='slide-labels'>
+            <label className='slide-labels min'>{ this.state.min }</label>
+            <label className='slide-labels mid' style={mid_style} >{ this.state.live }, { plus }{ this.state.chg }%</label>
+            <label className='slide-labels max'>{ this.state.max }</label>
+          </div>
+          <ReactBootstrapSlider
+            value={ this.state.live }
+            max={ this.state.max }
+            min={ this.state.min }
+            orientation="horizontal"
+            disabled="disabled" />
+        </div>
+      );
+    }
   }
 }
 
