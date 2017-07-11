@@ -1,13 +1,24 @@
 import $ from 'jquery';
-// var googleFinance = require('google-finance');
+// https://stackoverflow.com/questions/3139879/how-do-i-get-currency-exchange-rates-via-an-api-such-as-google-finance
 
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
+var google_live_root = 'http://finance.google.com/finance/info?client=ig&q=';
+// var quandl_hist_root = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '.json?column_index=4&start_date=' + startDate + '&end_date=' + endDate + '&api_key=' + API_KEY;
 
 export function ticker_setup() {
     var ticker_groups = [];
+    
+    var ticks;
     var TG = new TickerGroup('US Equities', ['DJIA'], ['DIA']);
     ticker_groups.push(TG);
+    
     return ticker_groups;
+}
+
+function TickerConfig (name, hist_url, live_url) {
+    this.name = name;
+    this.hist_url = 
+    this.live_url = google_live_root + '.INX';
 }
 
 function TickerGroup (name, labels, ticks) {
