@@ -210,7 +210,7 @@ class Slider extends React.Component {
           <label className='slide-labels-header'>{ this.props.name }</label>
           <div className='slide-labels'>
             <label className='slide-labels min'>{ this.state.min }</label>
-            <label className='slide-labels mid' style={mid_style} >{ this.state.live }, { plus }{ this.state.chg }%</label>
+            <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * 100) / 100 }, { plus }{ this.state.chg }%</label>
             <label className='slide-labels max'>{ this.state.max }</label>
           </div>
           <ReactBootstrapSlider

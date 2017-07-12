@@ -2,8 +2,16 @@ import $ from 'jquery';
 // https://stackoverflow.com/questions/3139879/how-do-i-get-currency-exchange-rates-via-an-api-such-as-google-finance
 
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
-var google_live_root = 'http://finance.google.com/finance/info?client=ig&q=';
-// var quandl_hist_root = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '.json?column_index=4&start_date=' + startDate + '&end_date=' + endDate + '&api_key=' + API_KEY;
+
+// NOTES
+//      
+//      google_live_root = 'http://finance.google.com/finance/info?client=ig&q='; // in case we need later
+//      yahoo_live_root = 'http://download.finance.yahoo.com/d/quotes?s=GCN17.CMX&f=ab'; // for reference
+//      helpful URL for ^^^^ above link : https://greenido.wordpress.com/2009/12/22/work-like-a-pro-with-yahoo-finance-hidden-api/
+//      var quandl_hist_root = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '.json?column_index=4&start_date=' + startDate + '&end_date=' + endDate + '&api_key=' + API_KEY;
+//      quandl commodities historical: https://www.quandl.com/api/v1/datasets/LBMA/GOLD.json
+//
+//      Live saving link for CORS workaround: http://anyorigin.com/
 
 export function ticker_setup() {
     var ticker_groups = [];
@@ -17,8 +25,8 @@ export function ticker_setup() {
 
 function TickerConfig (name, hist_url, live_url) {
     this.name = name;
-    this.hist_url = 
-    this.live_url = google_live_root + '.INX';
+    // this.hist_url = 
+    // this.live_url = google_live_root + '.INX';
 }
 
 function TickerGroup (name, labels, ticks) {
@@ -62,17 +70,15 @@ export function getData(symbol, object) {
     */
     
     // var symbol = stats.tick;
-    symbol = 'MCD';
+    symbol = 'YUM';
     var endDate = new Date();
     var startDate = new Date();
     startDate.setYear(endDate.getFullYear() - 1);
     endDate = endDate.getFullYear() + '' + addZero(endDate.getMonth() + 1) + '' + addZero(endDate.getDate());
     startDate = startDate.getFullYear() + '' + addZero(startDate.getMonth() + 1) + '' + addZero(startDate.getDate());
     
-    var url_live = 'http://finance.google.com/finance/info?client=ig&q=' + symbol;
     var url_hist = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '.json?column_index=4&start_date=' + startDate + '&end_date=' + endDate + '&api_key=' + API_KEY;
-    // var url_hist = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '/data.json?api_key=' + API_KEY;
-    // console.log(url_hist);
+    var url_live = 'http://download.finance.yahoo.com/d/quotes?s=GCN17.CMX&f=ab';
     
     // Look into using quandl api --> https://www.quandl.com/tools/api
     // JSONP used to work around Cross Origin Resource Sharing Problem
@@ -80,23 +86,32 @@ export function getData(symbol, object) {
         return getHistStats(hist_ret['dataset']['data']);
     }).then(function (hist_stats) {
         // console.log(hist_stats);
-        getLiveData(url_live, hist_stats, object)
+        getLiveData(symbol, hist_stats, object)
     }).then(function (){
         return true;
     });
 }
 
-function getLiveData(url, hist_stats, object) {
-    $.ajax({
-            url: url,
-            dataType: 'jsonp',
-            success: function(dataWeGotViaJsonp){
-                var live = parseFloat(dataWeGotViaJsonp[0]['l'],10); 
-                // console.log('live: ' + live);
-                object.handleLiveData(live, hist_stats);
-                }
+function getLiveData(ticker, hist_stats, object) {
+    // NEEEEEEEEED anyorigin.com to work around the CORS error
+    $.getJSON('http://anyorigin.com/go?url=http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D' + ticker + '%26f%3Dab&callback=?', function(data){
+	    var vals = data.contents.split(',');
+	    var live = (parseFloat(vals[0]) + parseFloat(vals[1]))/2;
+	    object.handleLiveData(live, hist_stats);
     });
 }
+
+// function getLiveData(url, hist_stats, object) {
+//     $.ajax({
+//             url: url,
+//             dataType: 'jsonp',
+//             success: function(dataWeGotViaJsonp){
+//                 var live = parseFloat(dataWeGotViaJsonp[0]['l'],10); 
+//                 // console.log('live: ' + live);
+//                 object.handleLiveData(live, hist_stats);
+//                 }
+//     });
+// }
 
 function getHistData(url) {
     return $.ajax({
