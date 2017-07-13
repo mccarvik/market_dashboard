@@ -164,7 +164,6 @@ class Slider extends React.Component {
   }
   
   handleLiveData(data_live, data_hist) {
-    console.log('handler');
     this.setState({
       live : data_live,
       last : data_hist[0],
@@ -203,15 +202,14 @@ class Slider extends React.Component {
         color : color
       }
       
-      console.log(plus, color);
       
       return (
         <div>
           <label className='slide-labels-header'>{ this.props.name }</label>
           <div className='slide-labels'>
-            <label className='slide-labels min'>{ this.state.min }</label>
+            <label className='slide-labels min'>{ Math.round(this.state.min * 100) / 100 }</label>
             <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * 100) / 100 }, { plus }{ this.state.chg }%</label>
-            <label className='slide-labels max'>{ this.state.max }</label>
+            <label className='slide-labels max'>{ Math.round(this.state.max * 100) / 100 }</label>
           </div>
           <ReactBootstrapSlider
             value={ this.state.live }
@@ -251,7 +249,7 @@ class SliderGroup extends React.Component {
     
     return (
       <div key={this.props.name} className='sliderGroup'>
-        { this.props.name }
+        <label className='sliderGroup'>{ this.props.name }</label>
         { sliders }
       </div>
     );
@@ -280,7 +278,6 @@ class Dashboard extends React.Component {
     var slide_groups = [];
     var ticks = ticker_setup();
     
-    console.log(ticks);
     for (var ind in ticks) {
       var tg = ticks[ind];
       slide_groups.push(this.renderSlideGroup(tg.name, tg.tickers));

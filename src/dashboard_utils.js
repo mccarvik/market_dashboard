@@ -7,11 +7,12 @@ var API_KEY = 'J4d6zKiPjebay-zW7T8X';
 var yahoo_live_root = 'http://anyorigin.com/go?url=http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%26f%3Dab&callback=?';
 var quandl_lbma_root = 'https://www.quandl.com/api/v3/datasets/LBMA/$$$$$.json?api_key=*****&start_date=&&&&&';
 var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/lppm/$$$$$.json?api_key=*****&start_date=&&&&&';
+var quandl_currfx_root = 'https://www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json?api_key=*****&start_date=&&&&&';
 
 // NOTES
 //      
 //      google_live_root = 'http://finance.google.com/finance/info?client=ig&q='; // in case we need later
-//      yahoo_live_root = 'http://download.finance.yahoo.com/d/quotes?s=GCN17.CMX&f=ab'; // for reference
+//      yahoo_live_root = 'http://download.finance.yahoo.com/d/quotes?s= <ENTER TICKER HERE> &f=ab'; // for reference
 //      helpful URL for ^^^^ above link : https://greenido.wordpress.com/2009/12/22/work-like-a-pro-with-yahoo-finance-hidden-api/
 //      var quandl_hist_root = 'https://www.quandl.com/api/v3/datasets/WIKI/' + symbol + '.json?column_index=4&start_date=' + startDate + '&end_date=' + endDate + '&api_key=' + API_KEY;
 //      quandl commodities historical: https://www.quandl.com/api/v1/datasets/LBMA/GOLD.json
@@ -22,7 +23,6 @@ var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/lppm/$$$$$.json?a
 
 export function ticker_setup() {
     var ticker_groups = [];
-    console.log('here');
     console.log(raw_data);
     
     for (var key in raw_data) {
@@ -34,7 +34,6 @@ export function ticker_setup() {
             var tick_els = tg[tick_key];
             tickers.push(new IndividualTicker(tick_name, tick_els[0], tick_els[1], tick_els[2], tick_els[3]));
         }
-        console.log(tickers);
         var TG = new TickerGroup(tg_name, tickers);
         ticker_groups.push(TG);
     }
@@ -73,6 +72,8 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
             url = quandl_lbma_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('&&&&&',startDate);
         } else if (url === 'quandl_llpm') {
             url = quandl_lppm_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('&&&&&',startDate);
+        } else if (url === 'quandl_currfx') {
+            url = quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('&&&&&',startDate);
         }
         return url;
     };
@@ -110,8 +111,8 @@ export function getData(url_live, url_hist, object) {
         @return data (obj) - dictionary with 52 week hi, 52 week low, current px, and %change from yesterday)
     */
     
-    console.log(url_live);
-    console.log(url_hist);
+    // console.log(url_live);
+    // console.log(url_hist);
     
     
     // Look into using quandl api --> https://www.quandl.com/tools/api
