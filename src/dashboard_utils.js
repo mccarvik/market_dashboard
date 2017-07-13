@@ -3,11 +3,11 @@ import $ from 'jquery';
 // https://stackoverflow.com/questions/3139879/how-do-i-get-currency-exchange-rates-via-an-api-such-as-google-finance
 
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
-// yahoo live root alterred to utilize anyorigin.com
+// root alterred to utilize anyorigin.com
 var yahoo_live_root = 'http://anyorigin.com/go?url=http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%26f%3Dab&callback=?';
-var quandl_lbma_root = 'https://www.quandl.com/api/v3/datasets/LBMA/$$$$$.json?api_key=*****&start_date=&&&&&';
-var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/lppm/$$$$$.json?api_key=*****&start_date=&&&&&';
-var quandl_currfx_root = 'https://www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json?api_key=*****&start_date=&&&&&';
+var quandl_lbma_root = 'http://anyorigin.com/go?url=https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^&callback=?';
+var quandl_lppm_root = 'http://anyorigin.com/go?url=https%3A//www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^&callback=?';
+var quandl_currfx_root = 'http://anyorigin.com/go?url=https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^&callback=?';
 
 // NOTES
 //      
@@ -69,11 +69,11 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
         startDate = startDate.getFullYear() + '' + this.addZero(startDate.getMonth() + 1) + '' + this.addZero(startDate.getDate());
         
         if (url === 'quandl_lbma') {
-            url = quandl_lbma_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('&&&&&',startDate);
+            url = quandl_lbma_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate);
         } else if (url === 'quandl_llpm') {
-            url = quandl_lppm_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('&&&&&',startDate);
+            url = quandl_lppm_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate);
         } else if (url === 'quandl_currfx') {
-            url = quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('&&&&&',startDate);
+            url = quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate);
         }
         return url;
     };
@@ -118,7 +118,8 @@ export function getData(url_live, url_hist, object) {
     // Look into using quandl api --> https://www.quandl.com/tools/api
     // JSONP used to work around Cross Origin Resource Sharing Problem
     return getHistData(url_hist).then(function (hist_ret) {
-        return getHistStats(hist_ret['dataset']['data']);
+        console.log(hist_ret);
+        return getHistStats(hist_ret.contents['dataset']['data']);
     }).then(function (hist_stats) {
         getLiveData(url_live, hist_stats, object);
     }).then(function (){
@@ -128,7 +129,6 @@ export function getData(url_live, url_hist, object) {
 
 function getLiveData(url, hist_stats, object) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
-    // $.getJSON('http://anyorigin.com/go?url=http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D' + ticker + '%26f%3Dab&callback=?', function(data){
     $.getJSON(url, function(data){
 	    var vals = data.contents.split(',');
 	    var live = (parseFloat(vals[0]) + parseFloat(vals[1]))/2;
@@ -136,14 +136,9 @@ function getLiveData(url, hist_stats, object) {
     });
 }
 
-function getHistData(url) {
-    return $.ajax({
-                url: url,
-                dataType: 'json',
-                success: function(dataWeGotViaJsonp){
-                    dataWeGotViaJsonp = dataWeGotViaJsonp['dataset']['data'];
-                    // console.log('hist: ' + dataWeGotViaJsonp);
-                    return getHistStats(dataWeGotViaJsonp);
-                }
-            }) 
+function getHistData(url, hist_stats, object) {
+    // NEEEEEEEEED anyorigin.com to work around the CORS error
+    return $.getJSON(url, function(data){
+        // console.log(data);
+    });
 }
