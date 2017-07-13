@@ -29,7 +29,6 @@ class Slider extends React.Component {
   }
   
   componentWillMount() {
-    setTimeout(function(){}, 1000);
     getData(this.props.live_url, this.props.hist_url, this);
   }
   
