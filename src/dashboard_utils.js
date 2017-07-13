@@ -115,8 +115,10 @@ export function getData(url_live, url_hist, object) {
     // console.log(url_hist);
     
     
-    // Look into using quandl api --> https://www.quandl.com/tools/api
-    // JSONP used to work around Cross Origin Resource Sharing Problem
+    
+    // MAY NEED THIS for quandl requests: https://stackoverflow.com/questions/8896327/jquery-wait-delay-1-second-without-executing-code
+    // setTimeout(getHistData, 1000); and then try again if it failed
+    
     return getHistData(url_hist).then(function (hist_ret) {
         console.log(hist_ret);
         return getHistStats(hist_ret.contents['dataset']['data']);
