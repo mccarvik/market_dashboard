@@ -175,7 +175,7 @@ class Slider extends React.Component {
   }
   
   componentWillMount() {
-    getData('dd', this);
+    getData(this.props.live_url, this.props.hist_url, this);
   }
   
   dailyChg(live, last) {
@@ -232,21 +232,21 @@ class SliderGroup extends React.Component {
     };
   }
   
-  renderSlider(n, t) {
+  renderSlider(t) {
     return (
       <Slider 
-        name={ n }
-        ticker={ t }
-        live_url={ 'http://finance.google.com/finance/info?client=ig&q=FB' }
-        hist_url={ 'https://www.quandl.com/api/v3/datasets/WIKI/FB.json?column_index=4&start_date=20160710&end_date=20170710&api_key=J4d6zKiPjebay-zW7T8X' }
+        name={ t.name }
+        live_url={ t.live_url }
+        hist_url={ t.hist_url }
       />
     );
   }
   
   render() {
     var sliders = [];
-    for (var i in this.props.tick_obj) {
-      sliders.push(this.renderSlider(i, this.props.tick_obj[i]));
+    for (var i in this.props.tickers_obj) {
+      console.log(this.props.tickers_obj[i]);
+      sliders.push(this.renderSlider(this.props.tickers_obj[i]));
     }
     
     return (
@@ -270,7 +270,7 @@ class Dashboard extends React.Component {
     return (
       <SliderGroup
           name={ n }
-          tick_obj={ t }
+          tickers_obj={ t }
         />
     );
   }
