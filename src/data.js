@@ -7,6 +7,11 @@
 //          Urls may be actual url or code name for some framework, still
 //          figuring that out
 
+export var asset_classes = {
+    'Currencies' : ['G10 Currencies', 'EM Currencies'],
+    'Commodities' : ['Precious Metals']
+};
+
 export var raw_data = {
     'G10 Currencies' : {
         'USD/EUR' : ['EUR=X', 'yahoolive', 'USDEUR', 'quandl_currfx'],
@@ -18,21 +23,21 @@ export var raw_data = {
         'USD/NZD' : ['NZD=X', 'yahoolive', 'USDNZD', 'quandl_currfx'],
         'USD/SEK' : ['SEK=X', 'yahoolive', 'USDSEK', 'quandl_currfx'],
         'USD/NOK' : ['NOK=X', 'yahoolive', 'USDNOK', 'quandl_currfx'],
-        'USD/DKK' : ['DKK=X', 'yahoolive', 'USDDKK', 'quandl_currfx'],
+        // 'USD/DKK' : ['DKK=X', 'yahoolive', 'USDDKK', 'quandl_currfx'],
     },
     'EM Currencies' : {
-        'USD/MXN' : ['USDMXN=X', 'yahoolive', 'USDMSN', 'quandl_currfx'],
+        'USD/MXN' : ['USDMXN=X', 'yahoolive', 'USDMXN', 'quandl_currfx'],
         'USD/BRL' : ['BRL=X', 'yahoolive', 'USDBRL', 'quandl_currfx'],
         'USD/CNY' : ['CNY=X', 'yahoolive', 'USDCNY', 'quandl_currfx'],
-        'USD/SGD' : ['SGD=X', 'yahoolive', 'USDSGD', 'quandl_currfx'],
-        'USD/HKD' : ['HKD=X', 'yahoolive', 'USDHKD', 'quandl_currfx'],
-        'USD/ZAR' : ['USDZAR=X', 'yahoolive', 'USDZAR', 'quandl_currfx'],
-        'USD/TRY' : ['TRY=X', 'yahoolive', 'USDTRY', 'quandl_currfx'],
-        'USD/KRW' : ['KRW=X', 'yahoolive', 'USDKRW', 'quandl_currfx'],
-        'USD/RUB' : ['RUB=X', 'yahoolive', 'USDRUB', 'quandl_currfx'],
-        'USD/INR' : ['INR=X', 'yahoolive', 'USDINR', 'quandl_currfx'],
-        'USD/IDR' : ['IDR=X', 'yahoolive', 'USDIDR', 'quandl_currfx'],
-        'USD/ARS' : ['ARS=X', 'yahoolive', 'USDARS', 'quandl_currfx'],
+        // 'USD/SGD' : ['SGD=X', 'yahoolive', 'USDSGD', 'quandl_currfx'],
+        // 'USD/HKD' : ['HKD=X', 'yahoolive', 'USDHKD', 'quandl_currfx'],
+        // 'USD/ZAR' : ['USDZAR=X', 'yahoolive', 'USDZAR', 'quandl_currfx'],
+        // 'USD/TRY' : ['TRY=X', 'yahoolive', 'USDTRY', 'quandl_currfx'],
+        // 'USD/KRW' : ['KRW=X', 'yahoolive', 'USDKRW', 'quandl_currfx'],
+        // 'USD/RUB' : ['RUB=X', 'yahoolive', 'USDRUB', 'quandl_currfx'],
+        // 'USD/INR' : ['INR=X', 'yahoolive', 'USDINR', 'quandl_currfx'],
+        // 'USD/IDR' : ['IDR=X', 'yahoolive', 'USDIDR', 'quandl_currfx'],
+        // 'USD/ARS' : ['ARS=X', 'yahoolive', 'USDARS', 'quandl_currfx'],
     },
     // 'US Equities' : {
     //     'DJIA' : ['^DJI', 'yahoolive'

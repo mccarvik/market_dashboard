@@ -1,4 +1,4 @@
-import { raw_data } from './data.js'
+import { raw_data, asset_classes } from './data.js'
 import $ from 'jquery';
 // https://stackoverflow.com/questions/3139879/how-do-i-get-currency-exchange-rates-via-an-api-such-as-google-finance
 
@@ -21,16 +21,22 @@ var quandl_currfx_root = 'http://anyorigin.com/go?url=https%3A//www.quandl.com/a
 
 
 
-export function ticker_setup() {
+export function ticker_setup(asset) {
+    var accepted_assets = asset_classes[asset];
     var ticker_groups = [];
-    console.log(raw_data);
+    // console.log(raw_data);
     
     for (var key in raw_data) {
         var tg = raw_data[key];
         var tg_name = key;
+        
+        // Check if ticker_group is in requested asset class
+        if (accepted_assets.indexOf(tg_name) < 0) { continue; }
+        
         var tickers = [];
         for (var tick_key in tg) {
             var tick_name = tick_key;
+            
             var tick_els = tg[tick_key];
             tickers.push(new IndividualTicker(tick_name, tick_els[0], tick_els[1], tick_els[2], tick_els[3]));
         }
@@ -88,6 +94,7 @@ function TickerGroup (name, tickers) {
 }
 
 function getHistStats(data) {
+    // console.log(data);
     var max; var min;
     for (var i=0; i < data.length; i++) {
         if (min === undefined || data[i][1] < min) {
@@ -119,14 +126,18 @@ export function getData(url_live, url_hist, object) {
     // MAY NEED THIS for quandl requests: https://stackoverflow.com/questions/8896327/jquery-wait-delay-1-second-without-executing-code
     // setTimeout(getHistData, 1000); and then try again if it failed
     
-    return getHistData(url_hist).then(function (hist_ret) {
-        console.log(hist_ret);
-        return getHistStats(hist_ret.contents['dataset']['data']);
+    var check;
+    getHistData(url_hist).then(function (hist_ret) {
+        check = getHistStats(hist_ret.contents['dataset']['data']);
+        // check = getHistStats(hist_ret.contents);
+        return check;
     }).then(function (hist_stats) {
         getLiveData(url_live, hist_stats, object);
     }).then(function (){
         return true;
     });
+    
+    return check;
 }
 
 function getLiveData(url, hist_stats, object) {

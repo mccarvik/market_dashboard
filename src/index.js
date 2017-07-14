@@ -4,6 +4,7 @@ import ReactBootstrapSlider from 'react-bootstrap-slider';
 import BootstrapSlider from 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import './index.css';
 import { ticker_setup, getData } from './dashboard_utils.js';
+import { asset_classes } from './data.js'
 
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
 // quandl db searc : https://www.quandl.com/search
@@ -29,7 +30,8 @@ class Slider extends React.Component {
   }
   
   componentWillMount() {
-    getData(this.props.live_url, this.props.hist_url, this);
+    var rnd = Math.random() * (10000 - 500) + 500;
+    setTimeout(getData(this.props.live_url, this.props.hist_url, this), rnd);
   }
   
   dailyChg(live, last) {
@@ -111,10 +113,9 @@ class SliderGroup extends React.Component {
       </div>
     );
   }
-  
 }
 
-class Dashboard extends React.Component {
+class AssetClass extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -129,11 +130,10 @@ class Dashboard extends React.Component {
         />
     );
   }
-    
-    
+  
   render () {
     var slide_groups = [];
-    var ticks = ticker_setup();
+    var ticks = ticker_setup(this.props.asset);
     
     for (var ind in ticks) {
       var tg = ticks[ind];
@@ -141,10 +141,42 @@ class Dashboard extends React.Component {
     }
     
     return (
+        <div className='asset_class'>
+          <div>
+            { slide_groups }
+          </div>
+        </div>
+    );
+  }
+}
+
+class Dashboard extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+    };
+  }
+  
+  renderAssetClass(a) {
+    return (
+      <AssetClass
+          asset={ a }
+        />
+    );
+  }
+    
+    
+  render () {
+    var ac = [];
+    for (var a in asset_classes) {
+      ac.push(this.renderAssetClass(a));
+    }
+    
+    return (
         <div className='dashboard'>
           <h1>Market Dashboard</h1>
           <div>
-            { slide_groups }
+            { ac }
           </div>
         </div>
     );

@@ -59,3 +59,10 @@ div.sliderGroup {
   width : 215px;
   padding : 5px;
 }
+
+div.asset_class {
+  /*display : inline-block;*/
+  padding-left : 3px;
+  padding-right : 3px;
+  float : left;
+}
