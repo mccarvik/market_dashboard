@@ -9,26 +9,27 @@
 
 export var asset_classes = {
     'Currencies' : ['G10 Currencies', 'EM Currencies'],
-    'Commodities' : ['Precious Metals']
+    'Commodities' : ['Precious Metals'],
+    'Equities' : ['US Equities']
 };
 
 export var raw_data = {
     'G10 Currencies' : {
-        'USD/EUR' : ['EUR=X', 'yahoolive', 'USDEUR', 'quandl_currfx'],
-        'USD/JPY' : ['JPY=X', 'yahoolive', 'USDJPY', 'quandl_currfx'],
-        'USD/GBP' : ['GBP=X', 'yahoolive', 'USDGBP', 'quandl_currfx'],
-        'USD/CAD' : ['CAD=X', 'yahoolive', 'USDCAD', 'quandl_currfx'],
-        'USD/CHF' : ['CHF=X', 'yahoolive', 'USDCHF', 'quandl_currfx'],
-        'USD/AUD' : ['AUD=X', 'yahoolive', 'USDAUD', 'quandl_currfx'],
-        'USD/NZD' : ['NZD=X', 'yahoolive', 'USDNZD', 'quandl_currfx'],
-        'USD/SEK' : ['SEK=X', 'yahoolive', 'USDSEK', 'quandl_currfx'],
-        'USD/NOK' : ['NOK=X', 'yahoolive', 'USDNOK', 'quandl_currfx'],
+        // 'USD/EUR' : ['EUR=X', 'yahoolive', 'USDEUR', 'quandl_currfx'],
+        // 'USD/JPY' : ['JPY=X', 'yahoolive', 'USDJPY', 'quandl_currfx'],
+        // 'USD/GBP' : ['GBP=X', 'yahoolive', 'USDGBP', 'quandl_currfx'],
+        // 'USD/CAD' : ['CAD=X', 'yahoolive', 'USDCAD', 'quandl_currfx'],
+        // 'USD/CHF' : ['CHF=X', 'yahoolive', 'USDCHF', 'quandl_currfx'],
+        // 'USD/AUD' : ['AUD=X', 'yahoolive', 'USDAUD', 'quandl_currfx'],
+        // 'USD/NZD' : ['NZD=X', 'yahoolive', 'USDNZD', 'quandl_currfx'],
+        // 'USD/SEK' : ['SEK=X', 'yahoolive', 'USDSEK', 'quandl_currfx'],
+        // 'USD/NOK' : ['NOK=X', 'yahoolive', 'USDNOK', 'quandl_currfx'],
         // 'USD/DKK' : ['DKK=X', 'yahoolive', 'USDDKK', 'quandl_currfx'],
     },
     'EM Currencies' : {
-        'USD/MXN' : ['USDMXN=X', 'yahoolive', 'USDMXN', 'quandl_currfx'],
-        'USD/BRL' : ['BRL=X', 'yahoolive', 'USDBRL', 'quandl_currfx'],
-        'USD/CNY' : ['CNY=X', 'yahoolive', 'USDCNY', 'quandl_currfx'],
+        // 'USD/MXN' : ['USDMXN=X', 'yahoolive', 'USDMXN', 'quandl_currfx'],
+        // 'USD/BRL' : ['BRL=X', 'yahoolive', 'USDBRL', 'quandl_currfx'],
+        // 'USD/CNY' : ['CNY=X', 'yahoolive', 'USDCNY', 'quandl_currfx'],
         // 'USD/SGD' : ['SGD=X', 'yahoolive', 'USDSGD', 'quandl_currfx'],
         // 'USD/HKD' : ['HKD=X', 'yahoolive', 'USDHKD', 'quandl_currfx'],
         // 'USD/ZAR' : ['USDZAR=X', 'yahoolive', 'USDZAR', 'quandl_currfx'],
@@ -39,13 +40,13 @@ export var raw_data = {
         // 'USD/IDR' : ['IDR=X', 'yahoolive', 'USDIDR', 'quandl_currfx'],
         // 'USD/ARS' : ['ARS=X', 'yahoolive', 'USDARS', 'quandl_currfx'],
     },
-    // 'US Equities' : {
-    //     'DJIA' : ['^DJI', 'yahoolive'
-    // },
+    'US Equities' : {
+        'S&P500' : ['^GSPC', 'yahoolive', '^GSPC', 'yahoo_hist']
+    },
     'Precious Metals' : {
-        'Gold' : ['GCN17.CMX', 'yahoolive', 'GOLD', 'quandl_lbma'],
-        'Silver' : ['SIN17.CMX', 'yahoolive', 'SILVER', 'quandl_lbma'],
-        'Platinum' : ['PLQ17.NYM', 'yahoolive', 'PLAT', 'quandl_llpm']
+        // 'Gold' : ['GCN17.CMX', 'yahoolive', 'GOLD', 'quandl_lbma'],
+        // 'Silver' : ['SIN17.CMX', 'yahoolive', 'SILVER', 'quandl_lbma'],
+        // 'Platinum' : ['PLQ17.NYM', 'yahoolive', 'PLAT', 'quandl_llpm']
     }
     
     

@@ -1,14 +1,22 @@
 import { raw_data, asset_classes } from './data.js'
 import $ from 'jquery';
-// https://stackoverflow.com/questions/3139879/how-do-i-get-currency-exchange-rates-via-an-api-such-as-google-finance
 
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
-// root alterred to utilize anyorigin.com
-var yahoo_live_root = 'http://anyorigin.com/go?url=http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%26f%3Dab&callback=?';
-var quandl_lbma_root = 'http://anyorigin.com/go?url=https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^&callback=?';
-var quandl_lppm_root = 'http://anyorigin.com/go?url=https%3A//www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^&callback=?';
-var quandl_currfx_root = 'http://anyorigin.com/go?url=https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^&callback=?';
+var yahoo_crumble;
+var yahoo_cookie;
 
+var yahoo_live_root = 'http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%26f%3Dab';
+var quandl_lbma_root = 'https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
+var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
+var quandl_currfx_root = 'https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
+
+var yahoo_hist_root = 'https://query1.finance.yahoo.com/v7/finance/download/$$$$$?period1=^^^^^&period2=*****&interval=1d&events=history&crumb=#####';
+
+
+
+
+
+// var yahoo_hist_root = 'https%3A//query1.finance.yahoo.com/v7/finance/download/$$$$$%3Fperiod1%3D^^^^^%26period2%3D*****%26interval%3D1d%26events%3Dhistory%26crumb%3DU12Ug3vviyd';
 // NOTES
 //      
 //      google_live_root = 'http://finance.google.com/finance/info?client=ig&q='; // in case we need later
@@ -18,6 +26,10 @@ var quandl_currfx_root = 'http://anyorigin.com/go?url=https%3A//www.quandl.com/a
 //      quandl commodities historical: https://www.quandl.com/api/v1/datasets/LBMA/GOLD.json
 //
 //      Live saving link for CORS workaround: http://anyorigin.com/
+// https://stackoverflow.com/questions/44044263/yahoo-finance-historical-data-downloader-url-is-not-working <---- might need this
+
+
+
 
 
 
@@ -62,7 +74,7 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
     
     this.setUpLiveTicker = function (url) {
         if (url === 'yahoolive') {
-            url = yahoo_live_root.replace('$$$$$', this.live_ticker);
+            url = anyOriginIt(yahoo_live_root.replace('$$$$$', this.live_ticker));
         }
         return url;
     };
@@ -71,16 +83,27 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
         var endDate = new Date();
         var startDate = new Date();
         startDate.setYear(endDate.getFullYear() - 1);
+        var endDate_unix = endDate.getFullYear() + '-' + this.addZero(endDate.getMonth() + 1) + '-' + this.addZero(endDate.getDate());
+        var startDate_unix = startDate.getFullYear() + '-' + this.addZero(startDate.getMonth() + 1) + '-' + this.addZero(startDate.getDate());
         endDate = endDate.getFullYear() + '' + this.addZero(endDate.getMonth() + 1) + '' + this.addZero(endDate.getDate());
         startDate = startDate.getFullYear() + '' + this.addZero(startDate.getMonth() + 1) + '' + this.addZero(startDate.getDate());
         
+        startDate_unix = new Date(startDate_unix).getTime();
+        endDate_unix = new Date(endDate_unix).getTime();
+        startDate_unix = startDate_unix.toString().slice(0,10);
+        endDate_unix = endDate_unix.toString().slice(0,10);
+        
         if (url === 'quandl_lbma') {
-            url = quandl_lbma_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate);
+            url = anyOriginIt(quandl_lbma_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'quandl_llpm') {
-            url = quandl_lppm_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate);
+            url = anyOriginIt(quandl_lppm_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'quandl_currfx') {
-            url = quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate);
+            url = anyOriginIt(quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
+        } else if (url === 'yahoo_hist') {
+            // console.log(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
+            url = anyOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
         }
+        console.log(url);
         return url;
     };
     
@@ -109,6 +132,10 @@ function getHistStats(data) {
     return [last, min, max];
 }
 
+function anyOriginIt(url) {
+    return 'http://anyorigin.com/go?url=' + url + '&callback=?';
+}
+
 export function getData(url_live, url_hist, object) {
     /*  This function takes a ticker and will retrieve different data from an api
         that will be used to create a bloomberg style ticker to display in the dashboard
@@ -120,7 +147,6 @@ export function getData(url_live, url_hist, object) {
     
     // console.log(url_live);
     // console.log(url_hist);
-    
     
     
     // MAY NEED THIS for quandl requests: https://stackoverflow.com/questions/8896327/jquery-wait-delay-1-second-without-executing-code
@@ -152,6 +178,20 @@ function getLiveData(url, hist_stats, object) {
 function getHistData(url, hist_stats, object) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     return $.getJSON(url, function(data){
-        // console.log(data);
+        console.log(data);
+    });
+}
+
+export function getYahooCrumble() {
+    console.log('here');
+    var link = anyOriginIt('https://finance.yahoo.com/quote/KO/history?p=KO');
+    return $.getJSON(link, function(data){
+        var crumble_regex = /CrumbStore":{"crumb":"(.*?)"}/;
+        var cookie_regex = /Set-Cookie: (.*?)/;
+        yahoo_crumble = crumble_regex.exec(data.contents)[1];
+        yahoo_cookie = cookie_regex.exec(data.contents);
+        console.log(yahoo_crumble);
+        console.log(yahoo_cookie);
+        console.log(data.contents);
     });
 }
