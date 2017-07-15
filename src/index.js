@@ -168,8 +168,8 @@ class Dashboard extends React.Component {
     
   render () {
     var ac = [];
-    getYahooCrumble();
-    return;
+    // getYahooCrumble();
+    // return;
     
     for (var a in asset_classes) {
       ac.push(this.renderAssetClass(a));

@@ -66,3 +66,7 @@ div.asset_class {
   padding-right : 3px;
   float : left;
 }
+
+div.tooltip-inner {
+  display : none; 
+}

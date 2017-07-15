@@ -103,7 +103,7 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
         } else if (url === 'yahoo_hist') {
             // console.log(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
             // url = anyOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
-            url = whateverOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
+            url = anyOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
         }
         console.log(url);
         return url;
@@ -119,11 +119,12 @@ function TickerGroup (name, tickers) {
 }
 
 function getHistStats(data) {
-    // console.log(data);
     var max; var min;
     for (var i=0; i < data.length; i++) {
         if (min === undefined || data[i][1] < min) {
-            min = data[i][1];
+            if (data[i][1] !== null) {
+                min = data[i][1];
+            }
         }
         
         if (max === undefined || data[i][1] > max) {
@@ -183,7 +184,7 @@ function getLiveData(url, hist_stats, object) {
 function getHistData(url) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     return $.getJSON(url, function(data){
-        console.log(data);
+        // console.log(data);
     });
 }
 

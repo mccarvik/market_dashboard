@@ -15,9 +15,9 @@ export var asset_classes = {
 
 export var raw_data = {
     'G10 Currencies' : {
-        // 'USD/EUR' : ['EUR=X', 'yahoolive', 'USDEUR', 'quandl_currfx'],
-        // 'USD/JPY' : ['JPY=X', 'yahoolive', 'USDJPY', 'quandl_currfx'],
-        // 'USD/GBP' : ['GBP=X', 'yahoolive', 'USDGBP', 'quandl_currfx'],
+        'USD/EUR' : ['EUR=X', 'yahoolive', 'USDEUR', 'quandl_currfx'],
+        'USD/JPY' : ['JPY=X', 'yahoolive', 'USDJPY', 'quandl_currfx'],
+        'USD/GBP' : ['GBP=X', 'yahoolive', 'USDGBP', 'quandl_currfx'],
         // 'USD/CAD' : ['CAD=X', 'yahoolive', 'USDCAD', 'quandl_currfx'],
         // 'USD/CHF' : ['CHF=X', 'yahoolive', 'USDCHF', 'quandl_currfx'],
         // 'USD/AUD' : ['AUD=X', 'yahoolive', 'USDAUD', 'quandl_currfx'],
@@ -29,7 +29,7 @@ export var raw_data = {
     'EM Currencies' : {
         // 'USD/MXN' : ['USDMXN=X', 'yahoolive', 'USDMXN', 'quandl_currfx'],
         // 'USD/BRL' : ['BRL=X', 'yahoolive', 'USDBRL', 'quandl_currfx'],
-        // 'USD/CNY' : ['CNY=X', 'yahoolive', 'USDCNY', 'quandl_currfx'],
+        'USD/CNY' : ['CNY=X', 'yahoolive', 'USDCNY', 'quandl_currfx'],
         // 'USD/SGD' : ['SGD=X', 'yahoolive', 'USDSGD', 'quandl_currfx'],
         // 'USD/HKD' : ['HKD=X', 'yahoolive', 'USDHKD', 'quandl_currfx'],
         // 'USD/ZAR' : ['USDZAR=X', 'yahoolive', 'USDZAR', 'quandl_currfx'],
@@ -41,17 +41,17 @@ export var raw_data = {
         // 'USD/ARS' : ['ARS=X', 'yahoolive', 'USDARS', 'quandl_currfx'],
     },
     'US Equities' : {
-        'S&P500' : ['^GSPC', 'yahoolive', '^GSPC', 'yahoo_hist']
+        // 'S&P500' : ['^GSPC', 'yahoolive', '^GSPC', 'yahoo_hist']
     },
     'Precious Metals' : {
-        // 'Gold' : ['GC=F', 'yahoolive', 'GOLD', 'quandl_lbma'],
-        // 'Silver' : ['SI=F', 'yahoolive', 'SILVER', 'quandl_lbma'],
-        // 'Platinum' : ['PL=F', 'yahoolive', 'PLAT', 'quandl_llpm']
+        'Gold' : ['GC=F', 'yahoolive', 'GOLD', 'quandl_lbma'],
+        'Silver' : ['SI=F', 'yahoolive', 'SILVER', 'quandl_lbma'],
+        'Platinum' : ['PL=F', 'yahoolive', 'PLAT', 'quandl_llpm']
     },
     'Energy' : {
-        // 'WTU Crude' : ['CL=F', 'yahoolive', 'ICE_T6', 'quandl_chris'],
-        // 'Brent Crude' : ['BZ=F', 'yahoolive', 'ICE_B17', 'quandl_chris'],
-        // 'Natural Gas' : ['NG=F', 'yahoolive', 'CME_QG2', 'quandl_chris']
+        'WTI Crude' : ['CL=F', 'yahoolive', 'ICE_T1', 'quandl_chris'],
+        'Brent Crude' : ['BZ=F', 'yahoolive', 'ICE_B1', 'quandl_chris'],
+        'Natural Gas' : ['NG=F', 'yahoolive', 'CME_QG1', 'quandl_chris']
     }
     
     
