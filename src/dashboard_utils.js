@@ -1,6 +1,6 @@
 import { raw_data, asset_classes } from './data.js';
-// var request = require('request');
-// var http = require('http');
+var request = require('request');
+var http = require('http');
 import $ from 'jquery';
 
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
@@ -10,9 +10,11 @@ var yahoo_live_root = 'http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%
 var quandl_lbma_root = 'https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_currfx_root = 'https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
-
+var quandl_chris_root = 'https%3A//www.quandl.com/api/v3/datasets/CHRIS/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^'
 var yahoo_hist_root = 'https://query1.finance.yahoo.com/v7/finance/download/$$$$$?period1=^^^^^&period2=*****&interval=1d&events=history&crumb=#####';
 
+
+// CHRIS free historical futures : https://www.quandl.com/data/CHRIS-Wiki-Continuous-Futures
 // var yahoo_hist_root = 'https%3A//query1.finance.yahoo.com/v7/finance/download/$$$$$%3Fperiod1%3D^^^^^%26period2%3D*****%26interval%3D1d%26events%3Dhistory%26crumb%3DU12Ug3vviyd';
 // NOTES
 //      
@@ -96,6 +98,8 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
             url = anyOriginIt(quandl_lppm_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'quandl_currfx') {
             url = anyOriginIt(quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
+        } else if (url === 'quandl_chris') {
+            url = anyOriginIt(quandl_chris_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'yahoo_hist') {
             // console.log(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
             // url = anyOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
@@ -135,7 +139,7 @@ function anyOriginIt(url) {
 }
 
 function whateverOriginIt(url) {
-    return 'http://www.whateverorigin.org/get?url=' + url + '&callback=?'
+    return 'http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?'
 }
 
 export function getData(url_live, url_hist, object) {
@@ -184,36 +188,32 @@ function getHistData(url) {
 }
 
 export function getYahooCrumble() {
-    var link = whateverOriginIt('https://finance.yahoo.com/quote/KO/history?p=KO');
+    var link = anyOriginIt('https://finance.yahoo.com/quote/KO/history?p=KO');
     console.log(link);
     
-    // request.get(link,function(err, res, body) {
-    //     if(err) {
-    //         console.log('GET request failed here is error');
-    //         console.log(res);
-    //     }
-
-    //     //Get cookies from response
-    //     var responseCookies = res.headers['set-cookie'];
-    //     console.log(responseCookies)
-    //     var requestCookies='';
-    //     for(var i=0; i<responseCookies.length; i++){
-    //         var oneCookie = responseCookies[i];
-    //         oneCookie = oneCookie.split(';');
-    //         requestCookies= requestCookies + oneCookie[0]+';';
-    //     }
-    // });
+    $.ajax({
+      url: link,
+      dataType: 'json',
+      xhrFields: { withCredentials: true },
+      crossDomain: true,
+      success: function(data, textStatus, jqXHR){
+            var crumble_regex = /CrumbStore":{"crumb":"(.*?)"}/;
+            // var cookie_regex = /Set-Cookie: (.*?)/;
+            // console.log(data);
+            yahoo_crumble = crumble_regex.exec(data.contents)[1];
+            // yahoo_cookie = cookie_regex.exec(data.contents);
+            console.log(jqXHR.getResponseHeader('Set-Cookie'));
+            console.log(yahoo_crumble);
+            // console.log(yahoo_cookie);
+            console.log(data);
+            console.log(jqXHR);
+      }
+    });
     
-    
-    // $.ajax({
-    //   url: link,
-    //   dataType: 'json',
-    //   xhrFields: { withCredentials: true },
-    //   crossDomain: true,
-    //   success: function(data, textStatus, jqXHR){
-    //       console.log(data);
-    //       console.log(jqXHR);
-    //   }
+    // http.get(link, function(response) {
+    //     // console.log(response);
+    //     var cookie = response.headers['set-cookie'];
+    //     console.log(cookie);
     // });
     
     // $.getJSON(link, function(data, textStatus, jqXHR){
@@ -229,18 +229,3 @@ export function getYahooCrumble() {
     // });
 }
 
-
-export function callPython(url) {
-    console.log('here');
-    
-    // var process = spawn('python',["./get_quote_history.py"]);
-    
-    // $.ajax({
-    //     type: "POST",
-    //     url: "./get_quote_history.py",
-    //     // data: { param: text}
-    // }).done(function( o ) {
-    //   console.log('here')
-    //   console.log(0);
-    // });
-}

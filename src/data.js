@@ -9,13 +9,13 @@
 
 export var asset_classes = {
     'Currencies' : ['G10 Currencies', 'EM Currencies'],
-    'Commodities' : ['Precious Metals'],
+    'Commodities' : ['Precious Metals', 'Energy'],
     'Equities' : ['US Equities']
 };
 
 export var raw_data = {
     'G10 Currencies' : {
-        'USD/EUR' : ['EUR=X', 'yahoolive', 'USDEUR', 'quandl_currfx'],
+        // 'USD/EUR' : ['EUR=X', 'yahoolive', 'USDEUR', 'quandl_currfx'],
         // 'USD/JPY' : ['JPY=X', 'yahoolive', 'USDJPY', 'quandl_currfx'],
         // 'USD/GBP' : ['GBP=X', 'yahoolive', 'USDGBP', 'quandl_currfx'],
         // 'USD/CAD' : ['CAD=X', 'yahoolive', 'USDCAD', 'quandl_currfx'],
@@ -44,9 +44,14 @@ export var raw_data = {
         'S&P500' : ['^GSPC', 'yahoolive', '^GSPC', 'yahoo_hist']
     },
     'Precious Metals' : {
-        // 'Gold' : ['GCN17.CMX', 'yahoolive', 'GOLD', 'quandl_lbma'],
-        // 'Silver' : ['SIN17.CMX', 'yahoolive', 'SILVER', 'quandl_lbma'],
-        // 'Platinum' : ['PLQ17.NYM', 'yahoolive', 'PLAT', 'quandl_llpm']
+        // 'Gold' : ['GC=F', 'yahoolive', 'GOLD', 'quandl_lbma'],
+        // 'Silver' : ['SI=F', 'yahoolive', 'SILVER', 'quandl_lbma'],
+        // 'Platinum' : ['PL=F', 'yahoolive', 'PLAT', 'quandl_llpm']
+    },
+    'Energy' : {
+        // 'WTU Crude' : ['CL=F', 'yahoolive', 'ICE_T6', 'quandl_chris'],
+        // 'Brent Crude' : ['BZ=F', 'yahoolive', 'ICE_B17', 'quandl_chris'],
+        // 'Natural Gas' : ['NG=F', 'yahoolive', 'CME_QG2', 'quandl_chris']
     }
     
     

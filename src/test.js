@@ -1,13 +1,13 @@
 var request = require('request');
-// var http = require('http');
+var http = require('http');
     
-export function getCookie() {
+function getCookie() {
     console.log('here2');
     var link ='http://anyorigin.com/go?url=https://finance.yahoo.com/quote/KO/history?p=KO&callback=?';
-    // http.get(link, function(response) {
-    //     // console.log(response);
-    //     cookie = response.headers['set-cookie'];
-    // });
+    http.get(link, function(response) {
+        // console.log(response);
+        var cookie = response.headers['set-cookie'];
+    });
     
     request.get(link,function(err, res, body) {
             if(err) {
@@ -27,3 +27,5 @@ export function getCookie() {
             // }
     });
 }
+
+getCookie();
