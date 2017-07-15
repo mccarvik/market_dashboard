@@ -1,9 +1,10 @@
-import { raw_data, asset_classes } from './data.js'
+import { raw_data, asset_classes } from './data.js';
+// var request = require('request');
+// var http = require('http');
 import $ from 'jquery';
 
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
 var yahoo_crumble;
-var yahoo_cookie;
 
 var yahoo_live_root = 'http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%26f%3Dab';
 var quandl_lbma_root = 'https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
@@ -11,10 +12,6 @@ var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3
 var quandl_currfx_root = 'https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 
 var yahoo_hist_root = 'https://query1.finance.yahoo.com/v7/finance/download/$$$$$?period1=^^^^^&period2=*****&interval=1d&events=history&crumb=#####';
-
-
-
-
 
 // var yahoo_hist_root = 'https%3A//query1.finance.yahoo.com/v7/finance/download/$$$$$%3Fperiod1%3D^^^^^%26period2%3D*****%26interval%3D1d%26events%3Dhistory%26crumb%3DU12Ug3vviyd';
 // NOTES
@@ -101,7 +98,8 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
             url = anyOriginIt(quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'yahoo_hist') {
             // console.log(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
-            url = anyOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
+            // url = anyOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
+            url = whateverOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
         }
         console.log(url);
         return url;
@@ -136,6 +134,10 @@ function anyOriginIt(url) {
     return 'http://anyorigin.com/go?url=' + url + '&callback=?';
 }
 
+function whateverOriginIt(url) {
+    return 'http://www.whateverorigin.org/get?url=' + url + '&callback=?'
+}
+
 export function getData(url_live, url_hist, object) {
     /*  This function takes a ticker and will retrieve different data from an api
         that will be used to create a bloomberg style ticker to display in the dashboard
@@ -150,7 +152,6 @@ export function getData(url_live, url_hist, object) {
     
     
     // MAY NEED THIS for quandl requests: https://stackoverflow.com/questions/8896327/jquery-wait-delay-1-second-without-executing-code
-    // setTimeout(getHistData, 1000); and then try again if it failed
     
     var check;
     getHistData(url_hist).then(function (hist_ret) {
@@ -175,7 +176,7 @@ function getLiveData(url, hist_stats, object) {
     });
 }
 
-function getHistData(url, hist_stats, object) {
+function getHistData(url) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     return $.getJSON(url, function(data){
         console.log(data);
@@ -183,15 +184,63 @@ function getHistData(url, hist_stats, object) {
 }
 
 export function getYahooCrumble() {
+    var link = whateverOriginIt('https://finance.yahoo.com/quote/KO/history?p=KO');
+    console.log(link);
+    
+    // request.get(link,function(err, res, body) {
+    //     if(err) {
+    //         console.log('GET request failed here is error');
+    //         console.log(res);
+    //     }
+
+    //     //Get cookies from response
+    //     var responseCookies = res.headers['set-cookie'];
+    //     console.log(responseCookies)
+    //     var requestCookies='';
+    //     for(var i=0; i<responseCookies.length; i++){
+    //         var oneCookie = responseCookies[i];
+    //         oneCookie = oneCookie.split(';');
+    //         requestCookies= requestCookies + oneCookie[0]+';';
+    //     }
+    // });
+    
+    
+    // $.ajax({
+    //   url: link,
+    //   dataType: 'json',
+    //   xhrFields: { withCredentials: true },
+    //   crossDomain: true,
+    //   success: function(data, textStatus, jqXHR){
+    //       console.log(data);
+    //       console.log(jqXHR);
+    //   }
+    // });
+    
+    // $.getJSON(link, function(data, textStatus, jqXHR){
+    //     console.log(jqXHR);
+    //     var crumble_regex = /CrumbStore":{"crumb":"(.*?)"}/;
+    //     var cookie_regex = /Set-Cookie: (.*?)/;
+    //     console.log(data);
+    //     yahoo_crumble = crumble_regex.exec(data.contents)[1];
+    //     yahoo_cookie = cookie_regex.exec(data.contents);
+    //     console.log(jqXHR.getAllResponseHeaders());
+    //     console.log(yahoo_crumble);
+    //     console.log(yahoo_cookie);
+    // });
+}
+
+
+export function callPython(url) {
     console.log('here');
-    var link = anyOriginIt('https://finance.yahoo.com/quote/KO/history?p=KO');
-    return $.getJSON(link, function(data){
-        var crumble_regex = /CrumbStore":{"crumb":"(.*?)"}/;
-        var cookie_regex = /Set-Cookie: (.*?)/;
-        yahoo_crumble = crumble_regex.exec(data.contents)[1];
-        yahoo_cookie = cookie_regex.exec(data.contents);
-        console.log(yahoo_crumble);
-        console.log(yahoo_cookie);
-        console.log(data.contents);
-    });
+    
+    // var process = spawn('python',["./get_quote_history.py"]);
+    
+    // $.ajax({
+    //     type: "POST",
+    //     url: "./get_quote_history.py",
+    //     // data: { param: text}
+    // }).done(function( o ) {
+    //   console.log('here')
+    //   console.log(0);
+    // });
 }

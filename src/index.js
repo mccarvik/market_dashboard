@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import BootstrapSlider from 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import './index.css';
-import { ticker_setup, getData, getYahooCrumble } from './dashboard_utils.js';
+import { ticker_setup, getData, getYahooCrumble, callPython } from './dashboard_utils.js';
 import { asset_classes } from './data.js'
 
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
@@ -168,7 +168,9 @@ class Dashboard extends React.Component {
     
   render () {
     var ac = [];
-    getYahooCrumble();
+    // getYahooCrumble();
+    callPython();
+    return;
     
     for (var a in asset_classes) {
       ac.push(this.renderAssetClass(a));

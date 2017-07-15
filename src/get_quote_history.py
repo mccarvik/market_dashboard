@@ -11,16 +11,18 @@ crumble_regex = r'CrumbStore":{"crumb":"(.*?)"}'
 cookie_regex = r'Set-Cookie: (.*?); '
 quote_link = 'https://query1.finance.yahoo.com/v7/finance/download/{}?period1={}&period2={}&interval=1d&events=history&crumb={}'
 
+# python cookie.py --symbol=IBM --from=2017-01-01 --to=2017-05-25 -o IBM.csv 
 
 def get_crumble_and_cookie(symbol):
     link = crumble_link.format(symbol)
     response = urllib2.urlopen(link)
     match = re.search(cookie_regex, str(response.info()))
+    print(response.info())
     cookie_str = match.group(1)
     text = response.read()
     match = re.search(crumble_regex, text)
     crumble_str = match.group(1)
-    print('crumble:' + crumble_str)
+    print('crumble:' + crumble_str + "   cookie: " + cookie_str)
     return crumble_str, cookie_str
 
 
@@ -47,7 +49,6 @@ def download_quote(symbol, date_from, date_to):
     return ""
 
 if __name__ == '__main__':
-    pdb.set_trace()
     print get_crumble_and_cookie('KO')
     from_arg = "from"
     to_arg = "to"
