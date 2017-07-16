@@ -1,31 +1,33 @@
 var request = require('request');
+var rp = require('request-promise');
 var http = require('http');
+
+function getCookie(link) {
+    console.log('getting cookie');
+    var cookie;
+    var crumb;
     
-function getCookie() {
-    console.log('here2');
-    var link ='http://anyorigin.com/go?url=https://finance.yahoo.com/quote/KO/history?p=KO&callback=?';
-    http.get(link, function(response) {
-        // console.log(response);
-        var cookie = response.headers['set-cookie'];
-    });
-    
-    request.get(link,function(err, res, body) {
-            if(err) {
-                console.log('GET request failed here is error');
-                console.log(res);
-            }
+    return rp.get(link,function(err, res, body) {
+        if(err) {
+            console.log('GET request failed here is error');
+            console.log(err);
+        }
             
-            // console.log(res);
-            //Get cookies from response
-            var responseCookies = res.headers['set-cookie'];
-            console.log(responseCookies[0])
-            // var requestCookies='';
-            // for(var i=0; i<responseCookies.length; i++){
-            //     var oneCookie = responseCookies[i];
-            //     oneCookie = oneCookie.split(';');
-            //     requestCookies= requestCookies + oneCookie[0]+';';
-            // }
+        // console.log(res);
+        // console.log(body);
+        // console.log(res.rawHeaders);
+        var responseCookies = res.headers['set-cookie'];
+        cookie = responseCookies[0].split(';')[0];
+        console.log(cookie);
+    }).then(function(data){
+        var url = 'http://anyorigin.com/go?url=https://query1.finance.yahoo.com/v7/finance/download/^GSPC?period1=1468540800&period2=1500076800&interval=1d&events=history&crumb=$$$$$&callback='.replace('$$$$$', crumb);
+        // console.log(url);
+        // return $.getJSON(url, function(data){
+        //     // console.log(data);
+        // });
     });
+        
 }
 
-getCookie();
+// var link = 'https://finance.yahoo.com/quote/KO/history?p=KO';   
+// getCookie(link);

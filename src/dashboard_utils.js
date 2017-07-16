@@ -1,16 +1,19 @@
 import { raw_data, asset_classes } from './data.js';
-var request = require('request');
-var http = require('http');
+// import { getCookie } from './test.js';
+// var request = require('request');
+// var http = require('http');
 import $ from 'jquery';
 
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
-var yahoo_crumble;
+var yahoo_crumble = {};
 
+// download.finance.yahoo.com/d/quotes?s=^VIX&f=ab
 var yahoo_live_root = 'http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%26f%3Dab';
 var quandl_lbma_root = 'https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_currfx_root = 'https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_chris_root = 'https%3A//www.quandl.com/api/v3/datasets/CHRIS/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^'
+var quandl_tsy_root = 'https://www.quandl.com/api/v3/datasets/USTREASURY/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var yahoo_hist_root = 'https://query1.finance.yahoo.com/v7/finance/download/$$$$$?period1=^^^^^&period2=*****&interval=1d&events=history&crumb=#####';
 
 
@@ -75,6 +78,7 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
         if (url === 'yahoolive') {
             url = anyOriginIt(yahoo_live_root.replace('$$$$$', this.live_ticker));
         }
+        // console.log(url);
         return url;
     };
     
@@ -100,12 +104,14 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
             url = anyOriginIt(quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'quandl_chris') {
             url = anyOriginIt(quandl_chris_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
+        } else if (url === 'quandl_tsy') {
+            url = anyOriginIt(quandl_tsy_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'yahoo_hist') {
             // console.log(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
             // url = anyOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
             url = anyOriginIt(yahoo_hist_root.replace('$$$$$', this.hist_ticker).replace('*****',endDate_unix).replace('^^^^^',startDate_unix).replace('#####', yahoo_crumble));
         }
-        console.log(url);
+        // console.log(url);
         return url;
     };
     
@@ -118,20 +124,27 @@ function TickerGroup (name, tickers) {
     this.tickers = tickers;
 }
 
-function getHistStats(data) {
+function getHistStats(data, data_ind=1) {
     var max; var min;
     for (var i=0; i < data.length; i++) {
-        if (min === undefined || data[i][1] < min) {
-            if (data[i][1] !== null) {
-                min = data[i][1];
+        if (min === undefined || data[i][data_ind] < min) {
+            if (data[i][data_ind] !== null && data[i][data_ind] !== 0) {
+                min = data[i][data_ind];
             }
         }
         
-        if (max === undefined || data[i][1] > max) {
-            max = data[i][1];
+        if (max === undefined || data[i][data_ind] > max) {
+            max = data[i][data_ind];
         }
     }
-    var last = data[0][1];
+    
+    var last;
+    for (var x=0; x<10; x++) {    
+        last = data[x][data_ind];
+        if (last !== null) {
+            break;
+        }
+    }
     return [last, min, max];
 }
 
@@ -159,17 +172,22 @@ export function getData(url_live, url_hist, object) {
     // MAY NEED THIS for quandl requests: https://stackoverflow.com/questions/8896327/jquery-wait-delay-1-second-without-executing-code
     
     var check;
-    getHistData(url_hist).then(function (hist_ret) {
-        check = getHistStats(hist_ret.contents['dataset']['data']);
-        // check = getHistStats(hist_ret.contents);
-        return check;
-    }).then(function (hist_stats) {
-        getLiveData(url_live, hist_stats, object);
-    }).then(function (){
-        return true;
-    });
+    try {
+        getHistData(url_hist).then(function (hist_ret) {
+            check = getHistStats(hist_ret.contents['dataset']['data']);
+            // check = getHistStats(hist_ret.contents);
+            return check;
+        }).then(function (hist_stats) {
+            getLiveData(url_live, hist_stats, object);
+        }).then(function (){
+            return true;
+        });
+    } catch (e) {
+        console.log('Error');
+        throw new Error('Probably missing historical data');
+    }
     
-    return check;
+    return true;
 }
 
 function getLiveData(url, hist_stats, object) {
@@ -184,7 +202,7 @@ function getLiveData(url, hist_stats, object) {
 function getHistData(url) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     return $.getJSON(url, function(data){
-        // console.log(data);
+        console.log(data);
     });
 }
 
@@ -198,35 +216,31 @@ export function getYahooCrumble() {
       xhrFields: { withCredentials: true },
       crossDomain: true,
       success: function(data, textStatus, jqXHR){
+          console.log('getting crumb');
             var crumble_regex = /CrumbStore":{"crumb":"(.*?)"}/;
             // var cookie_regex = /Set-Cookie: (.*?)/;
             // console.log(data);
-            yahoo_crumble = crumble_regex.exec(data.contents)[1];
-            // yahoo_cookie = cookie_regex.exec(data.contents);
-            console.log(jqXHR.getResponseHeader('Set-Cookie'));
-            console.log(yahoo_crumble);
-            // console.log(yahoo_cookie);
-            console.log(data);
-            console.log(jqXHR);
-      }
+            yahoo_crumble.crumb = crumble_regex.exec(data.contents)[1];
+            console.log(yahoo_crumble.crumb);
+      },
+    }).then(function() {
+        var url = anyOriginIt('https://query1.finance.yahoo.com/v7/finance/download/^GSPC?period1=1468540800&period2=1500076800&interval=1d&events=history&crumb=$$$$$').replace('$$$$$', yahoo_crumble.crumb);
+        console.log(url)
+        console.log('here');
+        $.ajax({
+            url: url,
+            headers : { 'Access-Control-Allow-Origin' : 'http://market-dashboard-mccarvik.c9users.io:8080/',
+                        'Cookie' : 'B=4ekf4edcmn2ba&b=3&s=o5'},
+            dataType: 'json',
+            xhrFields: { withCredentials: true },
+            crossDomain: true,
+            success: function(data, textStatus, jqXHR){
+                console.log(data);
+            }
+        })
     });
     
-    // http.get(link, function(response) {
-    //     // console.log(response);
-    //     var cookie = response.headers['set-cookie'];
-    //     console.log(cookie);
-    // });
-    
-    // $.getJSON(link, function(data, textStatus, jqXHR){
-    //     console.log(jqXHR);
-    //     var crumble_regex = /CrumbStore":{"crumb":"(.*?)"}/;
-    //     var cookie_regex = /Set-Cookie: (.*?)/;
-    //     console.log(data);
-    //     yahoo_crumble = crumble_regex.exec(data.contents)[1];
-    //     yahoo_cookie = cookie_regex.exec(data.contents);
-    //     console.log(jqXHR.getAllResponseHeaders());
-    //     console.log(yahoo_crumble);
-    //     console.log(yahoo_cookie);
-    // });
 }
+
+
 

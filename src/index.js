@@ -31,7 +31,15 @@ class Slider extends React.Component {
   
   componentWillMount() {
     var rnd = Math.random() * (10000 - 500) + 500;
-    setTimeout(getData(this.props.live_url, this.props.hist_url, this), rnd);
+    for (var x=0; x < 10; x++) {
+      try {
+        setTimeout(getData(this.props.live_url, this.props.hist_url, this), rnd);
+        break;
+      } catch (e) {
+        console.log("Trying again for: " + this.props.name);
+        continue;
+      }
+    }
   }
   
   dailyChg(live, last) {
