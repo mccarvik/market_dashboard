@@ -52,7 +52,7 @@ export function ticker_setup(asset) {
             var tick_name = tick_key;
             
             var tick_els = tg[tick_key];
-            tickers.push(new IndividualTicker(tick_name, tick_els[0], tick_els[1], tick_els[2], tick_els[3]));
+            tickers.push(new IndividualTicker(tick_name, tick_els[0], tick_els[1], tick_els[2], tick_els[3], tick_els[4]));
         }
         var TG = new TickerGroup(tg_name, tickers);
         ticker_groups.push(TG);
@@ -61,8 +61,9 @@ export function ticker_setup(asset) {
     return ticker_groups;
 }
 
-function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url) {
+function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url, data_ind) {
     this.name = name;
+    this.data_ind = data_ind;
     this.live_ticker = live_ticker;
     this.hist_ticker = hist_ticker;
     
@@ -156,7 +157,7 @@ function whateverOriginIt(url) {
     return 'http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?'
 }
 
-export function getData(url_live, url_hist, object) {
+export function getData(url_live, url_hist, object, data_ind) {
     /*  This function takes a ticker and will retrieve different data from an api
         that will be used to create a bloomberg style ticker to display in the dashboard
         
@@ -174,7 +175,7 @@ export function getData(url_live, url_hist, object) {
     var check;
     try {
         getHistData(url_hist).then(function (hist_ret) {
-            check = getHistStats(hist_ret.contents['dataset']['data']);
+            check = getHistStats(hist_ret.contents['dataset']['data'], data_ind);
             // check = getHistStats(hist_ret.contents);
             return check;
         }).then(function (hist_stats) {
@@ -193,6 +194,7 @@ export function getData(url_live, url_hist, object) {
 function getLiveData(url, hist_stats, object) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     $.getJSON(url, function(data){
+        console.log(data);
 	    var vals = data.contents.split(',');
 	    var live = (parseFloat(vals[0]) + parseFloat(vals[1]))/2;
 	    object.handleLiveData(live, hist_stats);

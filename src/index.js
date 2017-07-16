@@ -30,10 +30,10 @@ class Slider extends React.Component {
   }
   
   componentWillMount() {
-    var rnd = Math.random() * (10000 - 500) + 500;
+    var rnd = Math.random() * (100000 - 500) + 500;
     for (var x=0; x < 10; x++) {
       try {
-        setTimeout(getData(this.props.live_url, this.props.hist_url, this), rnd);
+        setTimeout(getData(this.props.live_url, this.props.hist_url, this, this.props.data_ind), rnd);
         break;
       } catch (e) {
         console.log("Trying again for: " + this.props.name);
@@ -103,6 +103,7 @@ class SliderGroup extends React.Component {
         name={ t.name }
         live_url={ t.live_url }
         hist_url={ t.hist_url }
+        data_ind={ t.data_ind }
       />
     );
   }
