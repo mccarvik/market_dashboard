@@ -173,29 +173,19 @@ export function getData(url_live, url_hist, object, data_ind) {
     
     var check;
     try {
-        for (var a=0; a<5; a++) {
-            console.log(a);
-            var br = true;
-            
-            getHistData(url_hist).then(function (hist_ret) {
-                if (hist_ret.contents['dataset'] === undefined) {
-                    console.log('No historical for ' + object.props.name);
-                    var rnd = Math.random() * (5000 - 500) + 500;
-                    setTimeout(function(){ return true;}, rnd);
-                    br = false;
-                    console.log(br);
-                }
-                check = getHistStats(hist_ret.contents['dataset']['data'], data_ind);
-                return check;
-            }).then(function (hist_stats) {
-                getLiveData(url_live, hist_stats, object);
-            }).then(function (){
-                return true;
-            });
-            
-            console.log(br);
-            if (br) { break; }
-        }
+        getHistData(url_hist).then(function (hist_ret) {
+            if (hist_ret.contents['dataset'] === undefined) {
+                console.log('No historical for ' + object.props.name);
+                var rnd = Math.random() * (5000 - 500) + 500;
+                setTimeout(function(){ return true;}, rnd);
+            }
+            check = getHistStats(hist_ret.contents['dataset']['data'], data_ind);
+            return check;
+        }).then(function (hist_stats) {
+            getLiveData(url_live, hist_stats, object);
+        }).then(function (){
+            return true;
+        });
     } catch (e) {
         console.log('Error');
         throw new Error('Probably missing historical data');
@@ -262,3 +252,36 @@ export function getYahooCrumble() {
 
 
 
+// function requestRetry(url, data, retryTimes, retryDelay, callback) {
+//     var cntr = 0;
+
+//     function run() {
+//         // try your async operation
+//         request(..., function(err, data) {
+//             ++cntr;
+//             if (err) {
+//                 if (cntr >= retryTimes) {
+//                     // if it fails too many times, just send the error out
+//                     callback(err);
+//                 } else {
+//                     // try again after a delay
+//                     setTimeout(run, retryDelay);
+//                 }
+//             } else {
+//                 // success, send the data out
+//                 callback(null, data);
+//             }
+//         });
+//     }
+//     // start our first request
+//     run();
+// }
+
+
+// requestRetry(someUrl, someData, 10, 500, function(err, data) {
+//     if (err) {
+//         // still failed after 10 retries
+//     } else {
+//         // got successful result here
+//     }
+// });
