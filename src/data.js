@@ -86,7 +86,7 @@ export var raw_data = {
     'Other' : {
         'VIX' : ['^VIX', 'yahoolive', 'CBOE_VX1', 'quandl_chris', 4],
         'Dollar IDX' : ['DX-Y.NYB', 'yahoolive', 'ICE_DX1', 'quandl_chris', 4],
-        // 'Wilshire US REIT IDX' : ['^WILREIT', 'yahoolive', 'CME_JR1', 'quandl_chris', 4]
+        'DJ Real Estate IDX' : ['RX=F', 'yahoolive', 'CME_JR1', 'quandl_chris', 4]
     },
     
     

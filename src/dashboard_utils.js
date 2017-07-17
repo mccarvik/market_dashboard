@@ -124,8 +124,20 @@ function TickerGroup (name, tickers) {
     this.tickers = tickers;
 }
 
-function getHistStats(data, data_ind=1) {
+function getHistStats(data, data_ind=1, ticker) {
     var max; var min;
+    
+    // HUGE hack for bad data with real estate
+    if (ticker === 'DJ Real Estate IDX') {
+        for (var a=0; a < data.length; a++) {
+            if (data[a][data_ind] > 2800) {
+                data[a][data_ind] = undefined;
+                console.log(a + " removed");
+            }
+        }
+    }
+    
+    
     for (var i=0; i < data.length; i++) {
         if (min === undefined || data[i][data_ind] < min) {
             if (data[i][data_ind] !== null && data[i][data_ind] !== 0) {
@@ -179,7 +191,7 @@ export function getData(url_live, url_hist, object, data_ind) {
                 var rnd = Math.random() * (5000 - 500) + 500;
                 setTimeout(function(){ return true;}, rnd);
             }
-            check = getHistStats(hist_ret.contents['dataset']['data'], data_ind);
+            check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
             return check;
         }).then(function (hist_stats) {
             getLiveData(url_live, hist_stats, object);
