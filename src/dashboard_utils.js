@@ -8,7 +8,7 @@ var API_KEY = 'J4d6zKiPjebay-zW7T8X';
 var yahoo_crumble = {};
 
 // download.finance.yahoo.com/d/quotes?s=^VIX&f=ab
-var yahoo_live_root = 'http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%26f%3Dab';
+var yahoo_live_root = 'http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%26f%3Dl1p2kj';
 var quandl_lbma_root = 'https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_currfx_root = 'https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
@@ -18,7 +18,6 @@ var yahoo_hist_root = 'https://query1.finance.yahoo.com/v7/finance/download/$$$$
 
 
 // CHRIS free historical futures : https://www.quandl.com/data/CHRIS-Wiki-Continuous-Futures
-// var yahoo_hist_root = 'https%3A//query1.finance.yahoo.com/v7/finance/download/$$$$$%3Fperiod1%3D^^^^^%26period2%3D*****%26interval%3D1d%26events%3Dhistory%26crumb%3DU12Ug3vviyd';
 // NOTES
 //      
 //      google_live_root = 'http://finance.google.com/finance/info?client=ig&q='; // in case we need later
@@ -195,16 +194,19 @@ function getLiveData(url, hist_stats, object) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     $.getJSON(url, function(data){
         console.log(data);
-	    var vals = data.contents.split(',');
-	    var live = (parseFloat(vals[0]) + parseFloat(vals[1]))/2;
-	    object.handleLiveData(live, hist_stats);
+	    var vals = data.contents.split(",");
+	    var live = (parseFloat(vals[0]));
+	    var chg = vals[1];
+	    var hi = vals[2];
+	    var lo = vals[3];
+	    object.handleLiveData(live, chg, hi, lo, hist_stats);
     });
 }
 
 function getHistData(url) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     return $.getJSON(url, function(data){
-        console.log(data);
+        // console.log(data);
     });
 }
 

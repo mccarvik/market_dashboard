@@ -19,19 +19,20 @@ class Slider extends React.Component {
     };
   }
   
-  handleLiveData(data_live, data_hist) {
+  handleLiveData(data_live, chg, hi, lo, data_hist) {
     this.setState({
       live : data_live,
-      last : data_hist[0],
+      last : 0,   // dont need anymore
       min : data_hist[1],
       max : data_hist[2],
-      chg : this.dailyChg(data_live, data_hist[0])
+      // chg : this.dailyChg(data_live, data_hist[0])
+      chg : chg
     });
   }
   
   componentWillMount() {
-    var rnd = Math.random() * (100000 - 500) + 500;
-    for (var x=0; x < 10; x++) {
+    var rnd = Math.random() * (10000 - 500) + 500;
+    for (var x=0; x < 3; x++) {
       try {
         setTimeout(getData(this.props.live_url, this.props.hist_url, this, this.props.data_ind), rnd);
         break;
@@ -55,11 +56,13 @@ class Slider extends React.Component {
       // want to set up css to change to green or red depneding on the value
       // and then set up the html for the slider
       console.log(this.props.name, this.state);
-      var color = 'black';
+      var color = 'white';
       var plus = '';
-      if (this.state.chg < 0) {
+      var chg = this.state.chg.replace('+','').replace('\"', '').replace('%', '');
+      chg = parseFloat(chg.slice(0, chg.length-1))
+      if (chg < 0) {
         color = 'red';
-      } else if (this.state.chg > 0) {
+      } else if (chg > 0) {
         color = 'green';
         plus = '+';
       }
@@ -73,7 +76,7 @@ class Slider extends React.Component {
           <label className='slide-labels-header'>{ this.props.name }</label>
           <div className='slide-labels'>
             <label className='slide-labels min'>{ Math.round(this.state.min * 100) / 100 }</label>
-            <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * 100) / 100 }, { plus }{ this.state.chg }%</label>
+            <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * 100) / 100 }, { plus }{ chg }%</label>
             <label className='slide-labels max'>{ Math.round(this.state.max * 100) / 100 }</label>
           </div>
           <ReactBootstrapSlider
