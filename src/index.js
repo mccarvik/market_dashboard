@@ -31,16 +31,26 @@ class Slider extends React.Component {
   }
   
   componentWillMount() {
-    var rnd = Math.random() * (10000 - 500) + 500;
-    for (var x=0; x < 3; x++) {
-      try {
-        setTimeout(getData(this.props.live_url, this.props.hist_url, this, this.props.data_ind), rnd);
-        break;
-      } catch (e) {
-        console.log("Trying again for: " + this.props.name);
-        continue;
-      }
-    }
+    var rnd = Math.random() * (5000 - 500) + 500;
+    setTimeout(function(){ return true;}, rnd);
+    getData(this.props.live_url, this.props.hist_url, this, this.props.data_ind);
+    
+    // Need to come up with something for retries here
+    // var rnd = Math.random() * (5000 - 500) + 500;
+    // for (var x=0; x < 3; x++) {
+    //   try {
+    //     getData(this.props.live_url, this.props.hist_url, this, this.props.data_ind);
+    //     setTimeout(function(){ return true;}, rnd);
+    //     if (this.state.min !== undefined) {
+    //       break;
+    //     } else {
+    //       console.log("Trying again for: " + this.props.name);
+    //     }
+    //   } catch (e) {
+    //     console.log("Trying again for: " + this.props.name);
+    //     continue;
+    //   }
+    // }
   }
   
   dailyChg(live, last) {

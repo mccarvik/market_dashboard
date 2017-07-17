@@ -173,15 +173,29 @@ export function getData(url_live, url_hist, object, data_ind) {
     
     var check;
     try {
-        getHistData(url_hist).then(function (hist_ret) {
-            check = getHistStats(hist_ret.contents['dataset']['data'], data_ind);
-            // check = getHistStats(hist_ret.contents);
-            return check;
-        }).then(function (hist_stats) {
-            getLiveData(url_live, hist_stats, object);
-        }).then(function (){
-            return true;
-        });
+        for (var a=0; a<5; a++) {
+            console.log(a);
+            var br = true;
+            
+            getHistData(url_hist).then(function (hist_ret) {
+                if (hist_ret.contents['dataset'] === undefined) {
+                    console.log('No historical for ' + object.props.name);
+                    var rnd = Math.random() * (5000 - 500) + 500;
+                    setTimeout(function(){ return true;}, rnd);
+                    br = false;
+                    console.log(br);
+                }
+                check = getHistStats(hist_ret.contents['dataset']['data'], data_ind);
+                return check;
+            }).then(function (hist_stats) {
+                getLiveData(url_live, hist_stats, object);
+            }).then(function (){
+                return true;
+            });
+            
+            console.log(br);
+            if (br) { break; }
+        }
     } catch (e) {
         console.log('Error');
         throw new Error('Probably missing historical data');
@@ -193,7 +207,7 @@ export function getData(url_live, url_hist, object, data_ind) {
 function getLiveData(url, hist_stats, object) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     $.getJSON(url, function(data){
-        console.log(data);
+        // console.log(data);
 	    var vals = data.contents.split(",");
 	    var live = (parseFloat(vals[0]));
 	    var chg = vals[1];

@@ -78,6 +78,7 @@ export var raw_data = {
         'Coffee' : ['KC=F', 'yahoolive', 'ICE_KC1', 'quandl_chris', 4]
     },
     'US Rates' : {
+        '3M' : ['^IRX', 'yahoolive', 'YIELD', 'quandl_tsy', 2],
         '5Y' : ['^FVX', 'yahoolive', 'YIELD', 'quandl_tsy', 7],
         '10Y' : ['^TNX', 'yahoolive', 'YIELD', 'quandl_tsy', 9],
         '30Y' : ['^TYX', 'yahoolive', 'YIELD', 'quandl_tsy', 11],
