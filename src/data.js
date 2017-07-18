@@ -74,7 +74,7 @@ export var raw_data = {
         'Wheat' : ['W=F', 'yahoolive', 'CME_W1', 'quandl_chris', 4],
         // 'Soybean' : ['S=F', 'yahoolive', 'CME_S1', 'quandl_chris', 4],
         'Cotton' : ['CT=F', 'yahoolive', 'ICE_CT1', 'quandl_chris', 4],
-        // 'Cocoa' : ['CC=F', 'yahoolive', 'ICE_CC1', 'quandl_chris', 4]
+        // 'Cocoa' : ['CC=F', 'yahoolive', 'ICE_CC1', 'quandl_chris', 4],
         'Coffee' : ['KC=F', 'yahoolive', 'ICE_KC1', 'quandl_chris', 4]
     },
     'US Rates' : {

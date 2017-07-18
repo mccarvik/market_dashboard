@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import BootstrapSlider from 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import './index.css';
-import { ticker_setup, getData, getYahooCrumble } from './dashboard_utils.js';
+import { ticker_setup, requestData, getYahooCrumble } from './dashboard_utils.js';
 import { asset_classes } from './data.js'
 
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
@@ -33,7 +33,11 @@ class Slider extends React.Component {
   componentWillMount() {
     var rnd = Math.random() * (5000 - 500) + 500;
     setTimeout(function(){ return true;}, rnd);
-    getData(this.props.live_url, this.props.hist_url, this, this.props.data_ind);
+    requestData(this.props.live_url, this.props.hist_url, this, this.props.data_ind, function(err, data) {
+      if (err) {
+          console.log(this.props.name + " failed after multiple attempts");
+      }
+    });
     
     // Need to come up with something for retries here
     // var rnd = Math.random() * (5000 - 500) + 500;

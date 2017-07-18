@@ -168,7 +168,7 @@ function whateverOriginIt(url) {
     return 'http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?'
 }
 
-export function getData(url_live, url_hist, object, data_ind) {
+function getData(url_live, url_hist, object, data_ind, callback) {
     /*  This function takes a ticker and will retrieve different data from an api
         that will be used to create a bloomberg style ticker to display in the dashboard
         
@@ -179,33 +179,23 @@ export function getData(url_live, url_hist, object, data_ind) {
     
     // console.log(url_live);
     // console.log(url_hist);
-    
-    
-    // MAY NEED THIS for quandl requests: https://stackoverflow.com/questions/8896327/jquery-wait-delay-1-second-without-executing-code
-    
     var check;
-    try {
-        getHistData(url_hist).then(function (hist_ret) {
-            if (hist_ret.contents['dataset'] === undefined) {
-                console.log('No historical for ' + object.props.name);
-                var rnd = Math.random() * (5000 - 500) + 500;
-                setTimeout(function(){ return true;}, rnd);
-            }
-            check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
-            return check;
-        }).then(function (hist_stats) {
-            getLiveData(url_live, hist_stats, object);
-        }).then(function (){
-            return true;
-        });
-    } catch (e) {
-        console.log('Error');
-        throw new Error('Probably missing historical data');
-    }
+    getHistData(url_hist).then(function (hist_ret) {
+        if (hist_ret.contents['dataset'] === undefined) {
+            console.log('No historical for ' + object.props.name);
+            callback(new Error('Missing historical data for ' + object.props.name), null);
+        }
+        check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
+        return check;
+    }).then(function (hist_stats) {
+        getLiveData(url_live, hist_stats, object);
+    }).then(function (){
+        return true;
+    });
     
-    return true;
+    callback(null, true);
 }
-
+    
 function getLiveData(url, hist_stats, object) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     $.getJSON(url, function(data){
@@ -264,36 +254,35 @@ export function getYahooCrumble() {
 
 
 
-// function requestRetry(url, data, retryTimes, retryDelay, callback) {
-//     var cntr = 0;
+function requestRetry(data, retryTimes, callback) {
+    var cntr = 0;
 
-//     function run() {
-//         // try your async operation
-//         request(..., function(err, data) {
-//             ++cntr;
-//             if (err) {
-//                 if (cntr >= retryTimes) {
-//                     // if it fails too many times, just send the error out
-//                     callback(err);
-//                 } else {
-//                     // try again after a delay
-//                     setTimeout(run, retryDelay);
-//                 }
-//             } else {
-//                 // success, send the data out
-//                 callback(null, data);
-//             }
-//         });
-//     }
-//     // start our first request
-//     run();
-// }
+    function run() {
+        // try your async operation
+        getData(data[0], data[1], data[2], data[3], function(err, new_data) {
+            if (err) {
+                ++cntr;
+                var retryDelay = cntr * Math.random() * (2000 - 500) + 500;
+                console.log(data[2].props.name + " failed on try: " + cntr);
+                if (cntr >= retryTimes) {
+                    // if it fails too many times, just send the error out
+                    callback(err);
+                } else {
+                    // try again after a delay
+                    setTimeout(run, retryDelay);
+                }
+            } else {
+                // success, send the data out
+                callback(null, new_data);
+            }
+        });
+    }
+    // start our first request
+    run();
+}
 
 
-// requestRetry(someUrl, someData, 10, 500, function(err, data) {
-//     if (err) {
-//         // still failed after 10 retries
-//     } else {
-//         // got successful result here
-//     }
-// });
+export function requestData(live_url, hist_url, object, data_ind, callback) {
+    var data = [live_url, hist_url, object, data_ind];
+    requestRetry(data, 3, callback)
+}
