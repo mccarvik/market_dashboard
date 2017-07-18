@@ -252,8 +252,6 @@ export function getYahooCrumble() {
     
 }
 
-
-
 function requestRetry(data, retryTimes, callback) {
     var cntr = 0;
 
