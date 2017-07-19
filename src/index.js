@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import BootstrapSlider from 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import './index.css';
-import { ticker_setup, requestData, getYahooCrumble } from './dashboard_utils.js';
+import { ticker_setup, requestData } from './dashboard_utils.js';
 import { asset_classes } from './data.js'
 
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
@@ -72,8 +72,8 @@ class Slider extends React.Component {
       console.log(this.props.name, this.state);
       var color = 'white';
       var plus = '';
-      var chg = this.state.chg.replace('+','').replace('\"', '').replace('%', '');
-      chg = parseFloat(chg.slice(0, chg.length-1))
+      var chg = this.state.chg.replace('+','').replace('"', '').replace('%', '');
+      chg = parseFloat(chg.slice(0, chg.length-1));
       if (chg < 0) {
         color = 'red';
       } else if (chg > 0) {
@@ -82,7 +82,8 @@ class Slider extends React.Component {
       }
       var mid_style = {
         color : color
-      }
+      };
+      
       
       
       return (
@@ -90,7 +91,7 @@ class Slider extends React.Component {
           <label className='slide-labels-header'>{ this.props.name }</label>
           <div className='slide-labels'>
             <label className='slide-labels min'>{ Math.round(this.state.min * 100) / 100 }</label>
-            <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * 100) / 100 }, { plus }{ chg }%</label>
+            <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * this.props.sig_figs) / this.props.sig_figs }, { plus }{ chg }%</label>
             <label className='slide-labels max'>{ Math.round(this.state.max * 100) / 100 }</label>
           </div>
           <ReactBootstrapSlider
@@ -114,13 +115,14 @@ class SliderGroup extends React.Component {
     };
   }
   
-  renderSlider(t) {
+  renderSlider(t, sf) {
     return (
       <Slider 
         name={ t.name }
         live_url={ t.live_url }
         hist_url={ t.hist_url }
         data_ind={ t.data_ind }
+        sig_figs={ sf }
       />
     );
   }
@@ -129,7 +131,7 @@ class SliderGroup extends React.Component {
     var sliders = [];
     for (var i in this.props.tickers_obj) {
       // console.log(this.props.tickers_obj[i]);
-      sliders.push(this.renderSlider(this.props.tickers_obj[i]));
+      sliders.push(this.renderSlider(this.props.tickers_obj[i], this.props.sig_figs));
     }
     
     return (
@@ -148,11 +150,12 @@ class AssetClass extends React.Component {
     };
   }
   
-  renderSlideGroup(n, t) {
+  renderSlideGroup(n, t, sf) {
     return (
       <SliderGroup
           name={ n }
           tickers_obj={ t }
+          sig_figs={ sf }
         />
     );
   }
@@ -160,10 +163,15 @@ class AssetClass extends React.Component {
   render () {
     var slide_groups = [];
     var ticks = ticker_setup(this.props.asset);
+    var sig_figs = 100;
+    
+    if (this.props.asset === 'Currencies') {
+      sig_figs = 10000;
+    }
     
     for (var ind in ticks) {
       var tg = ticks[ind];
-      slide_groups.push(this.renderSlideGroup(tg.name, tg.tickers));
+      slide_groups.push(this.renderSlideGroup(tg.name, tg.tickers, sig_figs));
     }
     
     return (

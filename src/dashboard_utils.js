@@ -164,9 +164,9 @@ function anyOriginIt(url) {
     return 'http://anyorigin.com/go?url=' + url + '&callback=?';
 }
 
-function whateverOriginIt(url) {
-    return 'http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?'
-}
+// function whateverOriginIt(url) {
+//     return 'http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?'
+// }
 
 function getData(url_live, url_hist, object, data_ind, callback) {
     /*  This function takes a ticker and will retrieve different data from an api
