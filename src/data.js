@@ -54,6 +54,7 @@ export var raw_data = {
         'DAX' : ['^GDAXI', 'yahoolive', 'EUREX_FDAX1', 'quandl_chris', 4],
         'CAC' : ['^FCHI', 'yahoolive', 'LIFFE_MFC1', 'quandl_chris', 4],
         'Nikkei' : ['^N225', 'yahoolive', 'CME_NK1', 'quandl_chris', 4],
+        'Hang Seng' : ['^HSI', 'yahoolive', 'HKEX_HSI1', 'quandl_chris', 4],
         'Canada S&P/TSX' : ['^GSPTSE', 'yahoolive', 'MX_SCF1', 'quandl_chris', 7],
     },
     'Energy' : {
