@@ -218,6 +218,11 @@ class Dashboard extends React.Component {
         </div>
     );
   }
+
+  componentDidMount() {
+    document.title = "Market Dashboard";
+  }
+  
 }
 
 

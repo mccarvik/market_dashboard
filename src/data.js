@@ -23,7 +23,7 @@ export var raw_data = {
         'USD/CHF' : ['CHF=X', 'yahoolive', 'USDCHF', 'quandl_currfx', 1],
         'USD/AUD' : ['AUD=X', 'yahoolive', 'USDAUD', 'quandl_currfx', 1],
         // 'USD/NZD' : ['NZD=X', 'yahoolive', 'USDNZD', 'quandl_currfx', 1],
-        // 'USD/SEK' : ['SEK=X', 'yahoolive', 'USDSEK', 'quandl_currfx', 1],
+        'USD/SEK' : ['SEK=X', 'yahoolive', 'USDSEK', 'quandl_currfx', 1],
         // 'USD/NOK' : ['NOK=X', 'yahoolive', 'USDNOK', 'quandl_currfx', 1],
         // 'USD/DKK' : ['DKK=X', 'yahoolive', 'USDDKK', 'quandl_currfx', 1],
     },
