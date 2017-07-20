@@ -31,7 +31,7 @@ class Slider extends React.Component {
   }
   
   componentWillMount() {
-    var rnd = Math.random() * (5000 - 500) + 500;
+    var rnd = Math.random() * (3000 - 500) + 500;
     setTimeout(function(){ return true;}, rnd);
     requestData(this.props.live_url, this.props.hist_url, this, this.props.data_ind, function(err, data) {
       if (err) {
