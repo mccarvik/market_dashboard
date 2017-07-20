@@ -188,6 +188,7 @@ class Dashboard extends React.Component {
   constructor() {
     super();
     this.state = {
+      refresh : 0
     };
   }
   
@@ -219,8 +220,15 @@ class Dashboard extends React.Component {
     );
   }
 
-  componentDidMount() {
+  componentWillMount() {
     document.title = "Market Dashboard";
+    setTimeout(function() {
+      console.log('here');
+      this.setState({
+        refresh : 1
+      });
+      }, 120000
+    );
   }
   
 }

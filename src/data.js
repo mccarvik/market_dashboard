@@ -9,7 +9,7 @@
 
 export var asset_classes = {
     'Equities' : ['US Equities', 'Global Equities'],
-    'Rates' : ['US Rates', 'Other'],
+    'Rates' : ['US Rates', 'Other', 'Custom'],
     'Commodities' : ['Energy', 'Metals', 'Agriculture', 'Meat / Live Stock'],
     'Currencies' : ['G10 Currencies', 'EM Currencies'],
 };
@@ -94,6 +94,9 @@ export var raw_data = {
         'Dollar IDX' : ['DX-Y.NYB', 'yahoolive', 'ICE_DX1', 'quandl_chris', 4],
         'DJ Real Estate IDX' : ['RX=F', 'yahoolive', 'CME_JR1', 'quandl_chris', 4]
     },
+    'Custom' : {
+        'AAPL' : ['AAPL', 'yahoolive', 'AAPL', 'quandl_eod', 4],
+    }
     
     
 };

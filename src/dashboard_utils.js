@@ -12,7 +12,8 @@ var yahoo_live_root = 'http%3A//download.finance.yahoo.com/d/quotes%3Fs%3D$$$$$%
 var quandl_lbma_root = 'https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_currfx_root = 'https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
-var quandl_chris_root = 'https%3A//www.quandl.com/api/v3/datasets/CHRIS/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^'
+var quandl_chris_root = 'https%3A//www.quandl.com/api/v3/datasets/CHRIS/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
+var quandl_eod_root = 'https%3A//www.quandl.com/api/v3/datasets/EOD/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_tsy_root = 'https://www.quandl.com/api/v3/datasets/USTREASURY/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var yahoo_hist_root = 'https://query1.finance.yahoo.com/v7/finance/download/$$$$$?period1=^^^^^&period2=*****&interval=1d&events=history&crumb=#####';
 
@@ -104,6 +105,8 @@ function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url, da
             url = anyOriginIt(quandl_currfx_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'quandl_chris') {
             url = anyOriginIt(quandl_chris_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
+        } else if (url === 'quandl_eod') {
+            url = anyOriginIt(quandl_eod_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'quandl_tsy') {
             url = anyOriginIt(quandl_tsy_root.replace('$$$$$', this.hist_ticker).replace('*****',API_KEY).replace('^^^^^',startDate));
         } else if (url === 'yahoo_hist') {
