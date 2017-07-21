@@ -188,7 +188,7 @@ class Dashboard extends React.Component {
   constructor() {
     super();
     this.state = {
-      refresh : 0
+      refresh : true
     };
   }
   
@@ -202,10 +202,18 @@ class Dashboard extends React.Component {
     
     
   render () {
+    var that = this;
+    setTimeout(function() {
+      that.setState({
+        refresh : !that.state.refresh
+      });
+      }, 300000
+    );
+    
     var ac = [];
     // getYahooCrumble();
     // return;
-    
+    console.log('------------------ Rendering Dashboard ------------------')
     for (var a in asset_classes) {
       ac.push(this.renderAssetClass(a));
     }
@@ -221,14 +229,8 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
+    // Will update dashboard every 5 minutes
     document.title = "Market Dashboard";
-    setTimeout(function() {
-      console.log('here');
-      this.setState({
-        refresh : 1
-      });
-      }, 120000
-    );
   }
   
 }
