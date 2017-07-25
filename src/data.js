@@ -96,6 +96,8 @@ export var raw_data = {
     },
     'Custom' : {
         'AAPL' : ['AAPL', 'yahoolive', 'AAPL', 'quandl_eod', 4],
+        'MCD' : ['MCD', 'yahoolive', 'MCD', 'quandl_eod', 4],
+        'MSFT' : ['MSFT', 'yahoolive', 'MSFT', 'quandl_eod', 4],
     }
     
     
