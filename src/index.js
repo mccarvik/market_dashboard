@@ -6,6 +6,7 @@ import './index.css';
 import { ticker_setup, requestData } from './dashboard_utils.js';
 import { asset_classes } from './data.js'
 
+// to start : npm start
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
 // quandl db searc : https://www.quandl.com/search
 // for slider // <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>

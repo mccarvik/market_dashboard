@@ -263,7 +263,7 @@ function requestRetry(data, retryTimes, callback) {
         getData(data[0], data[1], data[2], data[3], function(err, new_data) {
             if (err) {
                 ++cntr;
-                var retryDelay = cntr * Math.random() * (2000 - 500) + 500;
+                var retryDelay = cntr * Math.random() * (5000 - 500) + 500;
                 console.log(data[2].props.name + " failed on try: " + cntr);
                 if (cntr >= retryTimes) {
                     // if it fails too many times, just send the error out
