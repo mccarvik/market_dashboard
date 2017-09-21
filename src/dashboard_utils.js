@@ -222,41 +222,6 @@ function getHistData(url) {
     });
 }
 
-export function getYahooCrumble() {
-    var link = anyOriginIt('https://finance.yahoo.com/quote/KO/history?p=KO');
-    console.log(link);
-    
-    $.ajax({
-      url: link,
-      dataType: 'json',
-      xhrFields: { withCredentials: true },
-      crossDomain: true,
-      success: function(data, textStatus, jqXHR){
-          console.log('getting crumb');
-            var crumble_regex = /CrumbStore":{"crumb":"(.*?)"}/;
-            // var cookie_regex = /Set-Cookie: (.*?)/;
-            // console.log(data);
-            yahoo_crumble.crumb = crumble_regex.exec(data.contents)[1];
-            console.log(yahoo_crumble.crumb);
-      },
-    }).then(function() {
-        var url = anyOriginIt('https://query1.finance.yahoo.com/v7/finance/download/^GSPC?period1=1468540800&period2=1500076800&interval=1d&events=history&crumb=$$$$$').replace('$$$$$', yahoo_crumble.crumb);
-        console.log(url)
-        console.log('here');
-        $.ajax({
-            url: url,
-            headers : { 'Access-Control-Allow-Origin' : 'http://market-dashboard-mccarvik.c9users.io:8080/',
-                        'Cookie' : 'B=4ekf4edcmn2ba&b=3&s=o5'},
-            dataType: 'json',
-            xhrFields: { withCredentials: true },
-            crossDomain: true,
-            success: function(data, textStatus, jqXHR){
-                console.log(data);
-            }
-        })
-    });
-    
-}
 
 function requestRetry(data, retryTimes, callback) {
     var cntr = 0;

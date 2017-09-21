@@ -212,8 +212,6 @@ class Dashboard extends React.Component {
     );
     
     var ac = [];
-    // getYahooCrumble();
-    // return;
     console.log('------------------ Rendering Dashboard ------------------')
     for (var a in asset_classes) {
       ac.push(this.renderAssetClass(a));
