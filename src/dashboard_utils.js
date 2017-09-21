@@ -4,6 +4,9 @@ import { raw_data, asset_classes } from './data.js';
 // var http = require('http');
 import $ from 'jquery';
 
+// Might remove caching on retries
+$.ajaxSetup({ cache: false });
+
 var API_KEY = 'J4d6zKiPjebay-zW7T8X';
 var yahoo_crumble = {};
 
@@ -263,7 +266,7 @@ function requestRetry(data, retryTimes, callback) {
         getData(data[0], data[1], data[2], data[3], function(err, new_data) {
             if (err) {
                 ++cntr;
-                var retryDelay = cntr * Math.random() * (5000 - 500) + 500;
+                var retryDelay = cntr * Math.random() * (10000 - 500) + 500;
                 console.log(data[2].props.name + " failed on try: " + cntr);
                 if (cntr >= retryTimes) {
                     // if it fails too many times, just send the error out
@@ -285,5 +288,5 @@ function requestRetry(data, retryTimes, callback) {
 
 export function requestData(live_url, hist_url, object, data_ind, callback) {
     var data = [live_url, hist_url, object, data_ind];
-    requestRetry(data, 3, callback)
+    requestRetry(data, 100, callback)
 }

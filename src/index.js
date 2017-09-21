@@ -208,7 +208,7 @@ class Dashboard extends React.Component {
       that.setState({
         refresh : !that.state.refresh
       });
-      }, 300000
+      }, 1200000
     );
     
     var ac = [];
