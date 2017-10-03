@@ -194,7 +194,7 @@ function getData(url_live, url_hist, object, data_ind, callback) {
         check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
         return check;
     }).then(function (hist_stats) {
-        getLiveData(url_live, hist_stats, object);
+        getLiveData(url_live, hist_stats, object, callback);
     }).then(function (){
         return true;
     });
@@ -202,7 +202,7 @@ function getData(url_live, url_hist, object, data_ind, callback) {
     callback(null, true);
 }
     
-function getLiveData(url, hist_stats, object) {
+function getLiveData(url, hist_stats, object, callback) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error
     $.getJSON(url, function(data){
         // console.log(data);
@@ -211,7 +211,12 @@ function getLiveData(url, hist_stats, object) {
 	    var chg = vals[1];
 	    var hi = vals[2];
 	    var lo = vals[3];
-	    object.handleLiveData(live, chg, hi, lo, hist_stats);
+	    if (isNaN(live)) {
+            console.log('No live data for ' + object.props.name);
+            callback(new Error('Missing live data for ' + object.props.name), null);
+        } else {
+    	    object.handleLiveData(live, chg, hi, lo, hist_stats);
+        }
     });
 }
 
