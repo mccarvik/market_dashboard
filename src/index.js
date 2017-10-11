@@ -203,6 +203,7 @@ class Dashboard extends React.Component {
     
     
   render () {
+    // window.location.reload();   NEED TO USE THIS SOMEHOW
     var that = this;
     setTimeout(function() {
       that.setState({
@@ -228,16 +229,19 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    // Will update dashboard every 5 minutes
     document.title = "Market Dashboard";
   }
   
 }
 
-
 ReactDOM.render(
-  // <Game />,
   <Dashboard />,
   document.getElementById('root')
 );
 
+
+// Something like this
+setInterval(function() {
+  console.log('Refreshing');
+  window.location.reload();
+}, 600000);
