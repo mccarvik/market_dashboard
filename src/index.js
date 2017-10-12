@@ -244,4 +244,4 @@ ReactDOM.render(
 setInterval(function() {
   console.log('Refreshing');
   window.location.reload();
-}, 600000);
+}, 900000);
