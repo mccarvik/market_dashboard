@@ -98,8 +98,8 @@ export var raw_data = {
         'AAPL' : ['AAPL', 'yahoolive', 'AAPL', 'quandl_eod', 4],
         'XOM' : ['XOM', 'yahoolive', 'XOM', 'quandl_eod', 4],
         'JPM' : ['JPM', 'yahoolive', 'JPM', 'quandl_eod', 4],
-        'JNJ' : ['MCD', 'yahoolive', 'JNJ', 'quandl_eod', 4],
-        'MCD' : ['GE', 'yahoolive', 'GE', 'quandl_eod', 4],
+        'JNJ' : ['JNJ', 'yahoolive', 'JNJ', 'quandl_eod', 4],
+        'MCD' : ['MCD', 'yahoolive', 'MCD', 'quandl_eod', 4],
     }
     
     
