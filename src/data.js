@@ -94,6 +94,8 @@ export var raw_data = {
         'Dollar IDX' : ['DX-Y.NYB', 'yahoolive', 'ICE_DX1', 'quandl_chris', 4],
         'DJ Real Estate IDX' : ['RX=F', 'yahoolive', 'CME_JR1', 'quandl_chris', 4]
     },
+    // Using a sample of a premium DB from quandl here, there is a free one but will
+    // need to reconfigure some stuff to format the data
     'Custom' : {
         'AAPL' : ['AAPL', 'yahoolive', 'AAPL', 'quandl_eod', 4],
         'XOM' : ['XOM', 'yahoolive', 'XOM', 'quandl_eod', 4],
