@@ -212,6 +212,7 @@ function getLiveData(url, hist_stats, object, callback) {
 	    var hi = vals[2];
 	    var lo = vals[3];
 	    if (isNaN(live)) {
+	        console.log(data);
             console.log('No live data for ' + object.props.name);
             callback(new Error('Missing live data for ' + object.props.name), null);
         } else {
@@ -232,6 +233,10 @@ function requestRetry(data, retryTimes, callback) {
     var cntr = 0;
 
     function run() {
+        // initial delay - Might need this to prevent quandl api overload issue
+        // var init_delay =  Math.random() * (10000) + 500
+        // setTimeout(function() { return true; }, init_delay);
+        
         // try your async operation
         getData(data[0], data[1], data[2], data[3], function(err, new_data) {
             if (err) {

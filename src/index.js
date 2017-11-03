@@ -5,6 +5,7 @@ import BootstrapSlider from 'react-bootstrap-slider/src/css/bootstrap-slider.min
 import './index.css';
 import { ticker_setup, requestData } from './dashboard_utils.js';
 import { asset_classes } from './data.js'
+import { scrape } from './scraper.js'
 
 // to start : npm start
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
@@ -32,8 +33,6 @@ class Slider extends React.Component {
   }
   
   componentWillMount() {
-    var rnd = Math.random() * (3000 - 500) + 500;
-    setTimeout(function(){ return true;}, rnd);
     requestData(this.props.live_url, this.props.hist_url, this, this.props.data_ind, function(err, data) {
       if (err) {
           console.log(this.props.name + " failed after multiple attempts");
@@ -234,14 +233,18 @@ class Dashboard extends React.Component {
   
 }
 
-ReactDOM.render(
-  <Dashboard />,
-  document.getElementById('root')
-);
+
+scrape();
 
 
-// Something like this
-setInterval(function() {
-  console.log('Refreshing');
-  window.location.reload();
-}, 900000);
+// ReactDOM.render(
+//   <Dashboard />,
+//   document.getElementById('root')
+// );
+
+
+// // Something like this
+// setInterval(function() {
+//   console.log('Refreshing');
+//   window.location.reload();
+// }, 900000);
