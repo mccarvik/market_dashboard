@@ -1,0 +1,8 @@
+{ "asset_classes" :
+    {
+    "Equities" : ["US Equities", "Global Equities"],
+    "Rates" : ["US Rates", "Other", "Custom"],
+    "Commodities" : ["Energy", "Metals", "Agriculture", "Meat / Live Stock"],
+    "Currencies" : ["G10 Currencies", "EM Currencies"],
+    }
+}

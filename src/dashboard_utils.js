@@ -16,6 +16,8 @@ var quandl_lbma_root = 'https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json
 var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_currfx_root = 'https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_chris_root = 'https%3A//www.quandl.com/api/v3/datasets/CHRIS/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
+// Using a sample of a premium DB from quandl here, there is a free one but will
+// need to reconfigure some stuff to format the data
 var quandl_eod_root = 'https%3A//www.quandl.com/api/v3/datasets/EOD/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_tsy_root = 'https://www.quandl.com/api/v3/datasets/USTREASURY/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var yahoo_hist_root = 'https://query1.finance.yahoo.com/v7/finance/download/$$$$$?period1=^^^^^&period2=*****&interval=1d&events=history&crumb=#####';
