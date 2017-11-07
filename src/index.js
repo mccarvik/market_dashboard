@@ -5,7 +5,6 @@ import BootstrapSlider from 'react-bootstrap-slider/src/css/bootstrap-slider.min
 import './index.css';
 import { ticker_setup, requestData } from './dashboard_utils.js';
 import { asset_classes } from './data.js'
-import { scrape } from './scraper.js'
 
 // to start : npm start
 // url : http://market-dashboard-mccarvik.c9users.io:8080/
@@ -21,13 +20,11 @@ class Slider extends React.Component {
     };
   }
   
-  handleLiveData(data_live, chg, hi, lo, data_hist) {
+  handleLiveData(data_live, chg, data_hist) {
     this.setState({
       live : data_live,
-      last : 0,   // dont need anymore
       min : data_hist[1],
       max : data_hist[2],
-      // chg : this.dailyChg(data_live, data_hist[0])
       chg : chg
     });
   }
@@ -39,22 +36,6 @@ class Slider extends React.Component {
       }
     });
     
-    // Need to come up with something for retries here
-    // var rnd = Math.random() * (5000 - 500) + 500;
-    // for (var x=0; x < 3; x++) {
-    //   try {
-    //     getData(this.props.live_url, this.props.hist_url, this, this.props.data_ind);
-    //     setTimeout(function(){ return true;}, rnd);
-    //     if (this.state.min !== undefined) {
-    //       break;
-    //     } else {
-    //       console.log("Trying again for: " + this.props.name);
-    //     }
-    //   } catch (e) {
-    //     console.log("Trying again for: " + this.props.name);
-    //     continue;
-    //   }
-    // }
   }
   
   dailyChg(live, last) {
@@ -233,18 +214,13 @@ class Dashboard extends React.Component {
   
 }
 
-
-scrape();
-
-
-// ReactDOM.render(
-//   <Dashboard />,
-//   document.getElementById('root')
-// );
+ReactDOM.render(
+  <Dashboard />,
+  document.getElementById('root')
+);
 
 
-// // Something like this
-// setInterval(function() {
-//   console.log('Refreshing');
-//   window.location.reload();
-// }, 900000);
+setInterval(function() {
+  console.log('Refreshing');
+  window.location.reload();
+}, 600000);

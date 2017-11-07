@@ -3,6 +3,7 @@ import { raw_data, asset_classes } from './data.js';
 // var request = require('request');
 // var http = require('http');
 import $ from 'jquery';
+import live_data from './live_data.json';
 
 // Might remove caching on retries
 $.ajaxSetup({ cache: false });
@@ -16,6 +17,7 @@ var quandl_lbma_root = 'https%3A//www.quandl.com/api/v3/datasets/LBMA/$$$$$.json
 var quandl_lppm_root = 'https://www.quandl.com/api/v3/datasets/LPPM/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_currfx_root = 'https%3A//www.quandl.com/api/v3/datasets/CURRFX/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
 var quandl_chris_root = 'https%3A//www.quandl.com/api/v3/datasets/CHRIS/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
+
 // Using a sample of a premium DB from quandl here, there is a free one but will
 // need to reconfigure some stuff to format the data
 var quandl_eod_root = 'https%3A//www.quandl.com/api/v3/datasets/EOD/$$$$$.json%3Fapi_key%3D*****%26start_date%3D^^^^^';
@@ -34,10 +36,6 @@ var yahoo_hist_root = 'https://query1.finance.yahoo.com/v7/finance/download/$$$$
 //
 //      Live saving link for CORS workaround: http://anyorigin.com/
 // https://stackoverflow.com/questions/44044263/yahoo-finance-historical-data-downloader-url-is-not-working <---- might need this
-
-
-
-
 
 
 export function ticker_setup(asset) {
@@ -185,8 +183,6 @@ function getData(url_live, url_hist, object, data_ind, callback) {
         @return data (obj) - dictionary with 52 week hi, 52 week low, current px, and %change from yesterday)
     */
     
-    // console.log(url_live);
-    // console.log(url_hist);
     var check;
     getHistData(url_hist).then(function (hist_ret) {
         if (hist_ret.contents['dataset'] === undefined) {
@@ -196,7 +192,8 @@ function getData(url_live, url_hist, object, data_ind, callback) {
         check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
         return check;
     }).then(function (hist_stats) {
-        getLiveData(url_live, hist_stats, object, callback);
+        object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], hist_stats)
+        // getLiveData(url_live, hist_stats, object, callback);
     }).then(function (){
         return true;
     });
@@ -204,24 +201,24 @@ function getData(url_live, url_hist, object, data_ind, callback) {
     callback(null, true);
 }
     
-function getLiveData(url, hist_stats, object, callback) {
-    // NEEEEEEEEED anyorigin.com to work around the CORS error
-    $.getJSON(url, function(data){
-        // console.log(data);
-	    var vals = data.contents.split(",");
-	    var live = (parseFloat(vals[0]));
-	    var chg = vals[1];
-	    var hi = vals[2];
-	    var lo = vals[3];
-	    if (isNaN(live)) {
-	        console.log(data);
-            console.log('No live data for ' + object.props.name);
-            callback(new Error('Missing live data for ' + object.props.name), null);
-        } else {
-    	    object.handleLiveData(live, chg, hi, lo, hist_stats);
-        }
-    });
-}
+// function getLiveData(url, hist_stats, object, callback) {
+//     // NEEEEEEEEED anyorigin.com to work around the CORS error
+//     $.getJSON(url, function(data){
+//         // console.log(data);
+// 	    var vals = data.contents.split(",");
+// 	    var live = (parseFloat(vals[0]));
+// 	    var chg = vals[1];
+// 	    var hi = vals[2];
+// 	    var lo = vals[3];
+// 	    if (isNaN(live)) {
+// 	        console.log(data);
+//             console.log('No live data for ' + object.props.name);
+//             callback(new Error('Missing live data for ' + object.props.name), null);
+//         } else {
+//     	    object.handleLiveData(live, chg, hi, lo, hist_stats);
+//         }
+//     });
+// }
 
 function getHistData(url) {
     // NEEEEEEEEED anyorigin.com to work around the CORS error

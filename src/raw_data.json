@@ -7,44 +7,40 @@
         "USD/CHF" : ["CHF=X", "yahoolive", "USDCHF", "quandl_currfx", 1],
         "USD/AUD" : ["AUD=X", "yahoolive", "USDAUD", "quandl_currfx", 1],
         "USD/NZD" : ["NZD=X", "yahoolive", "USDNZD", "quandl_currfx", 1],
-        "USD/SEK" : ["SEK=X", "yahoolive", "USDSEK", "quandl_currfx", 1],
-        
+        "USD/SEK" : ["SEK=X", "yahoolive", "USDSEK", "quandl_currfx", 1]
     },
     "EM Currencies" : {
         "USD/MXN" : ["USDMXN=X", "yahoolive", "USDMXN", "quandl_currfx", 1],
         "USD/BRL" : ["BRL=X", "yahoolive", "USDBRL", "quandl_currfx", 1],
         "USD/CNY" : ["CNY=X", "yahoolive", "USDCNY", "quandl_currfx", 1],
         "USD/SGD" : ["SGD=X", "yahoolive", "USDSGD", "quandl_currfx", 1],
-        
         "USD/KRW" : ["KRW=X", "yahoolive", "USDKRW", "quandl_currfx", 1],
-        "USD/RUB" : ["RUB=X", "yahoolive", "USDRUB", "quandl_currfx", 1],
-        
+        "USD/RUB" : ["RUB=X", "yahoolive", "USDRUB", "quandl_currfx", 1]
     },
     "US Equities" : {
         "S&P500" : ["ES=F", "yahoolive", "CME_ES1", "quandl_chris", 4],
         "DJIA" : ["YM=F", "yahoolive", "CME_YM1", "quandl_chris", 4],
         "NASDAQ" : ["NQ=F", "yahoolive", "CME_NQ1", "quandl_chris", 4],
-        "RUS2K" : ["TF=F", "yahoolive", "ICE_TF1", "quandl_chris", 4],
+        "RUS2K" : ["TF=F", "yahoolive", "ICE_TF1", "quandl_chris", 4]
     },
     "Global Equities" : {
-        
         "Eurostoxx" : ["^STOXX50E", "yahoolive", "EUREX_FESX1", "quandl_chris", 4],
         "FTSE" : ["^FTSE", "yahoolive", "LIFFE_Z1", "quandl_chris", 4],
         "DAX" : ["^GDAXI", "yahoolive", "EUREX_FDAX1", "quandl_chris", 4],
         "CAC" : ["^FCHI", "yahoolive", "LIFFE_MFC1", "quandl_chris", 4],
         "Nikkei" : ["^N225", "yahoolive", "CME_NK1", "quandl_chris", 4],
         "Hang Seng" : ["^HSI", "yahoolive", "HKEX_HSI1", "quandl_chris", 4],
-        "Canada S&P/TSX" : ["^GSPTSE", "yahoolive", "MX_SCF1", "quandl_chris", 7],
+        "Canada S&P/TSX" : ["^GSPTSE", "yahoolive", "MX_SCF1", "quandl_chris", 7]
     },
     "Energy" : {
         "WTI Crude" : ["CL=F", "yahoolive", "ICE_T1", "quandl_chris", 4],
         "Brent Crude" : ["BZ=F", "yahoolive", "ICE_B1", "quandl_chris", 4],
-        "Natural Gas" : ["NG=F", "yahoolive", "CME_QG1", "quandl_chris", 4],
+        "Natural Gas" : ["NG=F", "yahoolive", "CME_QG1", "quandl_chris", 4]
     },
     "Metals" : {
         "Gold" : ["GC=F", "yahoolive", "CME_GC1", "quandl_chris", 4],
         "Silver" : ["SI=F", "yahoolive", "CME_SI1", "quandl_chris", 4],
-        "Copper" : ["HG=F", "yahoolive", "CME_HG1", "quandl_chris", 4],
+        "Copper" : ["HG=F", "yahoolive", "CME_HG1", "quandl_chris", 4]
     },
     "Agriculture" : {
         "Corn" : ["C=F", "yahoolive", "CME_C1", "quandl_chris", 4],
@@ -54,13 +50,13 @@
     },
     "Meat / Live Stock" : {
         "Live Cattle" : ["LC=F", "yahoolive", "CME_LC1", "quandl_chris", 4],
-        "Lean Hogs" : ["LH=F", "yahoolive", "CME_LN1", "quandl_chris", 4],
+        "Lean Hogs" : ["LH=F", "yahoolive", "CME_LN1", "quandl_chris", 4]
     },
     "US Rates" : {
         "3M" : ["^IRX", "yahoolive", "YIELD", "quandl_tsy", 2],
         "5Y" : ["^FVX", "yahoolive", "YIELD", "quandl_tsy", 7],
         "10Y" : ["^TNX", "yahoolive", "YIELD", "quandl_tsy", 9],
-        "30Y" : ["^TYX", "yahoolive", "YIELD", "quandl_tsy", 11],
+        "30Y" : ["^TYX", "yahoolive", "YIELD", "quandl_tsy", 11]
     },
     "Other" : {
         "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4],
@@ -72,6 +68,6 @@
         "XOM" : ["XOM", "yahoolive", "XOM", "quandl_eod", 4],
         "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4],
         "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4],
-        "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4],
+        "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4]
     }
-}
+}}
