@@ -26,21 +26,25 @@ def get_stock_price(name):
     
     # Need this for diff values if stock is up or down
     try:
-        chg = soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataGreen)").get_text()
+        chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataGreen)").get_text())
     except:
         try:
-            chg = soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataRed)").get_text()
+            chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataRed)").get_text())
         except:
-            chg = soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataBlack)").get_text()
-    
-    chg = reformatChg(chg)
-    val = soup.find("span", class_="Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
+            try:
+                chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataBlack)").get_text())
+            except:
+                chg = 0
+    try:
+        val = soup.find("span", class_="Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
+    except:
+        val = 0
     return (val, chg)
     
 def reformatChg(chg):
     chg = chg.split(" ")[1]
     remove = ['(', ')', '%', '+']
-    chg = float("".join([c for c in chg if c not in remove]))
+    chg = round(float("".join([c for c in chg if c not in remove])), 2)
     return chg
 
 if __name__ == '__main__':

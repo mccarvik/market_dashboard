@@ -3,5 +3,6 @@
 while true;
 do
     python ./src/scrape_live_data.py
-    sleep 5m
+    echo FINISHED WITH SCRAPE
+    sleep 10m
 done

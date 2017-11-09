@@ -52,17 +52,28 @@ class Slider extends React.Component {
       // and then set up the html for the slider
       console.log(this.props.name, this.state);
       var color = 'white';
+      var font_weight = 'normal';
       var plus = '';
       var chg = this.state.chg.replace('+','').replace('"', '').replace('%', '');
-      chg = parseFloat(chg.slice(0, chg.length-1));
+      chg = parseFloat(chg);
       if (chg < 0) {
-        color = 'red';
+        color = 'FireBrick';
       } else if (chg > 0) {
-        color = 'green';
+        color = 'ForestGreen';
         plus = '+';
       }
+      
+      if (chg > 1) {
+        color = 'LimeGreen';
+        font_weight = 900;
+      } else if (Math.abs(chg) > 1) {
+        color = 'Red';
+        font_weight = 900;
+      }
+      
       var mid_style = {
-        color : color
+        'color' : color,
+        'fontWeight' : font_weight
       };
       
       
@@ -219,8 +230,8 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-
+// 1000 = 1 second, so 3600000 = 1hr
 setInterval(function() {
   console.log('Refreshing');
-  window.location.reload();
-}, 600000);
+  window.location.reload(true);
+}, 3600000);
