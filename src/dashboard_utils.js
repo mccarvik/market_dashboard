@@ -55,7 +55,7 @@ export function ticker_setup(asset) {
             var tick_name = tick_key;
             
             var tick_els = tg[tick_key];
-            tickers.push(new IndividualTicker(tick_name, tick_els[0], tick_els[1], tick_els[2], tick_els[3], tick_els[4]));
+            tickers.push(new IndividualTicker(tick_name, tick_els[0], tick_els[1], tick_els[2], tick_els[3], tick_els[4], tick_els[5]));
         }
         var TG = new TickerGroup(tg_name, tickers);
         ticker_groups.push(TG);
@@ -64,11 +64,12 @@ export function ticker_setup(asset) {
     return ticker_groups;
 }
 
-function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url, data_ind) {
+function IndividualTicker(name, live_ticker, live_url, hist_ticker, hist_url, data_ind, thresh) {
     this.name = name;
     this.data_ind = data_ind;
     this.live_ticker = live_ticker;
     this.hist_ticker = hist_ticker;
+    this.threshold = thresh;
     
     this.addZero = function(i) {
         if (parseInt(i, 10) < 10) {
@@ -192,7 +193,7 @@ function getData(url_live, url_hist, object, data_ind, callback) {
         check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
         return check;
     }).then(function (hist_stats) {
-        object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], hist_stats)
+        object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], hist_stats, object.props.thresh)
         // getLiveData(url_live, hist_stats, object, callback);
     }).then(function (){
         return true;

@@ -20,12 +20,13 @@ class Slider extends React.Component {
     };
   }
   
-  handleLiveData(data_live, chg, data_hist) {
+  handleLiveData(data_live, chg, data_hist, thresh) {
     this.setState({
       live : data_live,
       min : data_hist[1],
       max : data_hist[2],
-      chg : chg
+      chg : chg,
+      thresh : thresh
     });
   }
   
@@ -63,10 +64,10 @@ class Slider extends React.Component {
         plus = '+';
       }
       
-      if (chg > 1) {
+      if (chg > this.state.thresh) {
         color = 'LimeGreen';
         font_weight = 900;
-      } else if (Math.abs(chg) > 1) {
+      } else if (Math.abs(chg) > this.state.thresh) {
         color = 'Red';
         font_weight = 900;
       }
@@ -115,6 +116,7 @@ class SliderGroup extends React.Component {
         hist_url={ t.hist_url }
         data_ind={ t.data_ind }
         sig_figs={ sf }
+        thresh={ t.threshold }
       />
     );
   }
