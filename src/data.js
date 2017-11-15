@@ -56,6 +56,7 @@ export var raw_data = {
         "Nikkei" : ["^N225", "yahoolive", "CME_NK1", "quandl_chris", 4, 1],
         "Hang Seng" : ["^HSI", "yahoolive", "HKEX_HSI1", "quandl_chris", 4, 1],
         "Canada S&P/TSX" : ["^GSPTSE", "yahoolive", "MX_SCF1", "quandl_chris", 7, 1],
+        "Ibovespa" : ["^BVSP", "yahoolive", "CME_IBV1", "quandl_chris", 4, 1],
     },
     "Energy" : {
         "WTI Crude" : ["CL=F", "yahoolive", "ICE_T1", "quandl_chris", 4, 2],

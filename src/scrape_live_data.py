@@ -35,11 +35,23 @@ def get_stock_price(name):
                 chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataBlack)").get_text())
             except:
                 chg = 0
+                
     try:
         val = soup.find("span", class_="Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
     except:
         val = 0
-    return (val, chg)
+    
+    try:
+        matches = soup.findAll("td", class_="Ta(end) Fw(b) Lh(14px)")
+        for m in matches:
+            if "FIFTY_TWO_WK_RANGE" in str(m):
+                rng = m.get_text()
+        lo, hi = rng.split(" - ")
+    except Exception as e:
+        hi=0
+        lo=0
+    return (val, chg, lo, hi)
+
     
 def reformatChg(chg):
     chg = chg.split(" ")[1]
@@ -60,9 +72,10 @@ if __name__ == '__main__':
     for t in tickers:
         # need to write this to outfile
         results = get_stock_price(t[1])
-        live_data[t[0]] = (float(str(results[0]).replace(",", "")), str(results[1]))
+        live_data[t[0]] = (float(str(results[0]).replace(",", "")), str(results[1]).replace(",", ""),
+                            float(str(results[2]).replace(",", "")), float(str(results[3]).replace(",", "")))
         # live_data.append([t[0], results[0], results[1]])
-        print(t[0] + "   " + str(results[0]) + " " + str(results[1]))
+        print(t[0] + "   " + str(results[0]) + " " + str(results[1]) + " " + str(results[2]) + " " + str(results[3]))
         
     # with open("live_data.csv", "wb") as f:
     #     writer = csv.writer(f)

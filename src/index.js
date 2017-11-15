@@ -20,11 +20,11 @@ class Slider extends React.Component {
     };
   }
   
-  handleLiveData(data_live, chg, data_hist, thresh) {
+  handleLiveData(data_live, chg, min, max, thresh) {
     this.setState({
       live : data_live,
-      min : data_hist[1],
-      max : data_hist[2],
+      min : min,
+      max : max,
       chg : chg,
       thresh : thresh
     });

@@ -184,6 +184,12 @@ function getData(url_live, url_hist, object, data_ind, callback) {
         @return data (obj) - dictionary with 52 week hi, 52 week low, current px, and %change from yesterday)
     */
     
+    if (live_data[object.props['name']][2] !== 0 && live_data[object.props['name']][3] !== 0) {
+        return object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], 
+                              live_data[object.props['name']][2], live_data[object.props['name']][3], 
+                              object.props.thresh);
+    }
+    
     var check;
     getHistData(url_hist).then(function (hist_ret) {
         if (hist_ret.contents['dataset'] === undefined) {
@@ -193,7 +199,8 @@ function getData(url_live, url_hist, object, data_ind, callback) {
         check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
         return check;
     }).then(function (hist_stats) {
-        object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], hist_stats, object.props.thresh)
+        object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], 
+                            hist_stats[1], hist_stats[2], object.props.thresh)
         // getLiveData(url_live, hist_stats, object, callback);
     }).then(function (){
         return true;
