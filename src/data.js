@@ -12,6 +12,7 @@ export var asset_classes = {
     "Rates" : ["US Rates", "Other", "Custom"],
     "Commodities" : ["Energy", "Metals", "Agriculture", "Meat / Live Stock"],
     "Currencies" : ["G10 Currencies", "EM Currencies"],
+    "Sectors" : ["US Equity Sectors"]
 };
 
 export var raw_data = {
@@ -42,10 +43,10 @@ export var raw_data = {
         // "USD/ARS" : ["ARS=X", "yahoolive", "USDARS", "quandl_currfx", 1, 0.5],
     },
     "US Equities" : {
-        "S&P500" : ["ES=F", "yahoolive", "CME_ES1", "quandl_chris", 4, 1],
-        "DJIA" : ["YM=F", "yahoolive", "CME_YM1", "quandl_chris", 4, 1],
-        "NASDAQ" : ["NQ=F", "yahoolive", "CME_NQ1", "quandl_chris", 4, 1],
-        "RUS2K" : ["TF=F", "yahoolive", "ICE_TF1", "quandl_chris", 4, 1],
+        "S&P500" : ["^GSPC", "yahoolive", "CME_ES1", "quandl_chris", 4, 1],
+        "DJIA" : ["^DJI", "yahoolive", "CME_YM1", "quandl_chris", 4, 1],
+        "NASDAQ" : ["^IXIC", "yahoolive", "CME_NQ1", "quandl_chris", 4, 1],
+        "RUS2K" : ["^RUT", "yahoolive", "ICE_TF1", "quandl_chris", 4, 1],
     },
     "Global Equities" : {
         // "MSCI Emerging" : ["^GSPC", "yahoolive", "EUREX_FMEM1", "quandl_chris", 4, 1],
@@ -55,6 +56,7 @@ export var raw_data = {
         "CAC" : ["^FCHI", "yahoolive", "LIFFE_MFC1", "quandl_chris", 4, 1],
         "Nikkei" : ["^N225", "yahoolive", "CME_NK1", "quandl_chris", 4, 1],
         "Hang Seng" : ["^HSI", "yahoolive", "HKEX_HSI1", "quandl_chris", 4, 1],
+        "Kospi" : ["^KS11", "yahoolive", "", "quandl_chris", 4, 1],
         "Canada S&P/TSX" : ["^GSPTSE", "yahoolive", "MX_SCF1", "quandl_chris", 7, 1],
         "Ibovespa" : ["^BVSP", "yahoolive", "CME_IBV1", "quandl_chris", 4, 1],
     },
@@ -103,7 +105,21 @@ export var raw_data = {
         "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4, 1],
         "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4, 1],
         "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4, 1],
+    },
+    "US Equity Sectors" : {
+        "Technology" : ["^SP500-45", "yahoolive", "", "quandl_eod", 4, 1],
+        "Financials" : ["^SP500-40", "yahoolive", "", "quandl_eod", 4, 1],
+        "Healthcare" : ["^SP500-35", "yahoolive", "", "quandl_eod", 4, 1],
+        "Industrials" : ["^SP500-20", "yahoolive", "", "quandl_eod", 4, 1],
+        "Consumer Discretionary" : ["^SP500-25", "yahoolive", "", "quandl_eod", 4, 1],
+        "Consumer Staples" : ["^SP500-30", "yahoolive", "", "quandl_eod", 4, 1],
+        "Energy" : ["^GSPE", "yahoolive", "", "quandl_eod", 4, 1],
+        "Utilities" : ["^SP500-55", "yahoolive", "", "quandl_eod", 4, 1],
+        "Real Estate" : ["^SP500-60", "yahoolive", "", "quandl_eod", 4, 1],
+        "Materials" : ["^SP500-15", "yahoolive", "", "quandl_eod", 4, 1],
+        "Telecom" : ["^SP500-50", "yahoolive", "", "quandl_eod", 4, 1],
     }
+    
     
     
 };
