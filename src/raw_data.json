@@ -33,6 +33,7 @@
     },
     "Global Equities" : {
         "Eurostoxx" : ["^STOXX50E", "yahoolive", "EUREX_FESX1", "quandl_chris", 4],
+        "MSCI Emerging" : ["EEM", "yahoolive", "", "quandl_chris", 4],
         "FTSE" : ["^FTSE", "yahoolive", "LIFFE_Z1", "quandl_chris", 4],
         "DAX" : ["^GDAXI", "yahoolive", "EUREX_FDAX1", "quandl_chris", 4],
         "CAC" : ["^FCHI", "yahoolive", "LIFFE_MFC1", "quandl_chris", 4],
@@ -84,19 +85,20 @@
         "XOM" : ["XOM", "yahoolive", "XOM", "quandl_eod", 4],
         "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4],
         "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4],
-        "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4]
+        "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4],
+        "KO" : ["KO", "yahoolive", "KO", "quandl_eod", 4]
     },
     "US Equity Sectors" : {
-        "Technology" : ["^SP500-45", "yahoolive", "", "quandl_eod", 4, 1],
-        "Financials" : ["^SP500-40", "yahoolive", "", "quandl_eod", 4, 1],
-        "Healthcare" : ["^SP500-35", "yahoolive", "", "quandl_eod", 4, 1],
-        "Industrials" : ["^SP500-20", "yahoolive", "", "quandl_eod", 4, 1],
-        "Consumer Discretionary" : ["^SP500-25", "yahoolive", "", "quandl_eod", 4, 1],
-        "Consumer Staples" : ["^SP500-30", "yahoolive", "", "quandl_eod", 4, 1],
-        "Energy" : ["^GSPE", "yahoolive", "", "quandl_eod", 4, 1],
-        "Utilities" : ["^SP500-55", "yahoolive", "", "quandl_eod", 4, 1],
-        "Real Estate" : ["^SP500-60", "yahoolive", "", "quandl_eod", 4, 1],
-        "Materials" : ["^SP500-15", "yahoolive", "", "quandl_eod", 4, 1],
-        "Telecom" : ["^SP500-50", "yahoolive", "", "quandl_eod", 4, 1]
+        "Technology" : ["XLK", "yahoolive", "", "quandl_eod", 4, 1],
+        "Financials" : ["XLF", "yahoolive", "", "quandl_eod", 4, 1],
+        "Healthcare" : ["XLV", "yahoolive", "", "quandl_eod", 4, 1],
+        "Industrials" : ["XLI", "yahoolive", "", "quandl_eod", 4, 1],
+        "Consumer Discretionary" : ["XLY", "yahoolive", "", "quandl_eod", 4, 1],
+        "Consumer Staples" : ["XLP", "yahoolive", "", "quandl_eod", 4, 1],
+        "Energy" : ["XLE", "yahoolive", "", "quandl_eod", 4, 1],
+        "Utilities" : ["XLU", "yahoolive", "", "quandl_eod", 4, 1],
+        "Real Estate" : ["XLRE", "yahoolive", "", "quandl_eod", 4, 1],
+        "Materials" : ["XLB", "yahoolive", "", "quandl_eod", 4, 1],
+        "Telecom" : ["XTL", "yahoolive", "", "quandl_eod", 4, 1]
     }
 }}
