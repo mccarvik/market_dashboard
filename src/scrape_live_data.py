@@ -1,7 +1,7 @@
 
 import urllib3 as url
 import certifi as cert
-import time, pdb, json, csv
+import time, pdb, json, csv, datetime, requests
 # import pandas as pd
 from bs4 import BeautifulSoup
 # from pyvirtualdisplay import Display
@@ -9,6 +9,10 @@ from bs4 import BeautifulSoup
 
 
 # Dont think I need selenium but good to know
+
+# quandl_chris_root = 'https%3A//www.quandl.com/api/v3/datasets/CHRIS/{}.json%3Fapi_key%3D{}%26start_date%3D{}';
+quandl_chris_root = 'https://www.quandl.com/api/v3/datasets/CHRIS/{}.json?api_key={}&start_date={}'
+API_KEY = 'J4d6zKiPjebay-zW7T8X'
 
 
 def get_stock_price(name):
@@ -50,7 +54,7 @@ def get_stock_price(name):
     except Exception as e:
         hi=0
         lo=0
-    return (val, chg, lo, hi)
+    return [val, chg, lo, hi]
 
     
 def reformatChg(chg):
@@ -59,6 +63,18 @@ def reformatChg(chg):
     chg = round(float("".join([c for c in chg if c not in remove])), 2)
     return chg
 
+
+def get_quandl_data(ticker, t_ind):
+    start_date = (datetime.datetime.today() - datetime.timedelta(days=365)).date()
+    url = quandl_chris_root.format(ticker, API_KEY, start_date)
+    try:
+        data = json.loads(requests.get(url).content)['dataset']['data']
+        data = [d[t_ind] for d in data if d[t_ind is not None]]
+        return min(data), max(data)
+    except:
+        return 0, 0
+
+
 if __name__ == '__main__':
     with open('/home/ubuntu/workspace/market-dashboard/src/raw_data.json') as data_file:    
         data = json.load(data_file)
@@ -66,12 +82,17 @@ if __name__ == '__main__':
     tickers = []
     
     for k, v in data.items():
-        tickers += [(val[0], val[1][0]) for val in v.items()]
+        tickers += [(val[0], val[1][0], val[1][2], val[1][4]) for val in v.items()]
 
     live_data = {}
     for t in tickers:
         # need to write this to outfile
         results = get_stock_price(t[1])
+        
+        # need this for reaching quandl for tickers that dont have min max off of yahoo
+        if results[2] == 0 and results[3] == 0:
+            results[2], results[3] = get_quandl_data(t[2], t[3])
+            
         live_data[t[0]] = (float(str(results[0]).replace(",", "")), str(results[1]).replace(",", ""),
                             float(str(results[2]).replace(",", "")), float(str(results[3]).replace(",", "")))
         # live_data.append([t[0], results[0], results[1]])

@@ -183,7 +183,13 @@ function getData(url_live, url_hist, object, data_ind, callback) {
         
         @return data (obj) - dictionary with 52 week hi, 52 week low, current px, and %change from yesterday)
     */
-    
+    return object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], 
+                              live_data[object.props['name']][2], live_data[object.props['name']][3], 
+                              object.props.thresh);
+                              
+    ////////////////////////////////////////////////////////////////////
+    // Just dont need this stuff anymore, may need it down the road tho
+    ////////////////////////////////////////////////////////////////////
     if (live_data[object.props['name']][2] !== 0 && live_data[object.props['name']][3] !== 0) {
         return object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], 
                               live_data[object.props['name']][2], live_data[object.props['name']][3], 

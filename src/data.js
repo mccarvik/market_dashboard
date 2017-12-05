@@ -67,8 +67,8 @@ export var raw_data = {
         // "Heating Oil" : ["HO=F", "yahoolive", "ICE_O1", "quandl_chris", 4, 1]
     },
     "Metals" : {
-        "Gold" : ["GC=F", "yahoolive", "CME_GC1", "quandl_chris", 4, 1],
-        "Silver" : ["SI=F", "yahoolive", "CME_SI1", "quandl_chris", 4, 1],
+        "Gold" : ["GC=F", "yahoolive", "CME_GC1", "quandl_chris", 4, 0.75],
+        "Silver" : ["SI=F", "yahoolive", "CME_SI1", "quandl_chris", 4, 0.75],
         "Copper" : ["HG=F", "yahoolive", "CME_HG1", "quandl_chris", 4, 1],
         // "Platinum" : ["PL=F", "yahoolive", "PLAT", "quandl_llpm", 4, 1]
     },
@@ -94,8 +94,9 @@ export var raw_data = {
     },
     "Other" : {
         "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4, 5],
-        "Dollar IDX" : ["DX-Y.NYB", "yahoolive", "ICE_DX1", "quandl_chris", 4, 1],
-        "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4, 1]
+        "Dollar IDX" : ["DX-Y.NYB", "yahoolive", "ICE_DX1", "quandl_chris", 4, 0.5],
+        "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4, 0.5],
+        "Bitcoin" : ["BTCUSD=X", "yahoolive", "", "quandl_chris", 4, 8]
     },
     // Using a sample of a premium DB from quandl here, there is a free one but will
     // need to reconfigure some stuff to format the data
@@ -105,7 +106,6 @@ export var raw_data = {
         "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4, 1],
         "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4, 1],
         "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4, 1],
-        "KO" : ["KO", "yahoolive", "KO", "quandl_eod", 4, 1],
     },
     "US Equity Sectors" : {
         "Technology" : ["XLK", "yahoolive", "", "quandl_eod", 4, 0.75],
