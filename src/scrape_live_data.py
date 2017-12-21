@@ -105,3 +105,5 @@ if __name__ == '__main__':
     # Need to write this to JSON and we'll be golden
     with open('/home/ubuntu/workspace/market-dashboard/src/live_data.json', 'w') as fp:
         json.dump(live_data, fp)
+    
+    print(datetime.datetime.now())

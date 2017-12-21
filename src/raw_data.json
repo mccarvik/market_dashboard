@@ -79,6 +79,7 @@
         "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4],
         "Dollar IDX" : ["DX-Y.NYB", "yahoolive", "ICE_DX1", "quandl_chris", 4],
         "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4],
+        "US Commodity IDX" : ["USCI", "yahoolive", "", "quandl_chris", 4],
         "Bitcoin" : ["BTCUSD=X", "yahoolive", "", "quandl_chris", 4]
     },
     "Custom" : {
