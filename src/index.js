@@ -78,25 +78,45 @@ class Slider extends React.Component {
       };
       
       
-      
-      return (
-        <div>
-          <label className='slide-labels-header'>{ this.props.name }</label>
-          <div className='slide-labels'>
-            <label className='slide-labels min'>{ Math.round(this.state.min * 100) / 100 }</label>
-            <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * this.props.sig_figs) / this.props.sig_figs }, { plus }{ chg }%</label>
-            <label className='slide-labels max'>{ Math.round(this.state.max * 100) / 100 }</label>
+      if (this.props.group_name != 'G10 Currencies') {
+        return (
+          <div>
+            <label className='slide-labels-header'>{ this.props.name }</label>
+            <div className='slide-labels'>
+              <label className='slide-labels min'>{ Math.round(this.state.min * 100) / 100 }</label>
+              <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * this.props.sig_figs) / this.props.sig_figs }, { plus }{ chg }%</label>
+              <label className='slide-labels max'>{ Math.round(this.state.max * 100) / 100 }</label>
+            </div>
+            <ReactBootstrapSlider
+              value={ this.state.live }
+              max={ this.state.max }
+              min={ this.state.min }
+              step={ 0.01 }
+              disabled="disabled"
+              orientation="horizontal"
+               />
           </div>
-          <ReactBootstrapSlider
-            value={ this.state.live }
-            max={ this.state.max }
-            min={ this.state.min }
-            step={ 0.01 }
-            disabled="disabled"
-            orientation="horizontal"
-             />
-        </div>
-      );
+        );
+      } else {
+        return (
+          <div>
+            <label className='slide-labels-header'>{ this.props.name }</label>
+            <div className='slide-labels'>
+              <label className='slide-labels min'>{ Math.round(this.state.min * 100) / 100 }</label>
+              <label className='slide-labels mid' style={mid_style} >{ Math.round(this.state.live * this.props.sig_figs) / this.props.sig_figs } ({Math.round(( 1 / this.state.live) * this.props.sig_figs) / this.props.sig_figs }), { plus }{ chg }%</label>
+              <label className='slide-labels max'>{ Math.round(this.state.max * 100) / 100 }</label>
+            </div>
+            <ReactBootstrapSlider
+              value={ this.state.live }
+              max={ this.state.max }
+              min={ this.state.min }
+              step={ 0.01 }
+              disabled="disabled"
+              orientation="horizontal"
+               />
+          </div>
+        );
+      }
     }
   }
 }
@@ -108,10 +128,11 @@ class SliderGroup extends React.Component {
     };
   }
   
-  renderSlider(t, sf) {
+  renderSlider(t, sf, gn) {
     return (
       <Slider 
         name={ t.name }
+        group_name={ gn }
         live_url={ t.live_url }
         hist_url={ t.hist_url }
         data_ind={ t.data_ind }
@@ -125,7 +146,7 @@ class SliderGroup extends React.Component {
     var sliders = [];
     for (var i in this.props.tickers_obj) {
       // console.log(this.props.tickers_obj[i]);
-      sliders.push(this.renderSlider(this.props.tickers_obj[i], this.props.sig_figs));
+      sliders.push(this.renderSlider(this.props.tickers_obj[i], this.props.sig_figs, this.props.name));
     }
     
     return (

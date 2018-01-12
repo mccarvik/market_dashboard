@@ -23,17 +23,17 @@ label.slide-labels {
 
 label.min {
   text-align : left;
-  width : 50px;
+  width : 35px;
 }
 
 label.mid {
   text-align : center;
-  width : 110px;
+  width : 150px;
 }
 
 label.max {
   text-align: right;
-  width: 50px;
+  width: 30px;
 }
 
 label.slide-labels-header {
@@ -58,6 +58,8 @@ div.sliderGroup {
   border-color : grey;
   width : 215px;
   padding : 5px;
+  padding-left:10px;
+  padding-right:10px;
 }
 
 div.asset_class {
