@@ -1,5 +1,5 @@
 body {
-  font : 14px "Century Gothic", Futura, sans-serif;
+  font : 11px "Century Gothic", Futura, sans-serif;
   margin : 20px;
   background-color : #232b2b;
   color : #e5e500;
@@ -52,7 +52,7 @@ label.sliderGroup {
 }
 
 div.sliderGroup {
-  margin-bottom : 10px;
+  margin-bottom : 5px;
   border-style : solid;
   border-width : 3px;
   border-color : grey;
