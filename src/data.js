@@ -54,11 +54,11 @@ export var raw_data = {
         "UK - FTSE" : ["^FTSE", "yahoolive", "LIFFE_Z1", "quandl_chris", 4, 0.75],
         "Germany - DAX" : ["^GDAXI", "yahoolive", "EUREX_FDAX1", "quandl_chris", 4, 0.75],
         "France - CAC" : ["^FCHI", "yahoolive", "LIFFE_MFC1", "quandl_chris", 4, 0.75],
+        "Canada - S&P/TSX" : ["^GSPTSE", "yahoolive", "MX_SCF1", "quandl_chris", 7, 0.75],
         "Japan - Nikkei" : ["^N225", "yahoolive", "CME_NK1", "quandl_chris", 4, 0.75],
         "Hong Kong - Hang Seng" : ["^HSI", "yahoolive", "HKEX_HSI1", "quandl_chris", 4, 0.75],
         "South Korea - Kospi" : ["^KS11", "yahoolive", "", "quandl_chris", 4, 0.75],
         "Australia - ASX" : ["^AXJO", "yahoolive", "", "quandl_chris", 4, 0.75],
-        "Canada - S&P/TSX" : ["^GSPTSE", "yahoolive", "MX_SCF1", "quandl_chris", 7, 0.75],
         "Brazil - Ibovespa" : ["^BVSP", "yahoolive", "CME_IBV1", "quandl_chris", 4, 0.75],
     },
     "Energy" : {
