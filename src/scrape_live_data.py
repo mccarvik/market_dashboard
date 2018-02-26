@@ -92,11 +92,15 @@ if __name__ == '__main__':
         # need this for reaching quandl for tickers that dont have min max off of yahoo
         if results[2] == 0 and results[3] == 0:
             results[2], results[3] = get_quandl_data(t[2], t[3])
-            
-        live_data[t[0]] = (float(str(results[0]).replace(",", "")), str(results[1]).replace(",", ""),
+        try:
+            live_data[t[0]] = (float(str(results[0]).replace(",", "")), str(results[1]).replace(",", ""),
                             float(str(results[2]).replace(",", "")), float(str(results[3]).replace(",", "")))
-        # live_data.append([t[0], results[0], results[1]])
-        print(t[0] + "   " + str(results[0]) + " " + str(results[1]) + " " + str(results[2]) + " " + str(results[3]))
+            # live_data.append([t[0], results[0], results[1]])
+            print(t[0] + "   " + str(results[0]) + " " + str(results[1]) + " " + str(results[2]) + " " + str(results[3]))
+        except Exception as e:
+            print("Bug with " + str(t[0]) + ": " + str(e))
+            live_data[t[0]] = ('0','0','0','0')
+            continue
         
     # with open("live_data.csv", "wb") as f:
     #     writer = csv.writer(f)
