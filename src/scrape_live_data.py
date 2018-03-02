@@ -1,7 +1,7 @@
-
 import urllib3 as url
 import certifi as cert
-import time, pdb, json, csv, datetime, requests
+import time, pdb, json, csv, datetime, requests, signal
+from functools import wraps
 # import pandas as pd
 from bs4 import BeautifulSoup
 # from pyvirtualdisplay import Display
@@ -15,6 +15,24 @@ quandl_chris_root = 'https://www.quandl.com/api/v3/datasets/CHRIS/{}.json?api_ke
 API_KEY = 'J4d6zKiPjebay-zW7T8X'
 
 
+def timeout(seconds=10, error_message="API CALL TOOK TOO LONG"):
+    def decorator(func):
+        def _handle_timeout(signum, frame):
+            raise Exception(error_message)
+
+        def wrapper(*args, **kwargs):
+            signal.signal(signal.SIGALRM, _handle_timeout)
+            signal.alarm(seconds)
+            try:
+                result = func(*args, **kwargs)
+            finally:
+                signal.alarm(0)
+            return result
+        return wraps(func)(wrapper)
+    return decorator
+
+
+@timeout(30)
 def get_stock_price(name):
     # display = Display(visible=0, size=(1024, 768))
     # display.start()
@@ -64,6 +82,7 @@ def reformatChg(chg):
     return chg
 
 
+@timeout(30)
 def get_quandl_data(ticker, t_ind):
     start_date = (datetime.datetime.today() - datetime.timedelta(days=365)).date()
     url = quandl_chris_root.format(ticker, API_KEY, start_date)
@@ -86,12 +105,18 @@ if __name__ == '__main__':
 
     live_data = {}
     for t in tickers:
-        # need to write this to outfile
-        results = get_stock_price(t[1])
-        
-        # need this for reaching quandl for tickers that dont have min max off of yahoo
-        if results[2] == 0 and results[3] == 0:
-            results[2], results[3] = get_quandl_data(t[2], t[3])
+        try:
+            # need to write this to outfile
+            results = get_stock_price(t[1])
+            
+            # need this for reaching quandl for tickers that dont have min max off of yahoo
+            if results[2] == 0 and results[3] == 0:
+                results[2], results[3] = get_quandl_data(t[2], t[3])
+        except Exception as e:
+            print("Bug with " + str(t[0]) + ": " + str(e))
+            live_data[t[0]] = ('0','0','0','0')
+            continue
+            
         try:
             live_data[t[0]] = (float(str(results[0]).replace(",", "")), str(results[1]).replace(",", ""),
                             float(str(results[2]).replace(",", "")), float(str(results[3]).replace(",", "")))
