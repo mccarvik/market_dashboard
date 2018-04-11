@@ -87,10 +87,15 @@ def get_quandl_data(ticker, t_ind):
     start_date = (datetime.datetime.today() - datetime.timedelta(days=365)).date()
     url = quandl_chris_root.format(ticker, API_KEY, start_date)
     try:
-        data = json.loads(requests.get(url).content)['dataset']['data']
+        data = json.loads(requests.get(url).content)
+        data = data['dataset']['data']
         data = [d[t_ind] for d in data if d[t_ind is not None]]
         return min(data), max(data)
-    except:
+    except Exception as e:
+        if 'quandl_error' in data.keys():
+            print("Hitting API to much: " + str(t[0]))
+        else:
+            print("Bug retrieving Quandl data: " + str(t[0]))
         return 0, 0
 
 
