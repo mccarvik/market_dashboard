@@ -93,7 +93,7 @@ def get_quandl_data(ticker, t_ind):
         return min(data), max(data)
     except Exception as e:
         if 'quandl_error' in data.keys():
-            print("Hitting API to much: " + str(t[0]))
+            print("Hitting API too much: " + str(t[0]))
         else:
             print("Bug retrieving Quandl data: " + str(t[0]))
         return 0, 0
