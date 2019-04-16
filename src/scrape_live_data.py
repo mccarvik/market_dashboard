@@ -1,5 +1,6 @@
 import urllib3 as url
 import certifi as cert
+import requests
 import time, pdb, json, csv, datetime, requests, signal
 from functools import wraps
 # import pandas as pd
@@ -32,7 +33,7 @@ def timeout(seconds=10, error_message="API CALL TOOK TOO LONG"):
     return decorator
 
 
-@timeout(30)
+@timeout(900)
 def get_stock_price(name):
     # display = Display(visible=0, size=(1024, 768))
     # display.start()
@@ -41,7 +42,7 @@ def get_stock_price(name):
     # browser.get('https://finance.yahoo.com/quote/' + name + '?p=' + name)
     # time.sleep(5) # sleep for 5 seconds
     # content = browser.find_element_by_id('content') # Error on this line
-    
+    # resp = requests.get('https://finance.yahoo.com/quote/' + name + '?p=' + name)
     http = url.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=cert.where())
     html_doc = http.request('GET', 'https://finance.yahoo.com/quote/' + name + '?p=' + name)
     soup = BeautifulSoup(html_doc.data, 'html.parser')
@@ -64,7 +65,7 @@ def get_stock_price(name):
         val = 0
     
     try:
-        matches = soup.findAll("td", class_="Ta(end) Fw(b) Lh(14px)")
+        matches = soup.findAll("td", class_="Ta(end) Fw(600) Lh(14px)")
         for m in matches:
             if "FIFTY_TWO_WK_RANGE" in str(m):
                 rng = m.get_text()

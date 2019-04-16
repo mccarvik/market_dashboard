@@ -72,3 +72,8 @@ div.asset_class {
 div.tooltip-inner {
   display : none; 
 }
+
+h1 {
+  padding-bottom : 0px;
+  padding-top : 0px;
+}
