@@ -77,3 +77,8 @@ h1 {
   padding-bottom : 0px;
   padding-top : 0px;
 }
+
+div.slide {
+  padding-bottom : 4px;
+  padding-top : 6px;
+}

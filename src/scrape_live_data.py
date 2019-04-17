@@ -33,7 +33,7 @@ def timeout(seconds=10, error_message="API CALL TOOK TOO LONG"):
     return decorator
 
 
-@timeout(900)
+@timeout(60)
 def get_stock_price(name):
     # display = Display(visible=0, size=(1024, 768))
     # display.start()
@@ -101,7 +101,7 @@ def get_quandl_data(ticker, t_ind):
 
 
 if __name__ == '__main__':
-    with open('/home/ubuntu/workspace/market-dashboard/src/raw_data.json') as data_file:    
+    with open('/home/ubuntu/environment/market_dashboard/src/raw_data.json') as data_file:    
         data = json.load(data_file)
         data = data['raw_data']
     tickers = []
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     #     writer.writerows(live_data)
     
     # Need to write this to JSON and we'll be golden
-    with open('/home/ubuntu/workspace/market-dashboard/src/live_data.json', 'w') as fp:
+    with open('/home/ubuntu/environment/market_dashboard/src/live_data.json', 'w') as fp:
         json.dump(live_data, fp)
     
     print(datetime.datetime.now())

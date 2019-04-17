@@ -131,41 +131,41 @@ function TickerGroup (name, tickers) {
     this.tickers = tickers;
 }
 
-function getHistStats(data, data_ind=1, ticker) {
-    var max; var min;
+// function getHistStats(data, data_ind=1, ticker) {
+//     var max; var min;
     
-    // HUGE hack for bad data with real estate
-    if (ticker === 'DJ Real Estate IDX') {
-        for (var a=0; a < data.length; a++) {
-            if (data[a][data_ind] > 2800) {
-                data[a][data_ind] = undefined;
-                console.log(a + " removed");
-            }
-        }
-    }
+//     // HUGE hack for bad data with real estate
+//     if (ticker === 'DJ Real Estate IDX') {
+//         for (var a=0; a < data.length; a++) {
+//             if (data[a][data_ind] > 2800) {
+//                 data[a][data_ind] = undefined;
+//                 console.log(a + " removed");
+//             }
+//         }
+//     }
     
     
-    for (var i=0; i < data.length; i++) {
-        if (min === undefined || data[i][data_ind] < min) {
-            if (data[i][data_ind] !== null && data[i][data_ind] !== 0) {
-                min = data[i][data_ind];
-            }
-        }
+//     for (var i=0; i < data.length; i++) {
+//         if (min === undefined || data[i][data_ind] < min) {
+//             if (data[i][data_ind] !== null && data[i][data_ind] !== 0) {
+//                 min = data[i][data_ind];
+//             }
+//         }
         
-        if (max === undefined || data[i][data_ind] > max) {
-            max = data[i][data_ind];
-        }
-    }
+//         if (max === undefined || data[i][data_ind] > max) {
+//             max = data[i][data_ind];
+//         }
+//     }
     
-    var last;
-    for (var x=0; x<10; x++) {    
-        last = data[x][data_ind];
-        if (last !== null) {
-            break;
-        }
-    }
-    return [last, min, max];
-}
+//     var last;
+//     for (var x=0; x<10; x++) {    
+//         last = data[x][data_ind];
+//         if (last !== null) {
+//             break;
+//         }
+//     }
+//     return [last, min, max];
+// }
 
 function anyOriginIt(url) {
     return 'http://anyorigin.com/go?url=' + url + '&callback=?';
@@ -190,57 +190,31 @@ function getData(url_live, url_hist, object, data_ind, callback) {
     ////////////////////////////////////////////////////////////////////
     // Just dont need this stuff anymore, may need it down the road tho
     ////////////////////////////////////////////////////////////////////
-    if (live_data[object.props['name']][2] !== 0 && live_data[object.props['name']][3] !== 0) {
-        return object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], 
-                              live_data[object.props['name']][2], live_data[object.props['name']][3], 
-                              object.props.thresh);
-    }
+    // if (live_data[object.props['name']][2] !== 0 && live_data[object.props['name']][3] !== 0) {
+    //     return object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], 
+    //                           live_data[object.props['name']][2], live_data[object.props['name']][3], 
+    //                           object.props.thresh);
+    // }
     
-    var check;
-    getHistData(url_hist).then(function (hist_ret) {
-        if (hist_ret.contents['dataset'] === undefined) {
-            console.log('No historical for ' + object.props.name);
-            callback(new Error('Missing historical data for ' + object.props.name), null);
-        }
-        check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
-        return check;
-    }).then(function (hist_stats) {
-        object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], 
-                            hist_stats[1], hist_stats[2], object.props.thresh)
-        // getLiveData(url_live, hist_stats, object, callback);
-    }).then(function (){
-        return true;
-    });
+    // var check;
+    // getHistData(url_hist).then(function (hist_ret) {
+    //     if (hist_ret.contents['dataset'] === undefined) {
+    //         console.log('No historical for ' + object.props.name);
+    //         callback(new Error('Missing historical data for ' + object.props.name), null);
+    //     }
+    //     check = getHistStats(hist_ret.contents['dataset']['data'], data_ind, object.props.name);
+    //     return check;
+    // }).then(function (hist_stats) {
+    //     object.handleLiveData(live_data[object.props['name']][0], live_data[object.props['name']][1], 
+    //                         hist_stats[1], hist_stats[2], object.props.thresh)
+    //     // getLiveData(url_live, hist_stats, object, callback);
+    // }).then(function (){
+    //     return true;
+    // });
     
-    callback(null, true);
+    // callback(null, true);
 }
     
-// function getLiveData(url, hist_stats, object, callback) {
-//     // NEEEEEEEEED anyorigin.com to work around the CORS error
-//     $.getJSON(url, function(data){
-//         // console.log(data);
-// 	    var vals = data.contents.split(",");
-// 	    var live = (parseFloat(vals[0]));
-// 	    var chg = vals[1];
-// 	    var hi = vals[2];
-// 	    var lo = vals[3];
-// 	    if (isNaN(live)) {
-// 	        console.log(data);
-//             console.log('No live data for ' + object.props.name);
-//             callback(new Error('Missing live data for ' + object.props.name), null);
-//         } else {
-//     	    object.handleLiveData(live, chg, hi, lo, hist_stats);
-//         }
-//     });
-// }
-
-function getHistData(url) {
-    // NEEEEEEEEED anyorigin.com to work around the CORS error
-    return $.getJSON(url, function(data){
-        // console.log(data);
-    });
-}
-
 
 function requestRetry(data, retryTimes, callback) {
     var cntr = 0;
