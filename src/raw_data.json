@@ -42,7 +42,8 @@
         "Hong Kong - Hang Seng" : ["^HSI", "yahoolive", "HKEX_HSI1", "quandl_chris", 4],
         "South Korea - Kospi" : ["^KS11", "yahoolive", "", "quandl_chris", 4],
         "Australia - ASX" : ["^AXJO", "yahoolive", "", "quandl_chris", 4],
-        "China - Shanghai Composite" : ["000001.SS", "yahoolive", "", "quandl_chris", 4]
+        "China - Shanghai Composite" : ["000001.SS", "yahoolive", "", "quandl_chris", 4],
+        "Brazil - Ibovespa" : ["^BVSP", "yahoolive", "CME_IBV1", "quandl_chris", 4]
     },
     "Energy" : {
         "WTI Crude" : ["CL=F", "yahoolive", "ICE_T1", "quandl_chris", 4],
@@ -89,7 +90,8 @@
         "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4],
         "FB" : ["FB", "yahoolive", "FB", "quandl_eod", 4],
         "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4],
-        "KO" : ["KO", "yahoolive", "KO", "quandl_eod", 4]
+        "KO" : ["KO", "yahoolive", "KO", "quandl_eod", 4],
+        "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4]
     },
     "US Equity Sectors" : {
         "Technology" : ["XLK", "yahoolive", "", "quandl_eod", 4, 1],
