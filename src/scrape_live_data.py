@@ -101,7 +101,7 @@ def get_quandl_data(ticker, t_ind):
 
 
 if __name__ == '__main__':
-    with open('/home/ubuntu/environment/market_dashboard/src/raw_data.json') as data_file:    
+    with open('/home/ec2-user/environment/market_dashboard/src/raw_data.json') as data_file:    
         data = json.load(data_file)
         data = data['raw_data']
     tickers = []
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     #     writer.writerows(live_data)
     
     # Need to write this to JSON and we'll be golden
-    with open('/home/ubuntu/environment/market_dashboard/src/live_data.json', 'w') as fp:
+    with open('/home/ec2-user/environment/market_dashboard/src/live_data.json', 'w') as fp:
         json.dump(live_data, fp)
     
     print(datetime.datetime.now())
