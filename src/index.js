@@ -9,6 +9,7 @@ import { asset_classes } from './data.js'
 // to start : npm start
 // old url : http://market-dashboard-mccarvik.c9users.io:8080/
 // new url: https://a684d9315bd649a2839d3a9906b8731c.vfs.cloud9.us-east-1.amazonaws.com/
+// or http://localhost:8080/
 // quandl db searc : https://www.quandl.com/search
 // for slider // <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
 

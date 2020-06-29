@@ -1,0 +1,4 @@
+- to run data grab
+    in ./market_dashboard run cmd "./run_live_grab.sh"
+- to run web app
+    in ./market_dashboard run cmd "npm start"
