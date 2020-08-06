@@ -89,17 +89,17 @@ export var raw_data = {
         // "Feeder Cattle" : ["FC=F", "yahoolive", "CME_FC1", "quandl_chris", 4, 1],
     },
     "US Rates" : {
-        "3M" : ["^IRX", "yahoolive", "YIELD", "quandl_tsy", 2, 1],
-        "5Y" : ["^FVX", "yahoolive", "YIELD", "quandl_tsy", 7, 1],
-        "10Y" : ["^TNX", "yahoolive", "YIELD", "quandl_tsy", 9, 1],
-        "30Y" : ["^TYX", "yahoolive", "YIELD", "quandl_tsy", 11, 1],
+        "3M" : ["^IRX", "yahoolive", "YIELD", "quandl_tsy", 2, 2],
+        "5Y" : ["^FVX", "yahoolive", "YIELD", "quandl_tsy", 7, 2],
+        "10Y" : ["^TNX", "yahoolive", "YIELD", "quandl_tsy", 9, 2],
+        "30Y" : ["^TYX", "yahoolive", "YIELD", "quandl_tsy", 11, 2],
     },
     "Other" : {
         "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4, 5],
         "Dollar IDX" : ["DX-Y.NYB", "yahoolive", "ICE_DX1", "quandl_chris", 4, 0.5],
         "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4, 0.5],
         "US Commodity IDX" : ["USCI", "yahoolive", "", "quandl_chris", 4, 0.5],
-        "Bitcoin" : ["BTCUSD=X", "yahoolive", "", "quandl_chris", 4, 8]
+        "Bitcoin" : ["BTCUSD=X", "yahoolive", "", "quandl_chris", 4, 5]
     },
     // Using a sample of a premium DB from quandl here, there is a free one but will
     // need to reconfigure some stuff to format the data

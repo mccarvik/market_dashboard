@@ -53,24 +53,26 @@ class CustSlider extends React.Component {
       // want to set up css to change to green or red depneding on the value
       // and then set up the html for the slider
       console.log(this.props.name, this.state);
-      var color = 'white';
+      var color = 'gainsboro';
       var font_weight = 'normal';
       var plus = '';
       var chg = this.state.chg.replace('+','').replace('"', '').replace('%', '');
       chg = parseFloat(chg);
-      if (chg < 0) {
-        color = 'FireBrick';
-      } else if (chg > 0) {
-        color = 'ForestGreen';
-        plus = '+';
-      }
-      
-      if (chg > this.state.thresh) {
-        color = 'LimeGreen';
-        font_weight = 900;
-      } else if (Math.abs(chg) > this.state.thresh) {
-        color = 'Red';
-        font_weight = 900;
+      if (Math.abs(chg) > (this.state.thresh/3)) {
+        if (chg < 0) {
+          color = 'FireBrick';
+        } else if (chg > 0) {
+          color = 'ForestGreen';
+          plus = '+';
+        }
+        
+        if (chg > this.state.thresh) {
+          color = 'LimeGreen';
+          font_weight = 900;
+        } else if (Math.abs(chg) > this.state.thresh) {
+          color = 'Red';
+          font_weight = 900;
+        }
       }
       
       var mid_style = {
