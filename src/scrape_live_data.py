@@ -138,6 +138,8 @@ if __name__ == '__main__':
     #     writer.writerows(live_data)
     
     # Need to write this to JSON and we'll be golden
+    drawdown = (live_data['S&P500'][-1] - live_data['S&P500'][0]) / live_data['S&P500'][0] * 100
+    print("Drawdown:  {}".format(round(drawdown, 3)))
     with open('/home/ec2-user/environment/market_dashboard/src/live_data.json', 'w') as fp:
         json.dump(live_data, fp)
     

@@ -109,8 +109,10 @@ export var raw_data = {
         "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4, 1],
         "FB" : ["FB", "yahoolive", "FB", "quandl_eod", 4, 1],
         "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4, 1],
-        "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4, 1],
-        "KO" : ["KO", "yahoolive", "KO", "quandl_eod", 4, 1]
+        // "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4, 1],
+        // "KO" : ["KO", "yahoolive", "KO", "quandl_eod", 4, 1],
+        "WMT" : ["WMT", "yahoolive", "WMT", "quandl_eod", 4, 1],
+        "AMZN" : ["AMZN", "yahoolive", "AMZN", "quandl_eod", 4, 1]       
     },
     "US Equity Sectors" : {
         "Technology" : ["XLK", "yahoolive", "", "quandl_eod", 4, 0.75],
