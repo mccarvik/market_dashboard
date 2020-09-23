@@ -95,7 +95,7 @@ export var raw_data = {
         "30Y" : ["^TYX", "yahoolive", "YIELD", "quandl_tsy", 11, 2],
     },
     "Other" : {
-        "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4, 5],
+        "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4, 8],
         "Dollar IDX" : ["DX-Y.NYB", "yahoolive", "ICE_DX1", "quandl_chris", 4, 0.5],
         "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4, 0.5],
         "US Commodity IDX" : ["USCI", "yahoolive", "", "quandl_chris", 4, 0.5],
