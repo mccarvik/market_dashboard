@@ -45,18 +45,21 @@ def get_stock_price(name):
     # resp = requests.get('https://finance.yahoo.com/quote/' + name + '?p=' + name)
     http = url.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=cert.where())
     html_doc = http.request('GET', 'https://finance.yahoo.com/quote/' + name + '?p=' + name)
+    if name == 'DJIA':
+        pdb.set_trace()
+        print()
     soup = BeautifulSoup(html_doc.data, 'html.parser')
     
     # Need this for diff values if stock is up or down
     try:
         chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)").get_text())
-    except:
+    except Exception as e:
         try:
             chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)").get_text())
-        except:
+        except Exception as e2:
             try:
                 chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataBlack)").get_text())
-            except:
+            except Exception as e3:
                 chg = 0
                 
     try:

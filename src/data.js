@@ -12,7 +12,7 @@ export var asset_classes = {
     "Rates" : ["US Rates", "Other", "Custom"],
     "Commodities" : ["Energy", "Metals", "Agriculture", "Meat / Live Stock"],
     "Currencies" : ["G10 Currencies", "EM Currencies"],
-    "Sectors" : ["US Equity Sectors"]
+    "Sectors" : ["US Equity Sectors", "Portfolio"]
 };
 
 export var raw_data = {
@@ -34,11 +34,11 @@ export var raw_data = {
         "USD/CNY" : ["CNY=X", "yahoolive", "USDCNY", "quandl_currfx", 1, 0.5],
         "USD/SGD" : ["SGD=X", "yahoolive", "USDSGD", "quandl_currfx", 1, 0.5],
         "USD/HKD" : ["HKD=X", "yahoolive", "USDHKD", "quandl_currfx", 1, 0.5],
-        // "USD/ZAR" : ["USDZAR=X", "yahoolive", "USDZAR", "quandl_currfx", 1, 0.5],
+        "USD/ZAR" : ["USDZAR=X", "yahoolive", "USDZAR", "quandl_currfx", 1, 0.5],
         "USD/TRY" : ["TRY=X", "yahoolive", "USDTRY", "quandl_currfx", 1, 0.5],
         "USD/KRW" : ["KRW=X", "yahoolive", "USDKRW", "quandl_currfx", 1, 0.5],
         "USD/RUB" : ["RUB=X", "yahoolive", "USDRUB", "quandl_currfx", 1, 0.5],
-        // "USD/INR" : ["INR=X", "yahoolive", "USDINR", "quandl_currfx", 1, 0.5],
+        "USD/INR" : ["INR=X", "yahoolive", "USDINR", "quandl_currfx", 1, 0.5],
         // "USD/IDR" : ["IDR=X", "yahoolive", "USDIDR", "quandl_currfx", 1, 0.5],
         // "USD/ARS" : ["ARS=X", "yahoolive", "USDARS", "quandl_currfx", 1, 0.5],
     },
@@ -49,8 +49,8 @@ export var raw_data = {
         "RUS2K" : ["^RUT", "yahoolive", "ICE_TF1", "quandl_chris", 4, 0.75],
     },
     "Global Equities" : {
-        "Eurostoxx" : ["^STOXX50E", "yahoolive", "EUREX_FESX1", "quandl_chris", 4, 0.75],
         "MSCI Emerging" : ["EEM", "yahoolive", "", "quandl_chris", 4, 0.75],
+        "Eurostoxx" : ["^STOXX50E", "yahoolive", "EUREX_FESX1", "quandl_chris", 4, 0.75],
         "UK - FTSE" : ["^FTSE", "yahoolive", "LIFFE_Z1", "quandl_chris", 4, 0.75],
         "Germany - DAX" : ["^GDAXI", "yahoolive", "EUREX_FDAX1", "quandl_chris", 4, 0.75],
         "France - CAC" : ["^FCHI", "yahoolive", "LIFFE_MFC1", "quandl_chris", 4, 0.75],
@@ -61,6 +61,9 @@ export var raw_data = {
         "South Korea - Kospi" : ["^KS11", "yahoolive", "", "quandl_chris", 4, 0.75],
         "Australia - ASX" : ["^AXJO", "yahoolive", "", "quandl_chris", 4, 0.75],
         "Brazil - Ibovespa" : ["^BVSP", "yahoolive", "CME_IBV1", "quandl_chris", 4, 0.75],
+        "Russia - MOEX" : ["IMOEX.ME", "yahoolive", "", "quandl_chris", 4, 0.75],
+        "Belgium - Bel 20" : ["^BFX", "yahoolive", "", "quandl_chris", 4, 0.75],
+        "India - BSE SENSEX" : ["^BSESN", "yahoolive", "", "quandl_chris", 4, 0.75]
     },
     "Energy" : {
         "WTI Crude" : ["CL=F", "yahoolive", "ICE_T1", "quandl_chris", 4, 2],
@@ -72,7 +75,7 @@ export var raw_data = {
         "Gold" : ["GC=F", "yahoolive", "CME_GC1", "quandl_chris", 4, 0.75],
         "Silver" : ["SI=F", "yahoolive", "CME_SI1", "quandl_chris", 4, 0.75],
         "Copper" : ["HG=F", "yahoolive", "CME_HG1", "quandl_chris", 4, 1],
-        // "Platinum" : ["PL=F", "yahoolive", "PLAT", "quandl_llpm", 4, 1]
+        "Platinum" : ["PL=F", "yahoolive", "CME_PL1", "quandl_chris", 4, 1]
     },
     "Agriculture" : {
         "Corn" : ["C=F", "yahoolive", "CME_C1", "quandl_chris", 4, 1],
@@ -105,14 +108,14 @@ export var raw_data = {
     // need to reconfigure some stuff to format the data
     "Custom" : {
         "AAPL" : ["AAPL", "yahoolive", "AAPL", "quandl_eod", 4, 1],
-        "XOM" : ["XOM", "yahoolive", "XOM", "quandl_eod", 4, 1],
-        "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4, 1],
+        "AMZN" : ["AMZN", "yahoolive", "AMZN", "quandl_eod", 4, 1],
+        "MSFT" : ["MSFT", "yahoolive", "MSFT", "quandl_eod", 4, 1],
+        "GOOG" : ["GOOG", "yahoolive", "GOOG", "quandl_eod", 4, 1],
         "FB" : ["FB", "yahoolive", "FB", "quandl_eod", 4, 1],
+        "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4, 1],
+        "XOM" : ["XOM", "yahoolive", "XOM", "quandl_eod", 4, 1],
         "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4, 1],
-        // "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4, 1],
-        // "KO" : ["KO", "yahoolive", "KO", "quandl_eod", 4, 1],
         "WMT" : ["WMT", "yahoolive", "WMT", "quandl_eod", 4, 1],
-        "AMZN" : ["AMZN", "yahoolive", "AMZN", "quandl_eod", 4, 1]       
     },
     "US Equity Sectors" : {
         "Technology" : ["XLK", "yahoolive", "", "quandl_eod", 4, 0.75],
@@ -126,7 +129,17 @@ export var raw_data = {
         "Real Estate" : ["XLRE", "yahoolive", "", "quandl_eod", 4, 0.75],
         "Materials" : ["XLB", "yahoolive", "", "quandl_eod", 4, 0.75],
         "Telecom" : ["XTL", "yahoolive", "", "quandl_eod", 4, 0.75],
+    },
+    "Portfolio" : {
+        "SPY" : ["SPY", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VB" : ["VB", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VWO" : ["VWO", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VPL" : ["VPL", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VGK" : ["VGK", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VRP" : ["VRP", "yahoolive", "", "quandl_eod", 4, 0.5],
     }
+    
     
     
     

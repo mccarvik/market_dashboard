@@ -43,7 +43,10 @@
         "South Korea - Kospi" : ["^KS11", "yahoolive", "", "quandl_chris", 4],
         "Australia - ASX" : ["^AXJO", "yahoolive", "", "quandl_chris", 4],
         "China - Shanghai Composite" : ["000001.SS", "yahoolive", "", "quandl_chris", 4],
-        "Brazil - Ibovespa" : ["^BVSP", "yahoolive", "CME_IBV1", "quandl_chris", 4]
+        "Brazil - Ibovespa" : ["^BVSP", "yahoolive", "CME_IBV1", "quandl_chris", 4],
+        "Russia - MOEX" : ["IMOEX.ME", "yahoolive", "", "quandl_chris", 4],
+        "Belgium - Bel 20" : ["^BFX", "yahoolive", "", "quandl_chris", 4],
+        "India - BSE SENSEX" : ["^BSESN", "yahoolive", "", "quandl_chris", 4]
     },
     "Energy" : {
         "WTI Crude" : ["CL=F", "yahoolive", "ICE_T1", "quandl_chris", 4],
@@ -55,7 +58,7 @@
         "Gold" : ["GC=F", "yahoolive", "CME_GC1", "quandl_chris", 4],
         "Silver" : ["SI=F", "yahoolive", "CME_SI1", "quandl_chris", 4],
         "Copper" : ["HG=F", "yahoolive", "CME_HG1", "quandl_chris", 4],
-        "Platinum" : ["PL=F", "yahoolive", "PLAT", "quandl_llpm", 4]
+        "Platinum" : ["PL=F", "yahoolive", "CME_PL1", "quandl_chris", 4]
     },
     "Agriculture" : {
         "Corn" : ["C=F", "yahoolive", "CME_C1", "quandl_chris", 4],
@@ -64,7 +67,8 @@
         "Coffee" : ["KC=F", "yahoolive", "ICE_KC1", "quandl_chris", 4],
         "Soybean" : ["S=F", "yahoolive", "CME_S1", "quandl_chris", 4],
         "Cotton" : ["CT=F", "yahoolive", "ICE_CT1", "quandl_chris", 4],
-        "Cocoa" : ["CC=F", "yahoolive", "ICE_CC1", "quandl_chris", 4]
+        "Cocoa" : ["CC=F", "yahoolive", "ICE_CC1", "quandl_chris", 4],
+        "Lumber" : ["LB=F", "yahoolive", "CME_LB1", "quandl_chris", 4]
     },
     "Meat / Live Stock" : {
         "Live Cattle" : ["LC=F", "yahoolive", "CME_LC1", "quandl_chris", 4],
@@ -85,15 +89,15 @@
         "Bitcoin" : ["BTCUSD=X", "yahoolive", "", "quandl_chris", 4]
     },
     "Custom" : {
-        "AAPL" : ["AAPL", "yahoolive", "AAPL", "quandl_eod", 4],
-        "XOM" : ["XOM", "yahoolive", "XOM", "quandl_eod", 4],
-        "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4],
-        "FB" : ["FB", "yahoolive", "FB", "quandl_eod", 4],
-        "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4],
-        "KO" : ["KO", "yahoolive", "KO", "quandl_eod", 4],
-        "JNJ" : ["JNJ", "yahoolive", "JNJ", "quandl_eod", 4],
-        "WMT" : ["WMT", "yahoolive", "WMT", "quandl_eod", 4],
-        "AMZN" : ["AMZN", "yahoolive", "AMZN", "quandl_eod", 4]
+        "AAPL" : ["AAPL", "yahoolive", "AAPL", "quandl_eod", 4, 1],
+        "AMZN" : ["AMZN", "yahoolive", "AMZN", "quandl_eod", 4, 1],
+        "MSFT" : ["MSFT", "yahoolive", "MSFT", "quandl_eod", 4, 1],
+        "GOOG" : ["GOOG", "yahoolive", "GOOG", "quandl_eod", 4, 1],
+        "FB" : ["FB", "yahoolive", "FB", "quandl_eod", 4, 1],
+        "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4, 1],
+        "XOM" : ["XOM", "yahoolive", "XOM", "quandl_eod", 4, 1],
+        "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4, 1],
+        "WMT" : ["WMT", "yahoolive", "WMT", "quandl_eod", 4, 1]
     },
     "US Equity Sectors" : {
         "Technology" : ["XLK", "yahoolive", "", "quandl_eod", 4, 1],
@@ -107,5 +111,14 @@
         "Real Estate" : ["XLRE", "yahoolive", "", "quandl_eod", 4, 1],
         "Materials" : ["XLB", "yahoolive", "", "quandl_eod", 4, 1],
         "Telecom" : ["XTL", "yahoolive", "", "quandl_eod", 4, 1]
+    },
+    "Portfolio" : {
+        "SPY" : ["SPY", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VB" : ["VB", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VWO" : ["VWO", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VPL" : ["VPL", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VGK" : ["VGK", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "VRP" : ["VRP", "yahoolive", "", "quandl_eod", 4, 0.5]
     }
 }}

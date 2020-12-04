@@ -4,5 +4,6 @@
     "Rates" : ["US Rates", "Other", "Custom"],
     "Commodities" : ["Energy", "Metals", "Agriculture", "Meat / Live Stock"],
     "Currencies" : ["G10 Currencies", "EM Currencies"],
+    "Other Equity" : ["US Equity Sectors", "Portfolio"]
     }
 }
