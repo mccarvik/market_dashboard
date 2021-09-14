@@ -101,7 +101,7 @@ export var raw_data = {
         "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4, 8],
         "Dollar IDX" : ["DX-Y.NYB", "yahoolive", "ICE_DX1", "quandl_chris", 4, 0.5],
         "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4, 0.5],
-        "US Commodity IDX" : ["USCI", "yahoolive", "", "quandl_chris", 4, 0.5],
+        "S&P GSCI Commodity IDX" : ["GD=F", "yahoolive", "", "quandl_chris", 4, 0.5],
         "Bitcoin" : ["BTCUSD=X", "yahoolive", "", "quandl_chris", 4, 5]
     },
     // Using a sample of a premium DB from quandl here, there is a free one but will

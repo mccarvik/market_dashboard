@@ -6,11 +6,31 @@ from functools import wraps
 # import pandas as pd
 from bs4 import BeautifulSoup
 
+headers = {
+    'User-Agent': 'Mozilla/5.0',
+    'From': 'youremail@domain.com'  # This is another valid field
+}
+
+# SELENUM TOO SLOW
+# import selenium
+
+# Next attempt:
+# https://stackoverflow.com/questions/50661184/how-to-delay-python-requests-library-to-allow-data-to-populate
+
 # for currency data
 # https://blog.quandl.com/api-for-currency-data
 # quandl_chris_root = 'https%3A//www.quandl.com/api/v3/datasets/CHRIS/{}.json%3Fapi_key%3D{}%26start_date%3D{}';
 quandl_chris_root = 'https://www.quandl.com/api/v3/datasets/CHRIS/{}.json?api_key={}&start_date={}'
 API_KEY = 'J4d6zKiPjebay-zW7T8X'
+
+
+CHG_IND = {
+    9: [".INX:INDEXSP"],
+    7: [".DJI:INDEXDJX"],
+    10: ['.IXIC:INDEXNASDAQ'],
+    12: ['RUT:INDEXRUSSELL'],
+    28: ['SPY:NYSEARCA']
+}
 
 
 def timeout(seconds=10, error_message="API CALL TOOK TOO LONG"):
@@ -34,24 +54,52 @@ def get_goog_stock_price(name):
     """
     Get the google price of a stock ticker from google finance
     """
-    resp = requests.get('https://www.google.com/finance/quote/' + name)
+    url_name = 'https://www.google.com/finance/quote/' + name
+    # resp = urllib.request.urlopen(url_name)
+    resp = requests.get(url_name)
     resp_doc = resp.content
+    # resp_doc = resp.read()
     soup = BeautifulSoup(resp_doc, 'html.parser')
 
-    # Need this for diff values if stock is up or down
     try:
-        chg = reformatGoogChg(soup.find_all("span", class_="Z63m9d yoGq8")[1].get_text())
+        anchor = "AF_initDataCallback"
+        s2 = soup.find_all("script")
+        ind = 18
+        if name in s2[ind].string:
+            ind = 18
+        else:
+            ind = 19
+        js = s2[ind].string[s2[ind].string.find(anchor):][len(anchor)+1:]
+        jss = js[js.find("data")+5:js.find("sideChannel")-2] 
+        # data = json.loads(js[js.find("data")+5:][:501])
+        data = json.loads(jss)
+        chg = data[0][0][0][5][2]
+        chg = reformatGoogChg(str(chg))
+        # print(data[0][0][0][5][2])
     except Exception as e:
+        # print(e)
         chg = None
-        # <span class="Z63m9d yoGq8">
+
+    # Need this for diff values if stock is up or down
+    # try:
+    #     # chg = getGoogChg(soup)
+    #     ind = configureInd(name)
+    #     chg = None
+    #     # chg = soup.find_all("div", jsname="m6NnIb")[-1].get_text()
+    #     # chg= reformatGoogChg(soup.find_all("div", class_="JwB6zf")[-1].get_text())
+    # except Exception as e:
+    #     chg = None
+    #     # <span class="Z63m9d yoGq8">
+    
     try:
+        # pdb.set_trace()
         val = soup.find("div", class_="YMlKec fxKbKc").get_text()
         val = val.replace("$","")
     except:
         val = None
 
     try:
-        if name in ['XTL:NYSEARCA', "VWO:NYSEARCA", "VPL:NYSEARCA", "VRP:NYSEARCA"]:
+        if name in ['XTL:NYSEARCA', "VWO:NYSEARCA", "VPL:NYSEARCA", "VRP:NYSEARCA", "DJUSRE:INDEXDJX", "SPGSCI:INDEXSP"]:
             rng = soup.findAll("div", class_="P6K39c")[2].get_text().replace("$","")
         else:    
             matches = soup.findAll("div", class_="P6K39c")[0]
@@ -64,6 +112,49 @@ def get_goog_stock_price(name):
 
     return [val, chg, lo, hi]
 
+
+def getGoogChg(soup):
+    """
+    Need specific method in goog to find change
+    """
+    # <div class="T4LgNb"
+     # soup.find_all("div", jsname="m6NnIb")[29].findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().get("class")
+    # <div class="ivZBbf ygUjEc" jsname="QRHKC">After Hours:<span class="tO2BSb eExqnb DnMTof"><span class=""><div jsname="ip75Cb" class="kf1m0"><div class="YMlKec fxKbKc">$452.64</div></div></span></span><span class="tO2BSb dHlEwc">(<span class="JwB6zf Ez2Ioe P2Luy DnMTof" style="font-size: 14px;"><span class="V53LMb" aria-hidden="true"><svg focusable="false" width="14" height="14" viewBox="0 0 24 24" class=" NMm5M"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"></path></svg></span>0.091%</span>)</span><span class="tO2BSb"><span class="P2Luy Ez2Ioe DnMTof">+0.41</span></span></div>
+    # <div jsaction="oFr1Ad:uxt3if" jscontroller="NdbN0c" jsname="AS5Pxb" data-mid="/g/1q62h0x10" data-entity-type="0" data-is-crypto="false" data-exchange="NYSEARCA" data-currency-code="USD" data-last-price="452.23" data-last-normal-market-timestamp="1630362600" data-tz-offset="-14400000"><div class="rPF6Lc" jsname="OYCkv"><div class="ln0Gqe"><div jsname="LXPcOd" class=""><div class="AHmHk"><span class=""><div jsname="ip75Cb" class="kf1m0"><div class="YMlKec fxKbKc">$452.23</div></div></span></div></div><div jsname="CGyduf" class=""><div class="enJeMd"><span jsname="Fe7oBc" class="NydbP nZQ6l tnNmPe" data-disable-percent-toggle="true" data-multiplier-for-price-change="1" aria-label="Up by 0.44%"><div jsname="m6NnIb" class="zWwE1"><div class="JwB6zf" style="font-size: 16px;"><span class="V53LMb" aria-hidden="true"><svg focusable="false" width="16" height="16" viewBox="0 0 24 24" class=" NMm5M"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"></path></svg></span>0.44%</div></div></span><span class="P2Luy Ez2Ioe ZYVHBb">+1.98 Today</span></div></div></div></div><div class="ivZBbf ygUjEc" jsname="QRHKC">After Hours:<span class="tO2BSb eExqnb DnMTof"><span class=""><div jsname="ip75Cb" class="kf1m0"><div class="YMlKec fxKbKc">$452.64</div></div></span></span><span class="tO2BSb dHlEwc">(<span class="JwB6zf Ez2Ioe P2Luy DnMTof" style="font-size: 14px;"><span class="V53LMb" aria-hidden="true"><svg focusable="false" width="14" height="14" viewBox="0 0 24 24" class=" NMm5M"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"></path></svg></span>0.091%</span>)</span><span class="tO2BSb"><span class="P2Luy Ez2Ioe DnMTof">+0.41</span></span></div><div class="ygUjEc" jsname="Vebqub">Closed: Aug 30, 7:00:00 PM UTC-4 · USD · NYSEARCA · <a href="https://www.google.com/intl/en_US/googlefinance/disclaimer/"><span class="koPoYd">Disclaimer</span></a></div></div>
+    # <div jsname="m6NnIb" class="zWwE1"><div class="JwB6zf" style="font-size: 16px;"><span class="V53LMb" aria-hidden="true"><svg focusable="false" width="16" height="16" viewBox="0 0 24 24" class=" NMm5M"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"></path></svg></span>0.43%</div></div>
+    # <div jsname="CGyduf" class=""><div class="enJeMd"><span jsname="Fe7oBc" class="NydbP nZQ6l tnNmPe" data-disable-percent-toggle="true" data-multiplier-for-price-change="1" aria-label="Up by 0.43%"><div jsname="m6NnIb" class="zWwE1"><div class="JwB6zf" style="font-size: 16px;"><span class="V53LMb" aria-hidden="true"><svg focusable="false" width="16" height="16" viewBox="0 0 24 24" class=" NMm5M"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"></path></svg></span>0.43%</div></div></span><span class="P2Luy Ez2Ioe ZYVHBb">+19.42 Today</span></div></div>
+    # <div class="ln0Gqe"><div jsname="LXPcOd" class=""><div class="AHmHk"><span class=""><div jsname="ip75Cb" class="kf1m0"><div class="YMlKec fxKbKc">4,528.79</div></div></span></div></div><div jsname="CGyduf" class=""><div class="enJeMd"><span jsname="Fe7oBc" class="NydbP nZQ6l tnNmPe" data-disable-percent-toggle="true" data-multiplier-for-price-change="1" aria-label="Up by 0.43%"><div jsname="m6NnIb" class="zWwE1"><div class="JwB6zf" style="font-size: 16px;"><span class="V53LMb" aria-hidden="true"><svg focusable="false" width="16" height="16" viewBox="0 0 24 24" class=" NMm5M"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"></path></svg></span>0.43%</div></div></span><span class="P2Luy Ez2Ioe ZYVHBb">+19.42 Today</span></div></div></div>
+    # parents = soup.find_all("div", class_="rPF6Lc")[0].findChildren("div", recursive=True)
+    # for SPY:
+    for el in soup.find_all("div", jsname="m6NnIb"):
+        print(el.get_text())
+    return
+    elem = soup.find_all("div", jsname="m6NnIb")[29].findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent()
+    elem2 = soup.find_all("div", jsname="m6NnIb")[28].findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent()
+    # elem = soup.find_all("div", jsname="m6NnIb")[29]
+    # pdb.set_trace()
+    for par in parents:
+        found = None
+        childs = par.findChildren("span")
+        for chld in childs:
+            if chld.get("class")[0] == 'V53LMb':
+                val = reformatGoogChg(par.getText())
+                if "M20" in str(chld.findChildren("svg")[0].path):
+                    found = "up"
+                elif "M4" in str(chld.findChildren("svg")[0].path):
+                    found = "down"
+                    val = val * -1
+                return val
+    return None
+
+
+def configureInd(name):
+    for k,v in CHG_IND.items():
+        if name in v:
+            return k
+    return 2
+
+
 # @timeout(60)
 def get_stock_price(name, results):
     # browser.get('https://finance.yahoo.com/quote/' + name + '?p=' + name)
@@ -71,9 +162,23 @@ def get_stock_price(name, results):
     # content = browser.find_element_by_id('content') # Error on this line
     # resp = requests.get('https://finance.yahoo.com/quote/' + name + '?p=' + name)
     http = url.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=cert.where())
-    html_doc = http.request('GET', 'https://finance.yahoo.com/quote/' + name + '?p=' + name)
+    html_doc = http.request('GET', 'https://finance.yahoo.com/quote/' + name + '?p=' + name+ "?guccounter=1")
     soup = BeautifulSoup(html_doc.data, 'html.parser')
     
+    # anchor = "root.App.main = "
+    # s2 = soup.find_all("script")
+    # for sss in s2:
+    #     if sss.string is not None and anchor in sss.string:
+    #         # Extract the JSON.
+    #         j2 = sss.string[sss.string.find(anchor)+len(anchor):]
+    #         j2 = j2[:-12]
+    #         # Load the JSON.
+    #         pdb.set_trace()
+    #         data = json.loads(j2)
+    #         chg = data['context']['dispatcher']['stores']['StreamDataStore']['quoteData'][name]['regularMarketChangePercent']['raw']
+    #         print(name + "   " + str(chg))
+    #         # break
+
     # Need this for diff values if stock is up or down
     if results[1] is None:
         try:
@@ -122,7 +227,7 @@ def reformatChg(chg):
 
 
 def reformatGoogChg(chg):
-    remove = ['(', ')', '%', '+', "-"]
+    remove = ['(', ')', '%', '+']
     chg = round(float("".join([c for c in chg if c not in remove])), 2)
     return chg
 
@@ -131,16 +236,20 @@ def reformatGoogChg(chg):
 def get_quandl_data(ticker, t_ind, t_src):
     start_date = (datetime.datetime.today() - datetime.timedelta(days=365)).date()
     if t_src == 'quandl_boefx':
-        root = "http://www.quandl.com/api/v3/datasets/BOE/{}?api_key={}&start_date={}"
+        root = "http://data.nasdaq.com/api/v3/datasets/BOE/{}?api_key={}&start_date={}"
+        # root = "http://www.quandl.com/api/v3/datasets/BOE/{}?api_key={}&start_date={}"
         url = root.format(ticker, API_KEY, start_date)
     elif t_src == 'quandl_fredfx':
-        root = "http://www.quandl.com/api/v3/datasets/FRED/{}?api_key={}&start_date={}"
+        root = "http://data.nasdaq.com/api/v3/datasets/FRED/{}?api_key={}&start_date={}"
+        # root = "http://www.quandl.com/api/v3/datasets/FRED/{}?api_key={}&start_date={}"
         url = root.format(ticker, API_KEY, start_date)
     else:
         root = quandl_chris_root
         url = root.format(ticker, API_KEY, start_date)
+    
     try:
-        data = json.loads(requests.get(url).content)
+        content = requests.get(url, headers=headers).content
+        data = json.loads(content)
         data = data['dataset']['data']
         data = [d[t_ind] for d in data if d[t_ind is not None]]
         data = [d for d in data if d is not None]
@@ -150,10 +259,7 @@ def get_quandl_data(ticker, t_ind, t_src):
         return min(data), max(data)
     except Exception as e:
         print(e)
-        if 'quandl_error' in data.keys():
-            print("Hitting API too much: " + str(t[0]))
-        else:
-            print("Bug retrieving Quandl data: " + str(t[0]))
+        print("Bug retrieving Quandl data: " + str(t[0]))
         return 0, 0
 
 
@@ -164,6 +270,8 @@ if __name__ == '__main__':
     tickers = []
     
     for k, v in data.items():
+        # if k != "Other":
+        #     continue
         tickers += [(val[0], val[1][0], val[1][2], val[1][4], val[1][5], val[1][3]) for val in v.items()]
         
     live_data = {}
@@ -173,15 +281,21 @@ if __name__ == '__main__':
             # results = get_goog_stock_price(t[4])
 
             # need to write this to outfile
-            results = get_stock_price(t[1], results)
+            yahoo = False
+            for res in results:
+                if res is None:
+                    yahoo = True
+                    break
+            if yahoo:
+                results = get_stock_price(t[1], results)
             
             # need this for reaching quandl for tickers that dont have min max off of yahoo or google
             if results[2] is None and results[3] is None:
                 results[2], results[3] = get_quandl_data(t[2], t[3], t[5])
         except Exception as e:
-            print("Bug with " + str(t[0]) + ": " + str(e))
-            live_data[t[0]] = ('0','0','0','0')
-            continue
+            print("1. Bug with " + str(t[0]) + ": " + str(e))
+            # live_data[t[0]] = ('0','0','0','0')
+            # continue
             
         try:
             live_data[t[0]] = (float(str(results[0]).replace(",", "")), str(results[1]).replace(",", ""),
@@ -189,7 +303,7 @@ if __name__ == '__main__':
             # live_data.append([t[0], results[0], results[1]])
             print(t[0] + "   " + str(results[0]) + " " + str(results[1]) + " " + str(results[2]) + " " + str(results[3]))
         except Exception as e:
-            print("Bug with " + str(t[0]) + ": " + str(e))
+            print("2. Bug with " + str(t[0]) + ": " + str(e))
             live_data[t[0]] = ('0','0','0','0')
             continue
         

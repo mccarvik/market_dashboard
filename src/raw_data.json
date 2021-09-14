@@ -7,7 +7,7 @@
         "USD/CHF" : ["CHF=X", "yahoolive", "XUDLSFD", "quandl_boefx", 1, "USD-CHF"],
         "USD/AUD" : ["AUD=X", "yahoolive", "XUDLADD", "quandl_boefx", 1, "USD-AUD"],
         "USD/NZD" : ["NZD=X", "yahoolive", "XUDLNDD", "quandl_boefx", 1, "USD-NZD"],
-        "USD/SEK" : ["SEK=X", "yahoolive", "XUDLSKD", "quandl_boefx", 1, "USD-SEK"],
+        "USD/SEK" : ["USDSEK=X", "yahoolive", "XUDLSKD", "quandl_boefx", 1, "USD-SEK"],
         "USD/NOK" : ["NOK=X", "yahoolive", "XUDLNKD", "quandl_boefx", 1, "USD-NOK"],
         "USD/DKK" : ["DKK=X", "yahoolive", "XUDLDKD", "quandl_boefx", 1, "USD-DKK"]
     },
@@ -84,8 +84,8 @@
     "Other" : {
         "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4, "VIX:INDEXCBOE"],
         "Dollar IDX" : ["DX-Y.NYB", "yahoolive", "ICE_DX1", "quandl_chris", 4, ""],
-        "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4, ""],
-        "US Commodity IDX" : ["USCI", "yahoolive", "", "quandl_chris", 4, ""],
+        "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4, "DJUSRE:INDEXDJX"],
+        "S&P GSCI Commodity IDX" : ["GD=F", "yahoolive", "", "quandl_chris", 4, "SPGSCI:INDEXSP"],
         "Bitcoin" : ["BTC-USD", "yahoolive", "", "quandl_chris", 4, "BTC-USD"]
     },
     "Custom" : {
