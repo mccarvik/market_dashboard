@@ -11,11 +11,11 @@ headers = {
     'From': 'youremail@domain.com'  # This is another valid field
 }
 
+RANGE_TICKS = ['XTL:NYSEARCA', "VWO:NYSEARCA", "VPL:NYSEARCA", "VRP:NYSEARCA", 
+               "DJUSRE:INDEXDJX", "SPGSCI:INDEXSP", "EFS:INDEXCBOE", "VGK:NYSEARCA"]
+
 # SELENUM TOO SLOW
 # import selenium
-
-# Next attempt:
-# https://stackoverflow.com/questions/50661184/how-to-delay-python-requests-library-to-allow-data-to-populate
 
 # for currency data
 # https://blog.quandl.com/api-for-currency-data
@@ -99,7 +99,7 @@ def get_goog_stock_price(name):
         val = None
 
     try:
-        if name in ['XTL:NYSEARCA', "VWO:NYSEARCA", "VPL:NYSEARCA", "VRP:NYSEARCA", "DJUSRE:INDEXDJX", "SPGSCI:INDEXSP"]:
+        if name in RANGE_TICKS:
             rng = soup.findAll("div", class_="P6K39c")[2].get_text().replace("$","")
         else:    
             matches = soup.findAll("div", class_="P6K39c")[0]
@@ -270,7 +270,7 @@ if __name__ == '__main__':
     tickers = []
     
     for k, v in data.items():
-        # if k != "Other":
+        # if k != "Portfolio":
         #     continue
         tickers += [(val[0], val[1][0], val[1][2], val[1][4], val[1][5], val[1][3]) for val in v.items()]
         
