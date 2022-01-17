@@ -33,7 +33,7 @@
     },
     "Global Equities" : {
         "Eurostoxx" : ["^STOXX50E", "yahoolive", "EUREX_FESX1", "quandl_chris", 4, "SX5E:INDEXSTOXX"],
-        "MSCI Emerging" : ["EEM", "yahoolive", "", "quandl_chris", 4, "EFS:INDEXCBOE"],
+        "MSCI Emerging" : ["EEM", "yahoolive", "", "quandl_chris", 4, ""],
         "UK - FTSE" : ["^FTSE", "yahoolive", "LIFFE_Z1", "quandl_chris", 4, "UKX:INDEXFTSE"],
         "Germany - DAX" : ["^GDAXI", "yahoolive", "EUREX_FDAX1", "quandl_chris", 4, "DAX:INDEXDB"],
         "France - CAC" : ["^FCHI", "yahoolive", "LIFFE_MFC1", "quandl_chris", 4, "PX1:INDEXEURO"],

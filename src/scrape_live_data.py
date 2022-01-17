@@ -6,10 +6,18 @@ from functools import wraps
 # import pandas as pd
 from bs4 import BeautifulSoup
 
+# Google Finance MSCI ticker - EFS:INDEXCBOE
+
 headers = {
     'User-Agent': 'Mozilla/5.0',
     'From': 'youremail@domain.com'  # This is another valid field
 }
+
+
+COMMS = ["CL=F", "BZ=F", "NG=F", "HO=F", "PL=F", "HG=F", "GC=F", "SI=F",
+        "ZC=F", "SB=F", "KE=F", "KC=F", "ZS=F", "CT=F", "CC=F", "LBS=F",
+        "LE=F", "HE=F", "FC=F", "^IRX", "^FVX", "^TNX", "^TYX"]
+
 
 RANGE_TICKS = ['XTL:NYSEARCA', "VWO:NYSEARCA", "VPL:NYSEARCA", "VRP:NYSEARCA", 
                "DJUSRE:INDEXDJX", "SPGSCI:INDEXSP", "EFS:INDEXCBOE", "VGK:NYSEARCA"]
@@ -92,7 +100,6 @@ def get_goog_stock_price(name):
     #     # <span class="Z63m9d yoGq8">
     
     try:
-        # pdb.set_trace()
         val = soup.find("div", class_="YMlKec fxKbKc").get_text()
         val = val.replace("$","")
     except:
@@ -132,7 +139,6 @@ def getGoogChg(soup):
     elem = soup.find_all("div", jsname="m6NnIb")[29].findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent()
     elem2 = soup.find_all("div", jsname="m6NnIb")[28].findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent().findParent()
     # elem = soup.find_all("div", jsname="m6NnIb")[29]
-    # pdb.set_trace()
     for par in parents:
         found = None
         childs = par.findChildren("span")
@@ -155,7 +161,6 @@ def configureInd(name):
     return 2
 
 
-# @timeout(60)
 def get_stock_price(name, results):
     # browser.get('https://finance.yahoo.com/quote/' + name + '?p=' + name)
     # time.sleep(5) # sleep for 5 seconds
@@ -173,7 +178,6 @@ def get_stock_price(name, results):
     #         j2 = sss.string[sss.string.find(anchor)+len(anchor):]
     #         j2 = j2[:-12]
     #         # Load the JSON.
-    #         pdb.set_trace()
     #         data = json.loads(j2)
     #         chg = data['context']['dispatcher']['stores']['StreamDataStore']['quoteData'][name]['regularMarketChangePercent']['raw']
     #         print(name + "   " + str(chg))
@@ -182,7 +186,10 @@ def get_stock_price(name, results):
     # Need this for diff values if stock is up or down
     if results[1] is None:
         try:
-            chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)").get_text())
+            if name in COMMS:
+                chg = reformatChg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[-1].get_text())
+            else:
+                chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)").get_text())
         except Exception as e:
             try:
                 chg = reformatChg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)").get_text())
@@ -196,7 +203,10 @@ def get_stock_price(name, results):
     
     if results[0] is None:
         try:
-            val = soup.find("span", class_="Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
+            if name in COMMS:
+                val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[-1].get_text()
+            else:
+                val = soup.find("span", class_="Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
         except:
             val = 0
     else:
@@ -220,7 +230,10 @@ def get_stock_price(name, results):
 
     
 def reformatChg(chg):
-    chg = chg.split(" ")[1]
+    try:
+        chg = chg.split(" ")[1]
+    except Exception as e:
+        chg = chg.split(" ")[0]
     remove = ['(', ')', '%', '+']
     chg = round(float("".join([c for c in chg if c not in remove])), 2)
     return chg
@@ -270,7 +283,7 @@ if __name__ == '__main__':
     tickers = []
     
     for k, v in data.items():
-        # if k != "Portfolio":
+        # if k != "Energy":
         #     continue
         tickers += [(val[0], val[1][0], val[1][2], val[1][4], val[1][5], val[1][3]) for val in v.items()]
         
