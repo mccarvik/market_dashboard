@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import ReactBootstrapSlider from 'react-bootstrap-slider';
-import Slider from '@material-ui/lab/Slider';
+// import Slider from '@material-ui/lab/Slider';
+import Slider from '@material-ui/core/Slider'
 import './index.css';
 import { ticker_setup, requestData } from './dashboard_utils.js';
 import { asset_classes } from './data.js'
@@ -92,6 +93,7 @@ class CustSlider extends React.Component {
             </div>
             <div className='slide'>
               <Slider
+                size = "small"
                 value={ this.state.live }
                 max={ this.state.max }
                 min={ this.state.min }
@@ -113,6 +115,7 @@ class CustSlider extends React.Component {
             </div>
             <div className='slide'>
               <Slider
+                size = "small"
                 value={ this.state.live }
                 max={ this.state.max }
                 min={ this.state.min }

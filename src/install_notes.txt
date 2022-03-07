@@ -1,0 +1,7 @@
+download git: https://git-scm.com/download/win
+git clone "..."
+download node: https://nodejs.org/en/download/
+npm install react-scripts --save
+npm audit fix --force
+npm install @material-ui/lab --force
+

@@ -277,7 +277,7 @@ def get_quandl_data(ticker, t_ind, t_src):
 
 
 if __name__ == '__main__':
-    with open('C:\\Users\\19739\\Python\\market_dashboard\\src\\raw_data.json') as data_file:    
+    with open('C:\\Users\\mccar\\market_dashboard\\src\\raw_data.json') as data_file:    
         data = json.load(data_file)
         data = data['raw_data']
     tickers = []
@@ -327,7 +327,7 @@ if __name__ == '__main__':
     # Need to write this to JSON and we'll be golden
     drawdown = (live_data['S&P500'][-1] - live_data['S&P500'][0]) / live_data['S&P500'][0] * 100
     print("Drawdown:  {}".format(round(drawdown, 3)))
-    with open('C:\\Users\\19739\\Python\\market_dashboard\\src\\live_data.json', 'w') as fp:
+    with open('C:\\Users\\mccar\\market_dashboard\\src\\live_data.json', 'w') as fp:
         json.dump(live_data, fp)
     
     print(datetime.datetime.now())

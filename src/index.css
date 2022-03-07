@@ -19,6 +19,9 @@ ol, ul {
 
 label.slide-labels {
   display : inline-block;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 label.min {
@@ -49,10 +52,11 @@ label.sliderGroup {
   padding-left : 5px;
   padding-right : 5px;
   text-transform: uppercase;
+  margin-bottom: 2px;
 }
 
 div.sliderGroup {
-  margin-bottom : 5px;
+  margin-bottom : 4px;
   border-style : solid;
   border-width : 3px;
   border-color : grey;
@@ -60,6 +64,8 @@ div.sliderGroup {
   padding : 5px;
   padding-left:10px;
   padding-right:10px;
+  padding-bottom: 3px;
+  padding-top: 3px;
 }
 
 div.asset_class {
@@ -79,6 +85,10 @@ h1 {
 }
 
 div.slide {
-  padding-bottom : 4px;
-  padding-top : 6px;
+  size : "small";
+  padding-bottom : 0px;
+  padding-top : 0px;
+  size : "small";
+  margin-bottom: -8px;
+  margin-top: -6px;
 }
