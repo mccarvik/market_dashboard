@@ -22,8 +22,7 @@
         "USD/ZAR" : ["USDZAR=X", "yahoolive", "XUDLZRD", "quandl_boefx", 1, "USD-ZAR"],
         "USD/TRY" : ["TRY=X", "yahoolive", "XUDLBK75", "quandl_boefx", 1, "USD-TRY"],
         "USD/INR" : ["INR=X", "yahoolive", "XUDLBK64", "quandl_boefx", 1, "USD-INR"],
-        "USD/IDR" : ["IDR=X", "yahoolive", "USDIDR", "quandl_currfx", 1, "USD-IDR"],
-        "USD/ARS" : ["ARS=X", "yahoolive", "USDARS", "quandl_currfx", 1, "USD-ARS"]
+        "USD/IDR" : ["IDR=X", "yahoolive", "USDIDR", "quandl_currfx", 1, "USD-IDR"]
     },
     "US Equities" : {
         "S&P500" : ["^GSPC", "yahoolive", "CME_ES1", "quandl_chris", 4, ".INX:INDEXSP"],
@@ -118,7 +117,6 @@
         "VWO" : ["VWO", "yahoolive", "", "quandl_eod", 4, "VWO:NYSEARCA"],
         "VPL" : ["VPL", "yahoolive", "", "quandl_eod", 4, "VPL:NYSEARCA"],
         "VGK" : ["VGK", "yahoolive", "", "quandl_eod", 4, "VGK:NYSEARCA"],
-        "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"],
-        "VRP" : ["VRP", "yahoolive", "", "quandl_eod", 4, "VRP:NYSEARCA"]
+        "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"]
     }
 }}

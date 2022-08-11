@@ -137,7 +137,7 @@ export var raw_data = {
         "VPL" : ["VPL", "yahoolive", "", "quandl_eod", 4, 0.75],
         "VGK" : ["VGK", "yahoolive", "", "quandl_eod", 4, 0.75],
         "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, 0.75],
-        "VRP" : ["VRP", "yahoolive", "", "quandl_eod", 4, 0.5],
+        // "VRP" : ["VRP", "yahoolive", "", "quandl_eod", 4, 0.5],
     }
     
     
