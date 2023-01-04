@@ -7,7 +7,7 @@
         "USD/CHF" : ["CHF=X", "yahoolive", "XUDLSFD", "quandl_boefx", 1, "USD-CHF"],
         "USD/AUD" : ["AUD=X", "yahoolive", "XUDLADD", "quandl_boefx", 1, "USD-AUD"],
         "USD/NZD" : ["NZD=X", "yahoolive", "XUDLNDD", "quandl_boefx", 1, "USD-NZD"],
-        "USD/SEK" : ["USDSEK=X", "yahoolive", "XUDLSKD", "quandl_boefx", 1, "USD-SEK"],
+        "USD/SEK" : ["SEK=X", "yahoolive", "XUDLSKD", "quandl_boefx", 1, "USD-SEK"],
         "USD/NOK" : ["NOK=X", "yahoolive", "XUDLNKD", "quandl_boefx", 1, "USD-NOK"],
         "USD/DKK" : ["DKK=X", "yahoolive", "XUDLDKD", "quandl_boefx", 1, "USD-DKK"]
     },

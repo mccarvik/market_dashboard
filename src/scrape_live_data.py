@@ -9,6 +9,7 @@ import datetime
 from time import monotonic
 import requests
 from bs4 import BeautifulSoup
+from yahoofinancials import YahooFinancials
 
 
 # Google Finance MSCI ticker - EFS:INDEXCBOE
@@ -120,7 +121,7 @@ def configure_ind(name):
     return 2
 
 
-def get_stock_price(name, res, print_html=False, exc_print=False):
+def get_stock_price(name, res, print_html=True, exc_print=False):
     """
     Pulls the yahoo price data from the webpage
     """
@@ -155,6 +156,7 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
     else:
         chg = res[1]
 
+    
     if res[0] is None:
         try:
             if name in COMMS:
@@ -177,6 +179,7 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
                     rng = mat.get_text()
                     low, high = rng.split(" - ")
 
+            # second effort
             if low is None or high is None:
                 scripts = soup.findAll("script")
                 for scrpt in scripts:
@@ -190,6 +193,15 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
                         low = nums[0]
                         high = nums[1]
                         break
+            
+            # third effort
+            if low is None or high is None:
+                tod = datetime.datetime.now().strftime("%Y-%m-%d")
+                yearago = (datetime.datetime.now() - datetime.timedelta(days=365)).strftime("%Y-%m-%d")
+                yahoo_financials = YahooFinancials(name)
+                prices = yahoo_financials.get_historical_price_data(yearago, tod, 'daily')
+                low, high = min_max(prices[name]['prices'])
+
         except Exception as exc:
             print(exc)
             high = None
@@ -199,6 +211,15 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
         high = res[3]
 
     return [val, chg, low, high]
+
+
+def min_max(price_list):
+    """
+    quickly sort min and max prices
+    """
+    pxs_low = [pr['low'] for pr in price_list if pr['low'] is not None]
+    pxs_high = [pr['high'] for pr in price_list if pr['high'] is not None]
+    return round(min(pxs_low),2), round(max(pxs_high),2)
 
 
 def reformat_chg(chg, exc_print):
@@ -276,13 +297,13 @@ def time_check(t1_start):
 
 if __name__ == '__main__':
     T1_START = monotonic()
-    with open('C:\\Users\\mccar\\market_dashboard\\src\\raw_data.json', encoding='utf-8') as data_file:
+    with open('C:\\Users\\Kevin McCarville\\market_dashboard\\src\\raw_data.json', encoding='utf-8') as data_file:
         data = json.load(data_file)
         data = data['raw_data']
     tickers = []
 
     for k, v in data.items():
-        # if k != "Other":
+        # if k != "Energy":
         #     continue
         tickers += [(val[0], val[1][0], val[1][2], val[1][4], val[1][5], val[1][3]) for val in v.items()]
 
@@ -333,7 +354,7 @@ if __name__ == '__main__':
     # Need to write this to JSON and we'll be golden
     drawdown = (live_data['S&P500'][-1] - live_data['S&P500'][0]) / live_data['S&P500'][0] * 100
     print("Drawdown:  {}".format(round(drawdown, 3)))
-    with open('C:\\Users\\mccar\\market_dashboard\\src\\live_data.json', 'w',
+    with open('C:\\Users\\Kevin McCarville\\market_dashboard\\src\\live_data.json', 'w',
             encoding='utf-8') as fp:
         json.dump(live_data, fp)
     time_check(T1_START)
