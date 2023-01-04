@@ -83,8 +83,8 @@
     "Other" : {
         "VIX" : ["^VIX", "yahoolive", "CBOE_VX1", "quandl_chris", 4, "VIX:INDEXCBOE"],
         "Dollar IDX" : ["DX-Y.NYB", "yahoolive", "ICE_DX1", "quandl_chris", 4, ""],
-        "DJ Real Estate IDX" : ["RX=F", "yahoolive", "CME_JR1", "quandl_chris", 4, "DJUSRE:INDEXDJX"],
-        "S&P GSCI Commodity IDX" : ["GD=F", "yahoolive", "", "quandl_chris", 4, "SPGSCI:INDEXSP"],
+        "DJ Real Estate IDX" : ["%5EDJUSRE", "yahoolive", "CME_JR1", "quandl_chris", 4, "DJUSRE:INDEXDJX"],
+        "S&P GSCI Commodity IDX" : ["%5ESPGSCI", "yahoolive", "", "quandl_chris", 4, "SPGSCI:INDEXSP"],
         "Bitcoin" : ["BTC-USD", "yahoolive", "", "quandl_chris", 4, "BTC-USD"]
     },
     "Custom" : {
@@ -117,6 +117,8 @@
         "VWO" : ["VWO", "yahoolive", "", "quandl_eod", 4, "VWO:NYSEARCA"],
         "VPL" : ["VPL", "yahoolive", "", "quandl_eod", 4, "VPL:NYSEARCA"],
         "VGK" : ["VGK", "yahoolive", "", "quandl_eod", 4, "VGK:NYSEARCA"],
-        "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"]
+        "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"],
+        "ARLP" : ["ARLP", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"],
+        "OGN" : ["OGN", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"]
     }
 }}
