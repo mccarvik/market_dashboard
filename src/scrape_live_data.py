@@ -132,6 +132,7 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
     # soup = BeautifulSoup(html_doc.data, 'html.parser')
 
     # Need this for diff values if stock is up or down
+    # pdb.set_trace()
     if res[1] is None:
         # Print out the html for analysis
         if print_html:
@@ -182,8 +183,11 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
             # first effort
             low, high = None, None
             # matches = soup.findAll("td", class_="Ta(end) Fw(600) Lh(14px)")
-            rng = soup.find_all("fin-streamer", {"data-field": "fiftyTwoWeekRange"})[0].get_text()
-            low, high = rng.split(" - ")
+            try:
+                rng = soup.find_all("fin-streamer", {"data-field": "fiftyTwoWeekRange"})[0].get_text()
+                low, high = rng.split(" - ")
+            except Exception as exc:
+                pass
             
             # for mat in matches:
             #     if "FIFTY_TWO_WK_RANGE" in str(mat):
