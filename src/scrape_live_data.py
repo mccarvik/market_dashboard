@@ -140,11 +140,15 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
                     file.write(str(soup))
                 except Exception as exc:
                     print(exc)
+        
+        # pdb.set_trace()
         try:
             if name in COMMS:
-                chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[-1].get_text(), exc_print)
+                # chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[-1].get_text(), exc_print)
+                chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[0].get_text(), exc_print)
             else:
-                chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[-1].get_text(), exc_print)
+                # chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[-1].get_text(), exc_print)
+                chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[0].get_text(), exc_print)
                 # legacy solutions
                 # chg = reformat_chg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)").get_text())
                 # chg = reformat_chg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)").get_text())
@@ -160,39 +164,46 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
     if res[0] is None:
         try:
             if name in COMMS:
-                val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[-1].get_text()
+                # val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[-1].get_text()
+                val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[0].get_text()
             else:
-                val =  soup.find("fin-streamer", class_="Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
+                val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[0].get_text()
+                # val =  soup.find("fin-streamer", class_="Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
+                # val =  soup.find("fin-streamer", class_="Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
         except Exception as exc:
             print(exc)
             val = 0
     else:
         val = res[0]
 
+    # pdb.set_trace()
     if res[2] is None or res[3] is None:
         try:
             # first effort
             low, high = None, None
-            matches = soup.findAll("td", class_="Ta(end) Fw(600) Lh(14px)")
-            for mat in matches:
-                if "FIFTY_TWO_WK_RANGE" in str(mat):
-                    rng = mat.get_text()
-                    low, high = rng.split(" - ")
+            # matches = soup.findAll("td", class_="Ta(end) Fw(600) Lh(14px)")
+            rng = soup.find_all("fin-streamer", {"data-field": "fiftyTwoWeekRange"})[0].get_text()
+            low, high = rng.split(" - ")
+            
+            # for mat in matches:
+            #     if "FIFTY_TWO_WK_RANGE" in str(mat):
+            #         rng = mat.get_text()
+            #         low, high = rng.split(" - ")
 
             # second effort
-            if low is None or high is None:
-                scripts = soup.findAll("script")
-                for scrpt in scripts:
-                    if "fiftyTwoWeekRange" in scrpt.get_text():
-                        # pdb.set_trace()
-                        # 6 index is a guess here, 1 for commodities
-                        if name in COMMS:
-                            nums = scrpt.get_text().split("fiftyTwoWeekRange")[1].split("\"")[4].split("-")
-                        else:
-                            nums = scrpt.get_text().split("fiftyTwoWeekRange")[6].split("\"")[4].split("-")
-                        low = nums[0]
-                        high = nums[1]
-                        break
+            # if low is None or high is None:
+            #     scripts = soup.findAll("script")
+            #     for scrpt in scripts:
+            #         if "fiftyTwoWeekRange" in scrpt.get_text():
+            #             # pdb.set_trace()
+            #             # 6 index is a guess here, 1 for commodities
+            #             if name in COMMS:
+            #                 nums = scrpt.get_text().split("fiftyTwoWeekRange")[1].split("\"")[4].split("-")
+            #             else:
+            #                 nums = scrpt.get_text().split("fiftyTwoWeekRange")[6].split("\"")[4].split("-")
+            #             low = nums[0]
+            #             high = nums[1]
+            #             break
             
             # third effort
             if low is None or high is None:
@@ -297,7 +308,7 @@ def time_check(t1_start):
 
 if __name__ == '__main__':
     T1_START = monotonic()
-    with open('C:\\Users\\Kevin McCarville\\market_dashboard\\src\\raw_data.json', encoding='utf-8') as data_file:
+    with open('C:\\Users\\mccar\\market_dashboard\\src\\raw_data.json', encoding='utf-8') as data_file:
         data = json.load(data_file)
         data = data['raw_data']
     tickers = []
@@ -352,9 +363,13 @@ if __name__ == '__main__':
     #     writer.writerows(live_data)
 
     # Need to write this to JSON and we'll be golden
-    drawdown = (live_data['S&P500'][-1] - live_data['S&P500'][0]) / live_data['S&P500'][0] * 100
-    print("Drawdown:  {}".format(round(drawdown, 3)))
-    with open('C:\\Users\\Kevin McCarville\\market_dashboard\\src\\live_data.json', 'w',
+    try:
+        drawdown = (live_data['S&P500'][-1] - live_data['S&P500'][0]) / live_data['S&P500'][0] * 100
+        print("Drawdown:  {}".format(round(drawdown, 3)))
+    except:
+        print("error calculating drawdown")
+    
+    with open('C:\\Users\\mccar\\market_dashboard\\src\\live_data.json', 'w',
             encoding='utf-8') as fp:
         json.dump(live_data, fp)
     time_check(T1_START)
