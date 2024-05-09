@@ -6,6 +6,7 @@ import pdb
 import json
 import datetime
 # import pandas as pd
+import time
 from time import monotonic
 import requests
 from bs4 import BeautifulSoup
@@ -121,18 +122,19 @@ def configure_ind(name):
     return 2
 
 
-def get_stock_price(name, res, print_html=False, exc_print=False):
+def get_stock_price(name, res, print_html=True, exc_print=False):
     """
     Pulls the yahoo price data from the webpage
     """
-    # url = 'https://finance.yahoo.com/quote/' + name + '?p=' + name
-    resp = requests.get('https://finance.yahoo.com/quote/' + name + '?p=' + name, headers=HEADERS)
+    url = 'https://finance.yahoo.com/quote/' + name
+    # time.sleep(2)
+    resp = requests.get(url, headers=HEADERS)
+    # resp = requests.get('https://finance.yahoo.com/quote/' + name + '?p=' + name, headers=HEADERS)
     soup = BeautifulSoup(resp.text, 'html.parser')
     # html_doc = http.request('GET', 'https://finance.yahoo.com/quote/' + name + '?p=' + name+ "?guccounter=1")
     # soup = BeautifulSoup(html_doc.data, 'html.parser')
 
     # Need this for diff values if stock is up or down
-    # pdb.set_trace()
     if res[1] is None:
         # Print out the html for analysis
         if print_html:
@@ -150,6 +152,7 @@ def get_stock_price(name, res, print_html=False, exc_print=False):
             else:
                 # chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[-1].get_text(), exc_print)
                 chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[0].get_text(), exc_print)
+                # soup.find_all("td", class_="data-col2 Ta(end) Pstart(20px) Pend(15px)")[0].get_text()
                 # legacy solutions
                 # chg = reformat_chg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)").get_text())
                 # chg = reformat_chg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)").get_text())
