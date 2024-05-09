@@ -1,4 +1,8 @@
 - to run data grab
-    in ./market_dashboard run cmd "./run_live_grab.sh"
+    in ./market_dashboard run cmd "bash ./run_live_grab.sh"
 - to run web app
     in ./market_dashboard run cmd "npm start"
+- to install
+    download nodejs / npm from online
+    command "npm install --force"
+    then try "npm audit fix --force"
