@@ -138,7 +138,7 @@ def get_stock_price(name, res, print_html=True, exc_print=False):
     if res[1] is None:
         # Print out the html for analysis
         if print_html:
-            with open("o.txt", "w", encoding='utf-8') as file:
+            with open("html_files\\{}.txt".format(name), "w", encoding='utf-8') as file:
                 try:
                     file.write(str(soup))
                 except Exception as exc:
