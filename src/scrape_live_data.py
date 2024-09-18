@@ -122,12 +122,12 @@ def configure_ind(name):
     return 2
 
 
-def get_stock_price(name, res, print_html=True, exc_print=False):
+def get_stock_price(name, res, print_html=False, exc_print=False):
     """
     Pulls the yahoo price data from the webpage
     """
     url = 'https://finance.yahoo.com/quote/' + name
-    # time.sleep(2)
+    time.sleep(2)
     resp = requests.get(url, headers=HEADERS)
     # resp = requests.get('https://finance.yahoo.com/quote/' + name + '?p=' + name, headers=HEADERS)
     soup = BeautifulSoup(resp.text, 'html.parser')
@@ -138,7 +138,7 @@ def get_stock_price(name, res, print_html=True, exc_print=False):
     if res[1] is None:
         # Print out the html for analysis
         if print_html:
-            with open("html_files\\{}.txt".format(name), "w", encoding='utf-8') as file:
+            with open("C:\\Users\\mccar\\market_dashboard\\src\\html_files\\{}.txt".format(name), "w", encoding='utf-8') as file:
                 try:
                     file.write(str(soup))
                 except Exception as exc:
