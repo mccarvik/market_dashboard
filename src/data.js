@@ -84,7 +84,8 @@ export var raw_data = {
         "Soybean" : ["S=F", "yahoolive", "CME_S1", "quandl_chris", 4, 1],
         "Cotton" : ["CT=F", "yahoolive", "ICE_CT1", "quandl_chris", 4, 1],
         "Cocoa" : ["CC=F", "yahoolive", "ICE_CC1", "quandl_chris", 4, 1],
-        "Coffee" : ["KC=F", "yahoolive", "ICE_KC1", "quandl_chris", 4, 1]
+        "Coffee" : ["KC=F", "yahoolive", "ICE_KC1", "quandl_chris", 4, 1],
+        // "Lumber" : ["LBS=F", "yahoolive", "CME_LB1", "quandl_chris", 4, 1]
     },
     "Meat / Live Stock" : {
         "Live Cattle" : ["LC=F", "yahoolive", "CME_LC1", "quandl_chris", 4, 1],

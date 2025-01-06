@@ -11,6 +11,7 @@ from time import monotonic
 import requests
 from bs4 import BeautifulSoup
 from yahoofinancials import YahooFinancials
+import yfinance as yf
 
 
 # Google Finance MSCI ticker - EFS:INDEXCBOE
@@ -122,12 +123,14 @@ def configure_ind(name):
     return 2
 
 
-def get_stock_price(name, res, print_html=False, exc_print=False):
+def get_stock_price(name, res, stocks, print_html=True, exc_print=False):
     """
     Pulls the yahoo price data from the webpage
     """
+
+
     url = 'https://finance.yahoo.com/quote/' + name
-    time.sleep(2)
+    # time.sleep(2)
     resp = requests.get(url, headers=HEADERS)
     # resp = requests.get('https://finance.yahoo.com/quote/' + name + '?p=' + name, headers=HEADERS)
     soup = BeautifulSoup(resp.text, 'html.parser')
@@ -313,6 +316,37 @@ def time_check(t1_start):
     print("Run time:", mins + ":" + secs)
 
 
+def getyfinfo(yf_data, ticker):
+    """
+    Get the yahoo finance info
+    """
+    results = [None, None, None, None]
+    try:
+        results[0] = yf_data.tickers[ticker].info['currentPrice']
+    except:
+        try:
+            results[0] = (yf_data.tickers[ticker].info['bid'] + yf_data.tickers[ticker].info['ask']) / 2
+        except Exception as exc:
+            pass
+
+    results[2], results[3] = yf_data.tickers[ticker].info['fiftyTwoWeekLow'], yf_data.tickers[ticker].info['fiftyTwoWeekHigh']    
+    last_price = yf_data.tickers[ticker].info['regularMarketPreviousClose']
+    if results[0] is not None and last_price is not None:
+        change = results[0] - last_price
+        change_percent = (change / last_price) * 100
+        results[1] = round(change_percent, 2)
+    return results
+
+
+def getYFprice(tickers):
+    """
+    Get the price of a stock ticker from yahoo finance
+    """
+    # Fetch data for all tickers
+    stocks = yf.Tickers(' '.join(tickers))
+    return stocks
+
+
 if __name__ == '__main__':
     T1_START = monotonic()
     with open('C:\\Users\\mccar\\market_dashboard\\src\\raw_data.json', encoding='utf-8') as data_file:
@@ -321,25 +355,35 @@ if __name__ == '__main__':
     tickers = []
 
     for k, v in data.items():
-        # if k != "Energy":
+        # if k != "Custom":
         #     continue
         tickers += [(val[0], val[1][0], val[1][2], val[1][4], val[1][5], val[1][3]) for val in v.items()]
 
+    yf_ticks = [t[1] for t in tickers]
+    yf_data = getYFprice(yf_ticks)
+
     live_data = {}
     for t in tickers:
-        # pdb.set_trace()
         try:
+            results = [None, None, None, None]
+            # yf grab
+            try:
+                results = getyfinfo(yf_data, t[1])
+            except Exception as exc:
+                pass
+                # print("Yahoo Finance Error: " + str(t[0]) + " " + str(exc))
+
             # Google grab - dont need for now
             # results = get_goog_stock_price(t[4])
-            results = [None, None, None, None]
-
+            
             YAHOO = False
             for resy in results:
                 if resy is None:
                     YAHOO = True
                     break
             if YAHOO:
-                results = get_stock_price(t[1], results)
+                print("Using Yahoo scrape for " + t[0])
+                results = get_stock_price(t[1], results, yf_data)
 
             # need this for reaching quandl for tickers that dont have
             # min max off of yahoo or google - dont need for now

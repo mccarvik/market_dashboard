@@ -66,13 +66,11 @@
         "Coffee" : ["KC=F", "yahoolive", "ICE_KC1", "quandl_chris", 4, ""],
         "Soybean" : ["ZS=F", "yahoolive", "CME_S1", "quandl_chris", 4, ""],
         "Cotton" : ["CT=F", "yahoolive", "ICE_CT1", "quandl_chris", 4, ""],
-        "Cocoa" : ["CC=F", "yahoolive", "ICE_CC1", "quandl_chris", 4, ""],
-        "Lumber" : ["LBS=F", "yahoolive", "CME_LB1", "quandl_chris", 4, ""]
+        "Cocoa" : ["CC=F", "yahoolive", "ICE_CC1", "quandl_chris", 4, ""]
     },
     "Meat / Live Stock" : {
         "Live Cattle" : ["LE=F", "yahoolive", "CME_LC1", "quandl_chris", 4, ""],
-        "Lean Hogs" : ["HE=F", "yahoolive", "CME_LN1", "quandl_chris", 4, ""],
-        "Feeder Cattle" : ["FC=F", "yahoolive", "CME_FC1", "quandl_chris", 4, ""]
+        "Lean Hogs" : ["HE=F", "yahoolive", "CME_LN1", "quandl_chris", 4, ""]
     },
     "US Rates" : {
         "3M" : ["^IRX", "yahoolive", "YIELD", "quandl_tsy", 2, ""],

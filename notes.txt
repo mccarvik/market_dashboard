@@ -3,6 +3,9 @@
 - to run web app
     in ./market_dashboard run cmd "npm start"
 - to install
+    https://github.com/coreybutler/nvm-windows/releases --> NVM INSTALL PAGE
+    then nvm install lts
     download nodejs / npm from online
     command "npm install --force"
     then try "npm audit fix --force"
+    finally npm audit fix --force
