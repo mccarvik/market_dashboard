@@ -123,7 +123,7 @@ def configure_ind(name):
     return 2
 
 
-def get_stock_price(name, res, stocks, print_html=True, exc_print=False):
+def get_stock_price(name, res, stocks, print_html=False, exc_print=False):
     """
     Pulls the yahoo price data from the webpage
     """
