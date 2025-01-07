@@ -90,11 +90,11 @@
         "AMZN" : ["AMZN", "yahoolive", "AMZN", "quandl_eod", 4, "AMXN:NASDAQ"],
         "MSFT" : ["MSFT", "yahoolive", "MSFT", "quandl_eod", 4, "MSFT:NASDAQ"],
         "GOOG" : ["GOOG", "yahoolive", "GOOG", "quandl_eod", 4, "GOOG:NASDAQ"],
-        "FB" : ["FB", "yahoolive", "FB", "quandl_eod", 4, "FB:NASDAQ"],
+        "META" : ["META", "yahoolive", "META", "quandl_eod", 4, "META:NASDAQ"],
         "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4, "JPM:NYSE"],
         "XOM" : ["XOM", "yahoolive", "XOM", "quandl_eod", 4, "XOM:NYSE"],
-        "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4, "MCD:NYSE"],
-        "WMT" : ["WMT", "yahoolive", "WMT", "quandl_eod", 4, "WMT:NYSE"]
+        "NVDA" : ["NVDA", "yahoolive", "NVDA", "quandl_eod", 4, "NVDA:NYSE"],
+        "TSLA" : ["TSLA", "yahoolive", "TSLA", "quandl_eod", 4, "TSLA:NYSE"]
     },
     "US Equity Sectors" : {
         "Technology" : ["XLK", "yahoolive", "", "quandl_eod", 4, "XLK:NYSEARCA"],
@@ -116,7 +116,7 @@
         "VPL" : ["VPL", "yahoolive", "", "quandl_eod", 4, "VPL:NYSEARCA"],
         "VGK" : ["VGK", "yahoolive", "", "quandl_eod", 4, "VGK:NYSEARCA"],
         "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"],
-        "ARLP" : ["ARLP", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"],
-        "OGN" : ["OGN", "yahoolive", "", "quandl_eod", 4, "VNQ:NYSEARCA"]
+        "JEPI" : ["JEPI", "yahoolive", "", "quandl_eod", 4, "JEPI:NYSEARCA"],
+        "SPXL" : ["SPXL", "yahoolive", "", "quandl_eod", 4, "SPXL:NYSEARCA"]
     }
 }}

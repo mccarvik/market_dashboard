@@ -112,11 +112,11 @@ export var raw_data = {
         "AMZN" : ["AMZN", "yahoolive", "AMZN", "quandl_eod", 4, 1],
         "MSFT" : ["MSFT", "yahoolive", "MSFT", "quandl_eod", 4, 1],
         "GOOG" : ["GOOG", "yahoolive", "GOOG", "quandl_eod", 4, 1],
-        "FB" : ["FB", "yahoolive", "FB", "quandl_eod", 4, 1],
+        "META" : ["META", "yahoolive", "META", "quandl_eod", 4, 1],
         "JPM" : ["JPM", "yahoolive", "JPM", "quandl_eod", 4, 1],
         "XOM" : ["XOM", "yahoolive", "XOM", "quandl_eod", 4, 1],
-        "MCD" : ["MCD", "yahoolive", "MCD", "quandl_eod", 4, 1],
-        "WMT" : ["WMT", "yahoolive", "WMT", "quandl_eod", 4, 1],
+        "NVDA" : ["NVDA", "yahoolive", "NVDA", "quandl_eod", 4, 1],
+        "TSLA" : ["TSLA", "yahoolive", "TSLA", "quandl_eod", 4, 1],
     },
     "US Equity Sectors" : {
         "Technology" : ["XLK", "yahoolive", "", "quandl_eod", 4, 0.75],
@@ -138,8 +138,8 @@ export var raw_data = {
         "VPL" : ["VPL", "yahoolive", "", "quandl_eod", 4, 0.75],
         "VGK" : ["VGK", "yahoolive", "", "quandl_eod", 4, 0.75],
         "VNQ" : ["VNQ", "yahoolive", "", "quandl_eod", 4, 0.75],
-        "ARLP" : ["ARLP", "yahoolive", "", "quandl_eod", 4, 1.50],
-        "OGN" : ["OGN", "yahoolive", "", "quandl_eod", 4, 1.50]
+        "JEPI" : ["JEPI", "yahoolive", "", "quandl_eod", 4, 0.75],
+        "SPXL" : ["SPXL", "yahoolive", "", "quandl_eod", 4, 3.00]
     }
     
     
