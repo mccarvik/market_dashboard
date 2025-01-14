@@ -146,37 +146,32 @@ def get_stock_price(name, res, stocks, print_html=False, exc_print=False):
                     file.write(str(soup))
                 except Exception as exc:
                     print(exc)
-        
-        # pdb.set_trace()
         try:
-            if name in COMMS:
-                # chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[-1].get_text(), exc_print)
-                chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[0].get_text(), exc_print)
-            else:
-                # chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[-1].get_text(), exc_print)
+            chg = soup.select_one('span.base.yf-ipw1h0[data-testid="qsp-price-change-percent"]').text
+            chg = reformat_chg(chg, exc_print)
+            # chg = soup.find('span', class_='base yf-ipw1h0', attrs={'data-testid': 'qsp-price-change-percent'}).text
+        except Exception as exc:
+            # pdb.set_trace()
+            try:
+                # Find the span with the specific class and data-testid
                 chg = reformat_chg(soup.find_all("fin-streamer", {"data-field": "regularMarketChangePercent"})[0].get_text(), exc_print)
                 # soup.find_all("td", class_="data-col2 Ta(end) Pstart(20px) Pend(15px)")[0].get_text()
                 # legacy solutions
                 # chg = reformat_chg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)").get_text())
                 # chg = reformat_chg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)").get_text())
                 # chg = reformat_chg(soup.find("span", class_="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataBlack)").get_text())
-        except Exception as exc:
-            if exc_print:
-                print(exc)
-            chg = 0
+            except Exception as exc:
+                if exc_print:
+                    print(exc)
+                chg = 0
     else:
         chg = res[1]
 
     
     if res[0] is None:
         try:
-            if name in COMMS:
-                # val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[-1].get_text()
-                val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[0].get_text()
-            else:
-                val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[0].get_text()
-                # val =  soup.find("fin-streamer", class_="Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
-                # val =  soup.find("fin-streamer", class_="Fw(b) Fz(36px) Mb(-4px) D(ib)").get_text()
+            val = soup.find('span', class_='base yf-ipw1h0', attrs={'data-testid': 'qsp-price'}).text
+            # val = soup.find_all("fin-streamer", {"data-field": "regularMarketPrice"})[0].get_text()
         except Exception as exc:
             print(exc)
             val = 0
@@ -248,11 +243,11 @@ def reformat_chg(chg, exc_print):
     Reformats the change string value
     """
     try:
-        chg = chg.split(" ")[1]
+        chg = chg.split(" ")[0]
     except Exception as exc:
         if exc_print:
             print(exc)
-        chg = chg.split(" ")[0]
+        chg = chg.split(" ")[1]
     remove = ['(', ')', '%', '+']
     chg = round(float("".join([c for c in chg if c not in remove])), 2)
     return chg
