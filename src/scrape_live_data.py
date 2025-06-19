@@ -320,9 +320,12 @@ def getyfinfo(yf_data, ticker):
         results[0] = yf_data.tickers[ticker].info['currentPrice']
     except:
         try:
-            results[0] = (yf_data.tickers[ticker].info['bid'] + yf_data.tickers[ticker].info['ask']) / 2
-        except Exception as exc:
-            pass
+            results[0] = yf_data.tickers[ticker].info['regularMarketPrice']
+        except:
+            try:
+                results[0] = (yf_data.tickers[ticker].info['bid'] + yf_data.tickers[ticker].info['ask']) / 2
+            except Exception as exc:
+                pass
 
     results[2], results[3] = yf_data.tickers[ticker].info['fiftyTwoWeekLow'], yf_data.tickers[ticker].info['fiftyTwoWeekHigh']    
     last_price = yf_data.tickers[ticker].info['regularMarketPreviousClose']
@@ -350,7 +353,7 @@ if __name__ == '__main__':
     tickers = []
 
     for k, v in data.items():
-        # if k != "Custom":
+        # if k != "Other":
         #     continue
         tickers += [(val[0], val[1][0], val[1][2], val[1][4], val[1][5], val[1][3]) for val in v.items()]
 

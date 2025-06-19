@@ -9,3 +9,5 @@
     command "npm install --force"
     then try "npm audit fix --force"
     finally npm audit fix --force
+
+- if scrape isnt working tyr upgrading yfinance
